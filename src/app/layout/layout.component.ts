@@ -7,7 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
 
-  @Input('nome') name: string;
+  public name: string = "Henrique";
+  public upperCaseName: string;
   constructor() { }
 
   ngOnInit(): void {
