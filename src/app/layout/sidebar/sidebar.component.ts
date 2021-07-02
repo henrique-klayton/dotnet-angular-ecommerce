@@ -6,6 +6,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
+  public navList: { route: string, icon: string, label: string }[] = [
+    {
+      route: "home",
+      icon: "home",
+      label: "Home"
+    },
+    {
+      route: "user",
+      icon: "person",
+      label: "Usuário"
+    }
+  ];
 
   constructor() { }
 

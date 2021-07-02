@@ -1,1 +1,14 @@
-<app-header></app-header>
+<section class="main-container">
+  <app-header></app-header>
+  <mat-sidenav-container [style.marginTop.px]="{'0' : mobileQuery.matches}">
+    <mat-sidenav [mode]="mobileQuery.matches ? 'side' : 'over'" fixedTopGap="0" [opened]="mobileQuery.matches">
+      <app-sidebar></app-sidebar>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <section class="page-content pb-0 p-4">
+        <router-outlet></router-outlet>
+      </section>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</section>

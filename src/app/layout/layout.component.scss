@@ -1,0 +1,14 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.mat-drawer {
+    min-width: 12rem;
+}
+
+.mat-drawer-container {
+    flex: 1;
+}

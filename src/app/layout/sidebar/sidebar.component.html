@@ -1,1 +1,8 @@
-<p>sidebar works!</p>
+<mat-nav-list>
+    <a mat-list-item routerLinkActive="actived" *ngFor="let item of navList">
+        <a [routerLink]="[item.route]">
+            <mat-icon>{{item.icon}}</mat-icon>
+            <span>{{item.label}}</span>
+        </a>
+    </a>
+</mat-nav-list>
