@@ -1,0 +1,17 @@
+// & concantenação
+// > descer pro primeiro filho
+
+.menu-profile {
+    display: flex;
+    align-items: center;
+}
+.btn-logout {
+    color: red;
+    > mat-icon {
+        color: red;
+    }
+
+    &:disabled {
+        opacity: 0.2;
+    }
+}

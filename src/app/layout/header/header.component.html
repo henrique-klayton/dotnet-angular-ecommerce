@@ -1,3 +1,18 @@
-<p>header works!</p>
-<p class="text-primary">{{name}}</p>
-<button mat-raised-button color="primary" (click)="upperCase()">{{name}}</button>
+<mat-toolbar>
+    <!-- logo 54px / 100px -->
+      <span>My App</span>
+      <button mat-icon-button class="me-auto" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+      <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>lock</mat-icon>
+        Alterar Senha
+      </button>
+      <button mat-menu-item class="btn-logout" [disabled]="true">
+        <mat-icon>logout</mat-icon>
+        Sair
+      </button>
+      </mat-menu>
+    </mat-toolbar>
