@@ -1,0 +1,7 @@
+<form [formGroup]="form">
+    <mat-form-field appearance="fill">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="name">
+    </mat-form-field>
+    <button mat-button (click)="saveUser()">Save</button>
+</form>

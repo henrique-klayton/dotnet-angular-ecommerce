@@ -13,7 +13,7 @@ export class SidebarComponent implements OnInit {
       label: "Home"
     },
     {
-      route: "user",
+      route: "usuarios",
       icon: "person",
       label: "Usuário"
     }

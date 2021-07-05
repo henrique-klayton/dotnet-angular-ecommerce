@@ -6,7 +6,12 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    children: []
+    children: [
+      {
+        path: 'usuarios',
+        loadChildren: () => import('./Modules/user/user.module').then(m => m.UserModule)
+      }
+    ]
   },
 ];
 
