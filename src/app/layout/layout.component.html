@@ -1,7 +1,8 @@
 <section class="main-container">
-  <app-header></app-header>
+  <app-header [sidebar]="snav"></app-header>
+
   <mat-sidenav-container [style.marginTop.px]="{'0' : mobileQuery.matches}">
-    <mat-sidenav [mode]="mobileQuery.matches ? 'side' : 'over'" fixedTopGap="0" [opened]="mobileQuery.matches">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'side' : 'over'" fixedTopGap="0" [opened]="mobileQuery.matches">
       <app-sidebar></app-sidebar>
     </mat-sidenav>
 
@@ -10,5 +11,6 @@
         <router-outlet></router-outlet>
       </section>
     </mat-sidenav-content>
+
   </mat-sidenav-container>
 </section>

@@ -1,11 +1,14 @@
-<mat-toolbar>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
     <!-- logo 54px / 100px -->
-      <span>My App</span>
-      <button mat-icon-button class="me-auto" aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <button mat-button [matMenuTriggerFor]="menu">Menu</button>
-      <mat-menu #menu="matMenu">
+    <span>My App</span>
+    <button mat-icon-button class="me-auto" aria-label="Example icon-button with menu icon" (click)="sidebar.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+
+    <mat-menu #menu="matMenu">
       <button mat-menu-item>
         <mat-icon>lock</mat-icon>
         Alterar Senha
@@ -14,5 +17,7 @@
         <mat-icon>logout</mat-icon>
         Sair
       </button>
-      </mat-menu>
-    </mat-toolbar>
+    </mat-menu>
+
+  </mat-toolbar-row>
+</mat-toolbar>
