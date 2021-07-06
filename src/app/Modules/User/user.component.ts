@@ -1,28 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { UserModel } from './Model/user.model';
+import { MatDialog } from '@angular/material/dialog';
+import { UserFormComponent } from './Form/user.form.component';
 import { UserService } from './Service/user.service';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  styleUrls: ['./user.component.scss'],
 })
 export class UserComponent implements OnInit {
-  public form: FormGroup;
+  constructor(private _userService: UserService, public dialog: MatDialog) {}
 
-  constructor(private _userService: UserService, private _fb: FormBuilder) { }
+  public openDialog(): void {
+    const dialogRef = this.dialog.open(UserFormComponent, {
+      width: '600px',
+      data: "Cadastro"
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+    });
+  }
 
   public getUser() {
-    return this._userService.fetchData();
+    console.log("getUser()")
+    return this._userService.fetchData().subscribe(res => console.log(res));
   }
 
-  public saveUser() {
-    return this._userService.insertUser(this.form.value);
-  }
-
-  ngOnInit(): void {
-    this.form = this._fb.group(new UserModel())
-  }
-
+  ngOnInit(): void {}
 }

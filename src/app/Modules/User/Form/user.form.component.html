@@ -1,0 +1,65 @@
+<h1 mat-dialog-title>{{data}}</h1>
+<button mat-button (click)="dialogRef.close({result: true, data: data})">X</button>
+<form [formGroup]="form">
+    <div class="row">
+        <mat-form-field appearance="fill">
+            <mat-label>Nome</mat-label>
+            <input matInput formControlName="name">
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-form-field appearance="fill">
+                <mat-label>Senha</mat-label>
+                <input matInput type="password" formControlName="password">
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <mat-form-field appearance="fill">
+                <mat-label>Confirme a Senha</mat-label>
+                <input matInput type="password">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email">
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <mat-form-field appearance="fill">
+                <mat-label>Confirme o Email</mat-label>
+                <input matInput type="email">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <mat-form-field appearance="fill">
+            <mat-label>Telefone</mat-label>
+            <input matInput formControlName="phone">
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-form-field appearance="fill">
+                <mat-label>CEP</mat-label>
+                <input matInput formControlName="cep">
+            </mat-form-field>
+        </div>
+        <div class="col">
+            <mat-form-field appearance="fill">
+                <mat-label>Complemento</mat-label>
+                <input matInput formControlName="complement">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <mat-form-field appearance="fill">
+            <mat-label>Data de nascimento</mat-label>
+            <input matInput type="date" formControlName="birthday">
+        </mat-form-field>
+    </div>
+    <button mat-button (click)="saveUser()">Save</button>
+</form>
