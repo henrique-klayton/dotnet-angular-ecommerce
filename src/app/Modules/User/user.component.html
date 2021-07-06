@@ -3,5 +3,29 @@
         <mat-label>Nome</mat-label>
         <input matInput formControlName="name">
     </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Senha</mat-label>
+        <input matInput type="password" formControlName="password">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Telefone</mat-label>
+        <input matInput formControlName="phone">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>CEP</mat-label>
+        <input matInput formControlName="cep">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Complemento</mat-label>
+        <input matInput formControlName="complement">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Data de nascimento</mat-label>
+        <input matInput type="date" formControlName="birthday">
+    </mat-form-field>
     <button mat-button (click)="saveUser()">Save</button>
 </form>
