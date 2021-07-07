@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { formatFirebaseDate } from 'src/app/util/functions';
 import { UserModel } from '../Model/user.model';
 
 @Injectable()
@@ -33,15 +34,17 @@ export class UserService {
     }
 
     public insertUser(obj: UserModel): Promise<void> {
+        obj.birthday = formatFirebaseDate(obj.birthday);
         return this._firestore.collection("Users").doc().set(obj);
     }
-
+    
     public deleteUser(id: string): Promise<void> {
         return this._firestore.collection("Users").doc(id).delete();
     }
-
+    
     public updateUser(obj: UserModel): Promise<void> {
         console.log("updateUser()", obj);
+        obj.birthday = formatFirebaseDate(obj.birthday);
         return this._firestore.collection("Users").doc(obj.id).set(obj);
     }
 }
