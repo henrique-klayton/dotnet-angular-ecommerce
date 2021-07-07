@@ -1,5 +1,8 @@
-<h1 mat-dialog-title>{{data}}</h1>
-<button mat-button (click)="dialogRef.close({result: true, data: data})">X</button>
+<h1 mat-dialog-title *ngIf="data;else newUser">{{"Editar Usuário"}}</h1>
+<ng-template #newUser>
+    <h1 mat-dialog-title #newUser>{{"Cadastrar Usuário"}}</h1>
+</ng-template>
+<button mat-button (click)="dialogRef.close('closed')">X</button>
 <form [formGroup]="form">
     <div class="row">
         <mat-form-field appearance="fill">

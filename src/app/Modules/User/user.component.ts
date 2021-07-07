@@ -32,10 +32,10 @@ export class UserComponent implements OnInit {
     this.getUser();
   }
 
-  public openDialog(): void {
+  public openDialog(user?: UserModel): void {
     const dialogRef = this.dialog.open(UserFormComponent, {
       width: '600px',
-      data: "Cadastro"
+      data: user
     });
 
     dialogRef.afterClosed().subscribe(result => {
