@@ -26,13 +26,22 @@ export class UserService {
         return this._firestore.collection<UserModel>("Users").valueChanges({ idField: "id"});
     }
 
+    public fetchUserById(id: string): Observable<UserModel> {
+        return this._firestore.collection<UserModel>("Users").doc(id).get().pipe(
+            map(u => new UserModel({id, ...u.data()}))
+        );
+    }
+
     public insertUser(obj: UserModel): Promise<void> {
         return this._firestore.collection("Users").doc().set(obj);
     }
 
-    public deleteUser(id: string) {
-        return this._firestore.collection("Users").doc(id).delete()
+    public deleteUser(id: string): Promise<void> {
+        return this._firestore.collection("Users").doc(id).delete();
     }
 
-    updateUser(id: string) {}
+    public updateUser(obj: UserModel): Promise<void> {
+        console.log("updateUser()", obj);
+        return this._firestore.collection("Users").doc(obj.id).set(obj);
+    }
 }
