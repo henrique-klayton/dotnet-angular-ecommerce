@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { UserFormComponent } from './Form/user.form.component';
 import { UserModel } from './Model/user.model';
@@ -12,19 +13,21 @@ import { UserService } from './Service/user.service';
 })
 export class UserComponent implements OnInit {
   public displayedColumns: string[] = [
-    "id",
-    "name",
-    "password",
-    "email",
-    "phone",
+    'name',
+    'email',
+    'phone',
     // "complement",
-    // "cep",
+    'cep',
     // "birthday",
-    "actions",
+    'actions',
   ];
   public dataSource: MatTableDataSource<UserModel>;
 
-  constructor(private _userService: UserService, public dialog: MatDialog) {
+  constructor(
+    private _userService: UserService,
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar
+  ) {
     this.dataSource = new MatTableDataSource();
   }
 
@@ -32,23 +35,28 @@ export class UserComponent implements OnInit {
     this.getUser();
   }
 
-  public openDialog(user?: UserModel): void {
+  public openDialog(id?: string): void {
     const dialogRef = this.dialog.open(UserFormComponent, {
       width: '600px',
-      data: user
+      data: id,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log(result);
     });
   }
 
   public getUser() {
-    return this._userService.fetchData().subscribe(res => this.dataSource.data = res);
+    return this._userService
+      .fetchData()
+      .subscribe((res) => (this.dataSource.data = res));
   }
 
   public deleteUser(id: string) {
-    this._userService.deleteUser(id);
+    this._userService
+      .deleteUser(id)
+      .then(() => this._snackBar.open('Usuário deletado com sucesso!', "Fechar"))
+      .catch(() => this._snackBar.open('Erro ao deletar o usuário!', "Fechar"));
   }
 
   public applyFilter(event: Event) {
@@ -60,6 +68,4 @@ export class UserComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
-
 }
