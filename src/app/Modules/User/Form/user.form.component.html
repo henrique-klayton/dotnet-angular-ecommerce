@@ -43,7 +43,7 @@
         <div class="col-md-6">
             <mat-form-field>
                 <mat-label>Telefone</mat-label>
-                <input matInput formControlName="phone" [errorStateMatcher]="_formValidation" required>
+                <input matInput formControlName="phone" mask="(00) 0000-0000" [errorStateMatcher]="_formValidation" required>
                 <mat-error *ngIf="form.touched && form.invalid">
                     Informe seu Telefone
                 </mat-error>
@@ -65,7 +65,7 @@
     <div class="row">
         <mat-form-field>
             <mat-label>CEP</mat-label>
-            <input matInput formControlName="cep" [errorStateMatcher]="_formValidation" required>
+            <input matInput formControlName="cep" mask="00000-000" [errorStateMatcher]="_formValidation" required>
             <mat-error *ngIf="form.touched && form.invalid">
                 Informe seu CEP
             </mat-error>
