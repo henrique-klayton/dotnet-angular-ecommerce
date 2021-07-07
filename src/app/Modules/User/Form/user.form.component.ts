@@ -48,7 +48,7 @@ export class UserFormComponent implements OnInit {
           this._snackBar.open('Usuário atualizado com sucesso!', "Fechar");
         })
         .catch(() =>
-          this._snackBar.open('Erro ao atualizar os dados do usuário!', "Fechar");
+          this._snackBar.open('Erro ao atualizar os dados do usuário!', "Fechar")
         );
     }
   }
