@@ -34,7 +34,7 @@ export class EnderecoFormComponent implements OnInit, OnDestroy {
     public _snackBar: MatSnackBar,
     public _formValidation: FormValidationService,
     public dialogRef: MatDialogRef<EnderecoFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data?: unknown
+    @Inject(MAT_DIALOG_DATA) public data?: {id: string, table: AddressFormModel[]}
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +59,15 @@ export class EnderecoFormComponent implements OnInit, OnDestroy {
   }
 
   public saveAddress() {
-    this._addressService.insertOrUpdateAddress(this.form.value);
+    const cep = this.form.get("cep").value;
+    const address = this.data.table.find(endereco => endereco.cep === cep);
+    if (address) {
+      this._snackBar.open(`CEP ${cep} já cadastrado!`, "Fechar");
+      return;
+    }
+    this._addressService.insertOrUpdateAddress(this.form.value)
+    .then(() => this._snackBar.open("CEP cadastrado com sucesso!", "Fechar"))
+    .catch(() => this._snackBar.open("Erro ao cadastrar o CEP!", "Fechar"));
     this.dialogRef.close('closed');
   }
 }

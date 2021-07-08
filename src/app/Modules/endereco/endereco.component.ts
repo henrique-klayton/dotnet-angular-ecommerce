@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { EnderecoFormComponent } from './form/endereco.form.component';
+import { AddressFormModel } from './form/model/address.form.model';
 import { AddressModel } from './model/address.model';
 import { AddressService } from './service/address.service';
 
@@ -18,8 +19,9 @@ export class EnderecoComponent implements OnInit {
     'bairro',
     'localidade',
     'uf',
+    'actions',
   ];
-  public dataSource: MatTableDataSource<AddressModel>;
+  public dataSource: MatTableDataSource<AddressFormModel>;
 
   constructor(
     private _addressService: AddressService,
@@ -34,20 +36,25 @@ export class EnderecoComponent implements OnInit {
   }
 
   public getData() {
-    this._addressService.fetchData().subscribe(res => this.dataSource.data = res);
+    this._addressService
+      .fetchData()
+      .subscribe((res) => (this.dataSource.data = res));
   }
 
   public openDialog(id?: string): void {
     const dialogRef = this.dialog.open(EnderecoFormComponent, {
       width: '600px',
-      data: id,
+      data: { id: id, table: this.dataSource.data },
     });
 
     dialogRef.afterClosed().subscribe((res) => console.log(res));
   }
 
-
-  public deleteAddress(cep: string) {}
+  public deleteAddress(cep: string) {
+    this._addressService.deleteAddress(cep)
+    .then(() => this._snackBar.open("Endereço deletado com sucesso!", "Fechar"))
+    .catch(() => this._snackBar.open("Erro ao deletar o endereço!", "Fechar"));
+  }
 
   public applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
