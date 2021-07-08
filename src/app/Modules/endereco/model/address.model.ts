@@ -1,4 +1,4 @@
-export class EnderecoModel {
+export class AddressModel {
   cep: string = undefined;
   logradouro: string = undefined;
   // complemento: string = undefined;
@@ -6,9 +6,9 @@ export class EnderecoModel {
   localidade: string = undefined;
   uf: string = undefined;
   ibge: string = undefined;
-  erro: boolean = undefined;
+  // erro: boolean = undefined;
 
-  constructor(init?: Partial<EnderecoModel>) {
+  constructor(init?: Partial<AddressModel>) {
     Object.assign(this, init);
   }
 }

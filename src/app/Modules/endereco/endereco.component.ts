@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { EnderecoModel } from './model/endereco.model';
+import { AddressModel } from './model/address.model';
 
 @Component({
   selector: 'app-endereco',
@@ -16,7 +16,7 @@ export class EnderecoComponent implements OnInit {
     "uf",
     "ibge",
   ];
-  public dataSource: MatTableDataSource<EnderecoModel>;
+  public dataSource: MatTableDataSource<AddressModel>;
 
   constructor() { }
 
