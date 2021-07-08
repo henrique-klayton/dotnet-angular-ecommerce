@@ -8,8 +8,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormValidationService } from 'src/app/shared/service/form.service';
-import { UserModel } from '../Model/user.model';
-import { UserService } from '../Service/user.service';
+import { UserModel } from '../model/user.model';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-user-form',

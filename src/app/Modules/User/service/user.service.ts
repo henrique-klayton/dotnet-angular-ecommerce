@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { formatFirebaseDate } from 'src/app/util/functions';
-import { UserModel } from '../Model/user.model';
+import { UserModel } from '../model/user.model';
 
 @Injectable()
 export class UserService {

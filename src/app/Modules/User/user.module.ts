@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
-import { UserService } from './Service/user.service';
+import { UserService } from './service/user.service';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UserFormComponent } from './Form/user.form.component';
+import { UserFormComponent } from './form/user.form.component';
 import { MaterialModule } from 'src/app/material.module';
 
 @NgModule({

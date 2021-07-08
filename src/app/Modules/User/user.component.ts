@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
-import { UserFormComponent } from './Form/user.form.component';
-import { UserModel } from './Model/user.model';
-import { UserService } from './Service/user.service';
+import { UserFormComponent } from './form/user.form.component';
+import { UserModel } from './model/user.model';
+import { UserService } from './service/user.service';
 
 @Component({
   selector: 'app-user',
