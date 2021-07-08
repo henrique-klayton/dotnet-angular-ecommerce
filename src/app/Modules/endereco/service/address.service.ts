@@ -5,7 +5,7 @@ import { map } from "rxjs/operators";
 import { AddressModel } from "../model/address.model";
 
 @Injectable()
-export class EnderecoService {
+export class AddressService {
     constructor(private _firestore: AngularFirestore) {}
 
     public fetchData(): Observable<AddressModel[]> {
