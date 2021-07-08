@@ -42,9 +42,9 @@ export class UserService {
         return this._firestore.collection("Users").doc(id).delete();
     }
     
-    public updateUser(obj: UserModel): Promise<void> {
+    public updateUser(id: string, obj: UserModel): Promise<void> {
         console.log("updateUser()", obj);
         obj.birthday = formatFirebaseDate(obj.birthday);
-        return this._firestore.collection("Users").doc(obj.id).set(obj);
+        return this._firestore.collection("Users").doc(id).set(obj);
     }
 }

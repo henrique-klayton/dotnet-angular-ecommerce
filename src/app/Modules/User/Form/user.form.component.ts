@@ -32,17 +32,17 @@ export class UserFormComponent implements OnInit {
 
   public saveUser() {
     const obj: UserModel = this.form.value;
-    if (!obj.id) {
+    if (!this.data) {
       return this._userService
-        .insertUser(obj)
-        .then(() => {
-          this.dialogRef.close();
-          this._snackBar.open('Usuário cadastrado com sucesso!', "Fechar");
-        })
-        .catch(() => this._snackBar.open('Erro ao cadastrar o usuário!', "Fechar"));
+      .insertUser(obj)
+      .then(() => {
+        this.dialogRef.close();
+        this._snackBar.open('Usuário cadastrado com sucesso!', "Fechar");
+      })
+      .catch(() => this._snackBar.open('Erro ao cadastrar o usuário!', "Fechar"));
     } else {
       return this._userService
-        .updateUser(obj)
+        .updateUser(this.data, obj)
         .then(() => {
           this.dialogRef.close();
           this._snackBar.open('Usuário atualizado com sucesso!', "Fechar");
