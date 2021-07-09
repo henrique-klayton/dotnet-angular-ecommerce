@@ -29,7 +29,7 @@ export class UserService {
 
     public fetchUserById(id: string): Observable<UserModel> {
         return this._firestore.collection<UserModel>("Users").doc(id).get().pipe(
-            map(u => new UserModel({id, ...u.data()}))
+            map(u => u.data())
         );
     }
 
