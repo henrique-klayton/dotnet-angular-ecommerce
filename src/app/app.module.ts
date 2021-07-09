@@ -13,6 +13,7 @@ import { AngularFireModule } from '@angular/fire';
 import { firebaseConfig } from 'src/keys/firebase.key';
 import { MaterialModule } from './material.module';
 import { registerLocaleData } from '@angular/common';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 registerLocaleData(pt);
 
@@ -29,6 +30,7 @@ registerLocaleData(pt);
     AppRoutingModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireAuthModule,
     MaterialModule
   ],
   providers: [
