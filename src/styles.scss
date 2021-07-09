@@ -1,30 +1,126 @@
 /* You can add global styles to this file, and also import other style files */
+@use "sass:map";
+
+$bodyfont: "Lato", Segoe UI, Tahoma;
+$headingfont: "Lato", Segoe UI, Tahoma;
+
+@import "~@angular/material/theming";
+
+$my-custom-primary-color: (
+  50: #f15723,
+  100: #bdc6d9,
+  200: #92a0c0,
+  300: #6679a6,
+  400: #455d93,
+  500: #042f67,
+  600: #203a78,
+  700: #1b326d,
+  800: #162a63,
+  900: #0d1c50,
+  A100: #879dff,
+  A200: #5474ff,
+  A400: #214bff,
+  A700: #00154e,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+// The warn palette is optional (defaults to red).
+$my-custom-warn-color: (
+  50: #fbe4e5,
+  100: #f4bbbd,
+  200: #ed8e92,
+  300: #e56066,
+  400: #e03e45,
+  500: #da1c24,
+  600: #d61920,
+  700: #d0141b,
+  800: #cb1116,
+  900: #c2090d,
+  A100: #ffeded,
+  A200: #ffbabb,
+  A400: #ff8788,
+  A700: #ff6e6f,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+/*Material Theme Colors*/
+
+$primary: mat-palette($my-custom-primary-color, 500);
+$accent: mat-palette($my-custom-primary-color, 50);
+$warn: mat-palette($my-custom-warn-color, 500);
+$theme: mat-light-theme($primary, $accent, $warn);
+$background: map-get($theme, background);
+$foreground: map-get($theme, foreground);
+
+@include mat-core();
+
+$custom-typography: mat-typography-config(
+  $font-family: "Tahoma",
+);
+
+// Override the typography in the core CSS.
+@include mat-core($custom-typography);
+
+// Default Theme
+@include angular-material-theme($theme);
 
 html,
 body {
-    height: 100%;
+  height: 100%;
 }
 body {
-    margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .mat-menu-content {
-    .mat-menu-item {
-        display: flex;
-        align-items: center;
-    }
+  .mat-menu-item {
+    display: flex;
+    align-items: center;
+  }
 }
-
 
 table,
 .mat-form-field {
-    font-size: 14px;
-    width: 100%;
+  font-size: 14px;
+  width: 100%;
 }
 
 .button-add {
-    position: fixed !important;
-    right: 20px;
-    bottom: 20px;
+  position: fixed !important;
+  right: 20px;
+  bottom: 20px;
+}
+
+.selected {
+  background-color: white;
+  color: map.get($my-custom-primary-color, 500) !important;
 }
