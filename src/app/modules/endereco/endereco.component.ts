@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { EnderecoFormComponent } from './form/endereco.form.component';
 import { AddressFormModel } from './form/model/address.form.model';
@@ -23,6 +25,9 @@ export class EnderecoComponent implements OnInit {
   ];
   public dataSource: MatTableDataSource<AddressFormModel>;
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(
     private _addressService: AddressService,
     public dialog: MatDialog,
@@ -33,6 +38,11 @@ export class EnderecoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   public getData() {

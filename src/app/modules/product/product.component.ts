@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ProductFormComponent } from './form/product.form.component';
 import { ProductModel } from './model/product.model';
@@ -22,6 +24,9 @@ export class ProductComponent implements OnInit {
     'actions',
   ];
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
@@ -32,6 +37,11 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   public getData() {
