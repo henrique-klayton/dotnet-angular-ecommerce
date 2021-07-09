@@ -9,11 +9,11 @@ const routes: Routes = [
     children: [
       {
         path: 'usuarios',
-        loadChildren: () => import('./Modules/User/user.module').then(m => m.UserModule)
+        loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
       },
       {
         path: 'endereco',
-        loadChildren: () => import('./Modules/endereco/endereco.module').then(m => m.EnderecoModule)
+        loadChildren: () => import('./modules/endereco/endereco.module').then(m => m.EnderecoModule)
       },
     ]
   },
