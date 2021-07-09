@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class SidebarComponent implements OnInit {
   public navList: { route: string, icon: string, label: string }[] = [
     {
-      route: "",
+      route: "home",
       icon: "home",
       label: "Home"
     },

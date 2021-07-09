@@ -1,5 +1,5 @@
 <section class="main-container">
-  <app-header [sidebar]="snav"></app-header>
+  <app-header style="display: contents;" [sidebar]="snav"></app-header>
 
   <mat-sidenav-container [style.marginTop.px]="{'0' : mobileQuery.matches}">
     <mat-sidenav #snav [mode]="mobileQuery.matches ? 'side' : 'over'" fixedTopGap="0" [opened]="mobileQuery.matches">
