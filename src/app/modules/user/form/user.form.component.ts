@@ -30,29 +30,6 @@ export class UserFormComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data?: string
   ) {}
 
-  public saveUser() {
-    const obj: UserModel = this.form.value;
-    if (!this.data) {
-      return this._userService
-      .insertUser(obj)
-      .then(() => {
-        this.dialogRef.close();
-        this._snackBar.open('Usuário cadastrado com sucesso!', "Fechar");
-      })
-      .catch(() => this._snackBar.open('Erro ao cadastrar o usuário!', "Fechar"));
-    } else {
-      return this._userService
-        .updateUser(this.data, obj)
-        .then(() => {
-          this.dialogRef.close();
-          this._snackBar.open('Usuário atualizado com sucesso!', "Fechar");
-        })
-        .catch(() =>
-          this._snackBar.open('Erro ao atualizar os dados do usuário!', "Fechar")
-        );
-    }
-  }
-
   ngOnInit(): void {
     console.log(this.data);
     this.form = this._fb.group(new UserModel());
@@ -61,5 +38,29 @@ export class UserFormComponent implements OnInit {
         .fetchUserById(this.data)
         .subscribe((u) => this.form.patchValue(u));
     }
+  }
+
+  public saveUser() {
+    const obj: UserModel = this.form.value;
+    if (!this.data) {
+      return this._userService
+        .insertUser(obj)
+        .then(() => {
+          this.dialogRef.close();
+          this._snackBar.open('Usuário cadastrado com sucesso!', 'Fechar');
+        })
+        .catch(() =>
+          this._snackBar.open('Erro ao cadastrar o usuário!', 'Fechar')
+        );
+    }
+    return this._userService
+      .updateUser(this.data, obj)
+      .then(() => {
+        this.dialogRef.close();
+        this._snackBar.open('Usuário atualizado com sucesso!', 'Fechar');
+      })
+      .catch(() =>
+        this._snackBar.open('Erro ao atualizar os dados do usuário!', 'Fechar')
+      );
   }
 }

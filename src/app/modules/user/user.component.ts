@@ -32,7 +32,7 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUser();
+    this.getData();
   }
 
   public openDialog(id?: string): void {
@@ -46,7 +46,7 @@ export class UserComponent implements OnInit {
     });
   }
 
-  public getUser() {
+  public getData() {
     return this._userService
       .fetchData()
       .subscribe((res) => (this.dataSource.data = res));
