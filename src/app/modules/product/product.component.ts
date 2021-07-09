@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { PRODUCT_CATEGORIES } from 'src/app/util/constants';
 import { ProductFormComponent } from './form/product.form.component';
 import { ProductModel } from './model/product.model';
 import { ProductService } from './service/product.service';
@@ -18,8 +19,10 @@ export class ProductComponent implements OnInit {
   public dataSource: MatTableDataSource<ProductModel>;
   public displayedColumns: string[] = [
     'name',
+    'category',
     'description',
-    'price',
+    'cost_price',
+    'sale_price',
     'active',
     'actions',
   ];
@@ -54,6 +57,10 @@ export class ProductComponent implements OnInit {
     this._productService.deleteProduct(id)
       .then(() => this._snackBar.open('Produto deletado com sucesso!', 'Fechar'))
       .catch(() => this._snackBar.open('Erro ao deletar o produto!', 'Fechar'));
+  }
+
+  public findProductCategory(id: number): string {
+    return PRODUCT_CATEGORIES.find((v) => v.id == id).name;
   }
 
   public openDialog(id?: string) {

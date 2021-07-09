@@ -1,5 +1,5 @@
 <div class="d-flex align-items-center justify-content-between mb-4">
-  <h1 mat-dialog-title class="mb-0">{{ data ? 'Editar Usuário' : 'Cadastrar Usuário'}}</h1>
+  <h1 mat-dialog-title class="mb-0">{{ data ? 'Editar Produto' : 'Cadastrar Produto'}}</h1>
   <button mat-icon-button (click)="dialogRef.close('closed')">
     <mat-icon>close</mat-icon>
   </button>
@@ -7,7 +7,7 @@
 
 <form [formGroup]="form">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
       <mat-form-field>
         <mat-label>Nome</mat-label>
         <input matInput formControlName="name" [errorStateMatcher]="_formValidation" required>
@@ -16,19 +16,42 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <div class="col-md-4">
+  </div>
+  <div class="row">
+    <div class="col-md-12">
       <mat-form-field>
-        <mat-label>Price</mat-label>
-        <input matInput formControlName="price" mask="separator.2" thousandSeparator="." [errorStateMatcher]="_formValidation" required>
+        <mat-label>Categoria</mat-label>
+        <mat-select formControlName="category" [errorStateMatcher]="_formValidation" required>
+          <mat-option *ngFor="let cat of categories" [value]="cat.id">
+            {{cat.name}}
+          </mat-option>
+        </mat-select>
         <mat-error *ngIf="form.touched && form.invalid">
-          Informe o Preço do Produto
+          Informe a Categoria do Produto
         </mat-error>
       </mat-form-field>
     </div>
-    <div class="col-md-4">
-      <mat-slide-toggle formControlName="active">
-        Ativo
-      </mat-slide-toggle>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <mat-form-field>
+        <mat-label>Preço de Custo</mat-label>
+        <input matInput formControlName="cost_price" prefix="R$ " mask="separator.2" thousandSeparator="."
+          [errorStateMatcher]="_formValidation" required>
+        <mat-error *ngIf="form.touched && form.invalid">
+          Informe o Preço de Custo do Produto
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-6">
+      <mat-form-field>
+        <mat-label>Preço de Venda</mat-label>
+        <input matInput formControlName="sale_price" prefix="R$ " mask="separator.2" thousandSeparator="."
+          [errorStateMatcher]="_formValidation" required>
+        <mat-error *ngIf="form.touched && form.invalid">
+          Informe o Preço de Venda do Produto
+        </mat-error>
+      </mat-form-field>
     </div>
   </div>
   <div class="row">
@@ -36,6 +59,19 @@
       <mat-label>Descrição</mat-label>
       <textarea matInput formControlName="description"></textarea>
     </mat-form-field>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <mat-slide-toggle #status formControlName="active">
+        Ativo
+        <ng-container *ngIf="status.checked; else elseTemplate">
+          <span class="text-success">Sim</span>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <span class="text-danger">Não</span>
+        </ng-template>
+      </mat-slide-toggle>
+    </div>
   </div>
   <div class="d-flex justify-content-end">
     <button mat-raised-button (click)="saveProduct()" color="primary" [disabled]="form.invalid">Salvar</button>

@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
+import pt from '@angular/common/locales/pt';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,6 +12,9 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { AngularFireModule } from '@angular/fire';
 import { firebaseConfig } from 'src/keys/firebase.key';
 import { MaterialModule } from './material.module';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(pt);
 
 @NgModule({
   declarations: [
@@ -27,7 +31,9 @@ import { MaterialModule } from './material.module';
     AngularFireModule.initializeApp(firebaseConfig),
     MaterialModule
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'pt-BR' }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

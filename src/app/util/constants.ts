@@ -27,3 +27,9 @@ export const STATES: Array<{ id: string; name: string }> = [
   { id: 'SP', name: 'SÃO PAULO' },
   { id: 'TO', name: 'TOCANTINS' },
 ];
+
+export const PRODUCT_CATEGORIES: Array<{ id: number; name: string }> = [
+  {id: 0, name: "Eletrodomésticos"},
+  {id: 1, name: "Informática"},
+  {id: 2, name: "Alimentos"}
+];

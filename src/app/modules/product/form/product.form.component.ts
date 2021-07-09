@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormValidationService } from 'src/app/shared/service/form.service';
+import { PRODUCT_CATEGORIES } from 'src/app/util/constants';
 import { ProductModel } from '../model/product.model';
 import { ProductService } from '../service/product.service';
 import { ProductFormModel } from './model/product.form.model';
@@ -20,6 +21,7 @@ import { ProductFormModel } from './model/product.form.model';
 })
 export class ProductFormComponent implements OnInit {
   public form: FormGroup;
+  public categories = PRODUCT_CATEGORIES;
 
   constructor(
     private _fb: FormBuilder,

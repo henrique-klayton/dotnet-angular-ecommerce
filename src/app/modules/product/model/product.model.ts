@@ -1,8 +1,10 @@
 export class ProductModel {
   name: string = undefined;
   description: string = undefined;
-  price: number = undefined;
+  cost_price: number = undefined;
+  sale_price: number = undefined;
   active: boolean = false;
+  category: string = undefined;
 
   constructor(init?: Partial<ProductModel>) {
     Object.assign(this, init);
