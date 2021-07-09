@@ -1,0 +1,43 @@
+<div class="d-flex align-items-center justify-content-between mb-4">
+  <h1 mat-dialog-title class="mb-0">{{ data ? 'Editar Usuário' : 'Cadastrar Usuário'}}</h1>
+  <button mat-icon-button (click)="dialogRef.close('closed')">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form [formGroup]="form">
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="name" [errorStateMatcher]="_formValidation" required>
+        <mat-error *ngIf="form.touched && form.invalid">
+          Informe o Nome do Produto
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field>
+        <mat-label>Price</mat-label>
+        <input matInput formControlName="price" mask="separator.2" thousandSeparator="." [errorStateMatcher]="_formValidation" required>
+        <mat-error *ngIf="form.touched && form.invalid">
+          Informe o Preço do Produto
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-slide-toggle formControlName="active">
+        Ativo
+      </mat-slide-toggle>
+    </div>
+  </div>
+  <div class="row">
+    <mat-form-field>
+      <mat-label>Descrição</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+  </div>
+  <div class="d-flex justify-content-end">
+    <button mat-raised-button (click)="saveProduct()" color="primary" [disabled]="form.invalid">Salvar</button>
+  </div>
+</form>

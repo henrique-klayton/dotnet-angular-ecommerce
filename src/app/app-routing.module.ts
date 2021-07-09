@@ -15,6 +15,10 @@ const routes: Routes = [
         path: 'endereco',
         loadChildren: () => import('./modules/endereco/endereco.module').then(m => m.EnderecoModule)
       },
+      {
+        path: 'produtos',
+        loadChildren: () => import('./modules/product/product.module').then(m => m.ProductModule)
+      },
     ]
   },
 ];

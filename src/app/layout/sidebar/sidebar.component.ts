@@ -21,6 +21,11 @@ export class SidebarComponent implements OnInit {
       route: "endereco",
       icon: "place",
       label: "Endereço"
+    },
+    {
+      route: "produtos",
+      icon: "category",
+      label: "Produtos"
     }
   ];
 

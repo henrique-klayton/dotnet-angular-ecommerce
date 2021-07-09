@@ -1,0 +1,58 @@
+<mat-form-field appearance="standard">
+  <mat-label>Filtro</mat-label>
+  <input matInput (keyup)="applyFilter($event)" #input>
+</mat-form-field>
+
+<table mat-table [dataSource]="dataSource" matSort>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
+    <td mat-cell *matCellDef="let row"> {{row.name}}</td>
+  </ng-container>
+
+  <!-- Description Column -->
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Descrição </th>
+    <td mat-cell *matCellDef="let row"> {{row.description}}</td>
+  </ng-container>
+
+  <!-- Price Column -->
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Preço </th>
+    <td mat-cell *matCellDef="let row"> {{row.price}}</td>
+  </ng-container>
+
+  <!-- Active Column -->
+  <ng-container matColumnDef="active">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Ativo </th>
+    <td mat-cell *matCellDef="let row"> {{row.active}}</td>
+  </ng-container>
+
+  <!-- Actions Column -->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Ações </th>
+    <td mat-cell *matCellDef="let row">
+      <button mat-icon-button color="warn" (click)="deleteProduct(row.cep)">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button color="primary" (click)="openDialog(row.id)">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  <!-- Row shown when there is no matching data. -->
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="4">Nenhum dado encontrado com o filtro "{{input.value}}"</td>
+  </tr>
+</table>
+
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+<button mat-mini-fab class="button-add" color="primary" (click)="openDialog()">
+  <mat-icon>add</mat-icon>
+</button>
