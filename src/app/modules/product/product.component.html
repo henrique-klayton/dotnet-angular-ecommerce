@@ -33,7 +33,7 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Ações </th>
     <td mat-cell *matCellDef="let row">
-      <button mat-icon-button color="warn" (click)="deleteProduct(row.cep)">
+      <button mat-icon-button color="warn" (click)="deleteProduct(row.id)">
         <mat-icon>delete</mat-icon>
       </button>
       <button mat-icon-button color="primary" (click)="openDialog(row.id)">
