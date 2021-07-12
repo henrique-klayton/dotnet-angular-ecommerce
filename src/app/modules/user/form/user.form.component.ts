@@ -3,10 +3,13 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   Inject,
+  OnDestroy,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { FormValidationService } from 'src/app/shared/service/form.service';
 import { UserModel } from '../model/user.model';
 import { UserService } from '../service/user.service';
@@ -17,9 +20,11 @@ import { UserService } from '../service/user.service';
   styleUrls: ['./user.form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserFormComponent implements OnInit {
+export class UserFormComponent implements OnInit, OnDestroy {
   public form: FormGroup;
   public hide: boolean = true;
+
+  private _onDestroy = new Subject<void>();
 
   constructor(
     private _userService: UserService,
@@ -36,8 +41,14 @@ export class UserFormComponent implements OnInit {
     if (this.data) {
       this._userService
         .fetchUserById(this.data)
+        .pipe(takeUntil(this._onDestroy))
         .subscribe((u) => this.form.patchValue(u));
     }
+  }
+
+  ngOnDestroy(): void {
+    this._onDestroy.next();
+    this._onDestroy.complete();
   }
 
   public saveUser() {

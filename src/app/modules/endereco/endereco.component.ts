@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { EnderecoFormComponent } from './form/endereco.form.component';
 import { AddressFormModel } from './form/model/address.form.model';
 import { AddressModel } from './model/address.model';
@@ -14,7 +16,7 @@ import { AddressService } from './service/address.service';
   templateUrl: './endereco.component.html',
   styleUrls: ['./endereco.component.scss'],
 })
-export class EnderecoComponent implements OnInit {
+export class EnderecoComponent implements OnInit, AfterViewInit, OnDestroy {
   public displayedColumns: string[] = [
     'cep',
     'logradouro',
@@ -24,6 +26,8 @@ export class EnderecoComponent implements OnInit {
     'actions',
   ];
   public dataSource: MatTableDataSource<AddressFormModel>;
+
+  private _onDestroy = new Subject<void>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -45,9 +49,15 @@ export class EnderecoComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  ngOnDestroy(): void {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+
   public getData() {
     this._addressService
       .fetchData()
+      .pipe(takeUntil(this._onDestroy))
       .subscribe((res) => (this.dataSource.data = res));
   }
 
@@ -57,13 +67,17 @@ export class EnderecoComponent implements OnInit {
       data: { id: id, table: this.dataSource.data },
     });
 
-    dialogRef.afterClosed().subscribe((res) => console.log(res));
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe((res) => console.log(res));
   }
 
   public deleteAddress(cep: string) {
-    this._addressService.deleteAddress(cep)
-    .then(() => this._snackBar.open("Endereço deletado com sucesso!", "Fechar"))
-    .catch(() => this._snackBar.open("Erro ao deletar o endereço!", "Fechar"));
+    this._addressService
+      .deleteAddress(cep)
+      .then(() => this._snackBar.open('Endereço deletado com sucesso!', 'Fechar'))
+      .catch(() => this._snackBar.open('Erro ao deletar o endereço!', 'Fechar'));
   }
 
   public applyFilter(event: Event) {

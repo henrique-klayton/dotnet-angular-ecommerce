@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { PRODUCT_CATEGORIES } from 'src/app/util/constants';
 import { ProductFormComponent } from './form/product.form.component';
 import { ProductModel } from './model/product.model';
@@ -15,7 +16,7 @@ import { ProductService } from './service/product.service';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss'],
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
   public dataSource: MatTableDataSource<ProductModel>;
   public displayedColumns: string[] = [
     'name',
@@ -26,6 +27,8 @@ export class ProductComponent implements OnInit {
     'active',
     'actions',
   ];
+
+  private _onDestroy = new Subject<void>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -47,9 +50,15 @@ export class ProductComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  ngOnDestroy(): void {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+
   public getData() {
     this._productService
       .fetchData()
+      .pipe(takeUntil(this._onDestroy))
       .subscribe((res) => (this.dataSource.data = res));
   }
 
