@@ -29,7 +29,6 @@ export class AuthService {
   }
 
   public isLogged(): boolean {
-    const user = JSON.parse(sessionStorage.getItem('user'));
-    return !!user;
+    return JSON.parse(sessionStorage.getItem('user')) as boolean;
   }
 }
