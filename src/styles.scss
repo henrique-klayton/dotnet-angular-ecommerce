@@ -83,7 +83,7 @@ $foreground: map-get($theme, foreground);
 @include mat-core();
 
 $custom-typography: mat-typography-config(
-  $font-family: "Tahoma",
+  $font-family: "Roboto",
 );
 
 // Override the typography in the core CSS.
