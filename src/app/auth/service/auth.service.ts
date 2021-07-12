@@ -24,7 +24,10 @@ export class AuthService {
     return res;
   }
 
-  // TODO Access sessionStorage and verify if user is logged
+  public register(email: string, password: string) {
+    return this._fireAuth.createUserWithEmailAndPassword(email, password);
+  }
+
   public isLogged(): boolean {
     const user = JSON.parse(sessionStorage.getItem('user'));
     return !!user;

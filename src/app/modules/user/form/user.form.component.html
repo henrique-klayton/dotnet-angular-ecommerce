@@ -29,9 +29,9 @@
             <mat-form-field>
                 <mat-label>Senha</mat-label>
                 <input matInput [type]="hide ? 'password' : 'text'" formControlName="password"
-                    [errorStateMatcher]="_formValidation" required>
+                    [errorStateMatcher]="_formValidation" minlength="6" required>
                 <mat-error *ngIf="form.touched && form.invalid">
-                    Informe sua Senha
+                    A senha deve ter no mínimo 6 caracteres
                 </mat-error>
                 <button mat-icon-button matSuffix (click)="hide = !hide">
                     <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
