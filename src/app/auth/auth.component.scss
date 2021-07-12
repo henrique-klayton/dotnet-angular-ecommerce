@@ -1,5 +1,14 @@
 @import "../../styles.scss";
 
+main {
+  width: 100%;
+  overflow: hidden;
+}
+
+.mat-card {
+  max-width: 24rem;
+}
+
 .container-right {
   color: white;
   background-color: map-get($my-custom-primary-color, 500);
