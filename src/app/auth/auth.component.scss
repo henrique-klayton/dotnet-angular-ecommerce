@@ -1,0 +1,6 @@
+@import "../../styles.scss";
+
+.container-right {
+  color: white;
+  background-color: map-get($my-custom-primary-color, 500);
+}

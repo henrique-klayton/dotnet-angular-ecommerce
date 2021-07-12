@@ -14,6 +14,8 @@ import { firebaseConfig } from 'src/keys/firebase.key';
 import { MaterialModule } from './material.module';
 import { registerLocaleData } from '@angular/common';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AuthComponent } from './auth/auth.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 registerLocaleData(pt);
 
@@ -24,11 +26,14 @@ registerLocaleData(pt);
     FooterComponent,
     HeaderComponent,
     SidebarComponent,
+    AuthComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,
     MaterialModule
