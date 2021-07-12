@@ -1,8 +1,6 @@
 <mat-nav-list>
-    <a mat-list-item routerLinkActive="selected" *ngFor="let item of navList">
-        <a [routerLink]="[item.route]">
-            <mat-icon matListIcon>{{item.icon}}</mat-icon>
-            <span>{{item.label}}</span>
-        </a>
+    <a mat-list-item routerLinkActive="selected" [routerLink]="[item.route]" *ngFor="let item of navList">
+        <mat-icon matListIcon>{{item.icon}}</mat-icon>
+        <span>{{item.label}}</span>
     </a>
 </mat-nav-list>
