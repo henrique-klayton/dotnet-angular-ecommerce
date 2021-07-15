@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase';
-import { firebaseEmail, firebasePassword } from 'src/keys/firebase.key';
 
 @Injectable({
   providedIn: 'root',
