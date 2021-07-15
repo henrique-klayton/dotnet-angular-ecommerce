@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { FormValidationService } from '../shared/service/form.service';
 import { AuthService } from './service/auth.service';
@@ -17,7 +18,8 @@ export class AuthComponent implements OnInit {
     public formValidation: FormValidationService,
     private _authService: AuthService,
     private _fb: FormBuilder,
-    private _router: Router
+    private _router: Router,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -30,6 +32,21 @@ export class AuthComponent implements OnInit {
       .then(() => {
         this._router.navigate(['home']);
       })
-      .catch((e) => console.error(e));
+      .catch((e) => {
+        let errorMessage: string;
+        console.error(e);
+        switch (e.code) {
+          case 'auth/invalid-email':
+            errorMessage = 'Email inválido!';
+            break;
+          case 'auth/wrong-password':
+            errorMessage = 'Senha incorreta!';
+            break;
+          default:
+            errorMessage = 'Erro ao realizar o login!';
+            break;
+        }
+        this._snackBar.open(errorMessage, 'Fechar');
+      });
   }
 }
