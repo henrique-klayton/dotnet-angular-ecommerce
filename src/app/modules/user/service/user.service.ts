@@ -13,19 +13,6 @@ export class UserService {
     private _authService: AuthService
   ) {}
 
-  // public fetchData(): Observable<UserModel[]> {
-  //     console.log("fetch");
-  //     return this._firestore.collection<UserModel>("Users").snapshotChanges().pipe(
-  //         map(actions => actions.map(u => {
-  //             // console.log(actions);
-  //             const data = u.payload.doc.data();
-  //             // console.log("teste", data);
-  //             const id = u.payload.doc.id;
-  //             return new UserModel({id, ...data});
-  //         }))
-  //     );
-  // }
-
   public fetchData(): Observable<UserModel[]> {
     return this._firestore
       .collection<UserModel>('Users')
