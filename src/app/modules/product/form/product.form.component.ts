@@ -44,7 +44,6 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this._onDestroy))
         .subscribe((p) => this.form.patchValue(p));
     }
-    console.log(this.form.value);
   }
 
   ngOnDestroy(): void {
@@ -52,21 +51,37 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     this._onDestroy.complete();
   }
 
-  public saveProduct() {
+  public async saveProduct() {
     const obj: ProductModel = this.form.value;
     if (!this.data) {
-      return this._productService.insertProduct(obj)
-      .then(() => {
+      return this._productService
+        .insertProduct(obj)
+        .then(() => {
           this.dialogRef.close();
-          this._snackBar.open('Produto cadastrado com sucesso!', 'Fechar')
+          this._snackBar.open('Produto cadastrado com sucesso!', 'Fechar');
         })
         .catch(() => this._snackBar.open('Erro ao cadastrar o usuário!', 'Fechar'));
     }
-    return this._productService.updateProduct(this.data, obj)
+    return this._productService
+      .updateProduct(this.data, obj)
       .then(() => {
         this.dialogRef.close();
-        this._snackBar.open('Produto atualizado com sucesso!', 'Fechar')
+        this._snackBar.open('Produto atualizado com sucesso!', 'Fechar');
       })
-      .catch(() => this._snackBar.open('Erro ao atualizar o produto!', 'Fechar'))
+      .catch(() => this._snackBar.open('Erro ao atualizar o produto!', 'Fechar'));
+  }
+
+  private readImage(fileArr) {
+    return new Promise((resolve: (result: string | ArrayBuffer) => void, reject) => {
+      let fr = new FileReader();
+      fr.readAsDataURL(fileArr.files[0]);
+      fr.onloadend = () => {
+        console.log(fr.result);
+        resolve(fr.result);
+      };
+      fr.onerror = () => {
+        reject(new Error('Unable to read..'));
+      };
+    });
   }
 }
