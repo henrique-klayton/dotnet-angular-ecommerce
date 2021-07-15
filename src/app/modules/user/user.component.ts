@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { UserFormComponent } from './form/user.form.component';
@@ -18,11 +19,12 @@ import { UserService } from './service/user.service';
 export class UserComponent implements OnInit {
   public displayedColumns: string[] = [
     'name',
+    'type',
     'email',
     'phone',
-    // "complement",
+    'birthday',
     'cep',
-    // "birthday",
+    // "complement",
     'actions',
   ];
   public dataSource: MatTableDataSource<UserModel>;
@@ -90,5 +92,12 @@ export class UserComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  public formatDate(date: string | { toDate: () => Date }) {
+    if (typeof date === 'object') {
+      return moment(date.toDate()).format('L');
+    }
+    return moment(date).format('L');
   }
 }

@@ -5,6 +5,7 @@ export class UserModel {
     phone: string = undefined;
     complement: string = undefined;
     cep: string = undefined;
+		type: boolean = true;
     birthday: Date = undefined;
     
     constructor(init?: Partial<UserModel>) {
