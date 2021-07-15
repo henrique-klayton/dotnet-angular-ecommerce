@@ -36,7 +36,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
     this.form = this._fb.group(new UserModel());
     if (this.data) {
       this._userService

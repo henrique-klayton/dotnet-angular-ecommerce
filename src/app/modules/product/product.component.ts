@@ -80,7 +80,6 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public applyFilter(event: Event) {
-    console.log(event);
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
