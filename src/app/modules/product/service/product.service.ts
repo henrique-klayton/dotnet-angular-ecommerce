@@ -19,6 +19,13 @@ export class ProductService {
     );
   }
 
+	public insertOrUpdateProduct(obj: ProductModel, id?: string) {
+		if (id) {
+			return this.updateProduct(id, obj);
+		}
+		return this.insertProduct(obj);
+	}
+
   public insertProduct(obj: ProductModel): Promise<void> {
     return this._firestore.collection("Products").doc().set(obj);
   }
