@@ -52,34 +52,29 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   }
 
   public async saveProduct() {
-		try {
-    let image = await this.readImage(this.form.get('image').value);
-    const obj = new ProductModel({ ...this.form.value });
-		console.log(obj);
-    await this._productService
-      .insertOrUpdateProduct(obj, this.data)
-			this.dialogRef.close();
-			this._snackBar.open('Produto cadastrado com sucesso!', 'Fechar');
-		} catch (err) {
-			this._snackBar.open('Erro ao cadastrar o produto!', 'Fechar');
-			throw new Error(err);
-		}
+    try {
+      let image = await this.readImage(this.form.get('image').value.files);
+      const obj = new ProductModel({ ...this.form.value, image });
+
+      await this._productService
+        .insertOrUpdateProduct(obj, this.data);
+      this.dialogRef.close();
+      this._snackBar.open('Produto cadastrado com sucesso!', 'Fechar');
+    } catch (err) {
+      this._snackBar.open('Erro ao cadastrar o produto!', 'Fechar');
+      throw new Error(err);
+    }
 
     // TODO
     // this._snackBar.open('Produto cadastrado com sucesso!', 'Fechar');
     // this._snackBar.open('Erro ao cadastrar o produto!', 'Fechar');
   }
 
-	public loadImage(ev) {
-		this.readImage(ev.target.files).then((res) => this.form.get('image').setValue(res));
-	}
-
   private readImage(fileArr: Blob[]) {
     return new Promise((resolve: (result: string | ArrayBuffer) => void, reject) => {
       let fr = new FileReader();
       fr.readAsDataURL(fileArr[0]);
       fr.onloadend = () => {
-        console.log(fr.result);
         resolve(fr.result);
       };
       fr.onerror = () => {
