@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { formatObjectToDocument } from 'src/app/util/functions';
 import { ProductFormModel } from '../form/model/product.form.model';
 import { ProductModel } from '../model/product.model';
 
@@ -27,11 +28,11 @@ export class ProductService {
 	}
 
   public insertProduct(obj: ProductModel): Promise<void> {
-    return this._firestore.collection("Products").doc().set(obj);
+    return this._firestore.collection("Products").doc().set(formatObjectToDocument(obj));
   }
 
   public updateProduct(id: string, obj: ProductModel): Promise<void> {
-    return this._firestore.collection("Products").doc(id).set(obj);
+    return this._firestore.collection("Products").doc(id).set(formatObjectToDocument(obj));
   }
 
   public deleteProduct(id: string): Promise<void> {
