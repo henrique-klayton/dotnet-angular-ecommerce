@@ -1,26 +1,18 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   constructor(private _fireAuth: AngularFireAuth) {}
-  private user?: firebase.User;
 
-  public async login(obj: { email: string; password: string }) {
-    const uc = await this._fireAuth.signInWithEmailAndPassword(obj.email, obj.password);
-    this.user = uc.user;
-    return uc;
-  }
+  public login = (obj: { email: string; password: string }) => this._fireAuth.setPersistence('session')
+    .then(() => this._fireAuth.signInWithEmailAndPassword(obj.email, obj.password));
 
-  public async logout() {
-    const res = this._fireAuth.signOut();
-    return res;
-  }
+  public logout = () => this._fireAuth.signOut();
 
-  public register(email: string, password: string) {
-    return this._fireAuth.createUserWithEmailAndPassword(email, password);
-  }
+  public register = (email: string, password: string) => this._fireAuth.createUserWithEmailAndPassword(email, password);
+
+	public isLogged = () => false;
 }
