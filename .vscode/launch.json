@@ -5,12 +5,27 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Attach to Edge",
+      "port": 9222,
+      "request": "attach",
+      "type": "vscode-edge-devtools.debug",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "Debug on Edge",
+      "request": "launch",
+      "type": "vscode-edge-devtools.debug",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
       "name": "Debug on Firefox",
       "type": "firefox",
       "request": "launch",
       "reAttach": true,
-			"url": "http://localhost:4200",
-			"webRoot": "${workspaceFolder}"
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}"
     }
   ]
 }
