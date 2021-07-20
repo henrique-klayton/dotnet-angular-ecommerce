@@ -8,14 +8,14 @@
       "name": "Attach to Edge",
       "port": 9222,
       "request": "attach",
-      "type": "vscode-edge-devtools.debug",
+      "type": "pwa-msedge",
       "url": "http://localhost:4200",
       "webRoot": "${workspaceFolder}"
     },
     {
       "name": "Debug on Edge",
       "request": "launch",
-      "type": "vscode-edge-devtools.debug",
+      "type": "pwa-msedge",
       "url": "http://localhost:4200",
       "webRoot": "${workspaceFolder}"
     },
