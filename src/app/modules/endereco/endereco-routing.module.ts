@@ -5,7 +5,7 @@ import { EnderecoComponent } from './endereco.component';
 const routes: Routes = [{ path: '', component: EnderecoComponent }];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule]
 })
 export class EnderecoRoutingModule { }

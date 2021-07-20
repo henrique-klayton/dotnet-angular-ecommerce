@@ -10,16 +10,16 @@ import { UserFormComponent } from './form/user.form.component';
 import { MaterialModule } from 'src/app/material.module';
 
 @NgModule({
-  declarations: [UserComponent, UserFormComponent],
-  imports: [
-    CommonModule,
-    UserRoutingModule,
-    AngularFirestoreModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule
-  ],
-  exports: [UserComponent],
-  providers: [UserService],
+	declarations: [UserComponent, UserFormComponent],
+	imports: [
+		CommonModule,
+		UserRoutingModule,
+		AngularFirestoreModule,
+		FormsModule,
+		ReactiveFormsModule,
+		MaterialModule
+	],
+	exports: [UserComponent],
+	providers: [UserService],
 })
 export class UserModule {}

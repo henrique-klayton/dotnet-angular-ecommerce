@@ -20,27 +20,27 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 registerLocaleData(pt);
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LayoutComponent,
-    FooterComponent,
-    HeaderComponent,
-    SidebarComponent,
-    AuthComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireAuthModule,
-    MaterialModule
-  ],
-  providers: [
-    { provide: LOCALE_ID, useValue: 'pt-BR' }
-  ],
-  bootstrap: [AppComponent],
+	declarations: [
+		AppComponent,
+		LayoutComponent,
+		FooterComponent,
+		HeaderComponent,
+		SidebarComponent,
+		AuthComponent,
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		BrowserAnimationsModule,
+		FormsModule,
+		ReactiveFormsModule,
+		AngularFireModule.initializeApp(firebaseConfig),
+		AngularFireAuthModule,
+		MaterialModule
+	],
+	providers: [
+		{ provide: LOCALE_ID, useValue: 'pt-BR' }
+	],
+	bootstrap: [AppComponent],
 })
 export class AppModule {}

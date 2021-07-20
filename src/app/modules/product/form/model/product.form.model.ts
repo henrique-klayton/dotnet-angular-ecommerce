@@ -1,5 +1,5 @@
-import { ProductModel } from "../../model/product.model";
+import { ProductModel } from '../../model/product.model';
 
 export class ProductFormModel extends ProductModel {
-  id?: string = undefined;
+	id?: string = undefined;
 }

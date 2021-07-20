@@ -12,21 +12,21 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 
 @NgModule({
-  declarations: [
-    EnderecoComponent,
-    EnderecoFormComponent,
-  ],
-  imports: [
-    CommonModule,
-    EnderecoRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    HttpClientModule,
-    AngularFirestoreModule,
-  ],
-  providers: [
-    AddressService
-  ]
+	declarations: [
+		EnderecoComponent,
+		EnderecoFormComponent,
+	],
+	imports: [
+		CommonModule,
+		EnderecoRoutingModule,
+		FormsModule,
+		ReactiveFormsModule,
+		MaterialModule,
+		HttpClientModule,
+		AngularFirestoreModule,
+	],
+	providers: [
+		AddressService
+	]
 })
 export class EnderecoModule { }

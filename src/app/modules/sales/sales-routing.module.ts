@@ -5,7 +5,7 @@ import { SalesComponent } from './sales.component';
 const routes: Routes = [{ path: '', component: SalesComponent }];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule]
 })
 export class SalesRoutingModule { }

@@ -9,47 +9,47 @@ const redirectUnauthorizedUsers = () => redirectUnauthorizedTo(['login']);
 const redirectLoggedUsers = () => redirectLoggedInTo(['home']);
 
 const routes: Routes = [
-  {
-    path: '',
-    component: LayoutComponent,
-    canActivate: [AngularFireAuthGuard],
-    data: {
-      authGuardPipe: redirectUnauthorizedUsers
-    },
-    children: [
-      {
-        path: 'home',
-        redirectTo: ''
-      },
-      {
-        path: 'usuarios',
-        loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
-      },
-      {
-        path: 'endereco',
-        loadChildren: () => import('./modules/endereco/endereco.module').then(m => m.EnderecoModule)
-      },
-      {
-        path: 'produtos',
-        loadChildren: () => import('./modules/product/product.module').then(m => m.ProductModule)
-      },
-      {
-        path: 'vendas',
-        loadChildren: () => import('./modules/sales/sales.module').then(m => m.SalesModule)
-      },
-    ]
-  },
-  {
-    path: 'login',
-    component: AuthComponent,
-    data: {
-      authGuardPipe: redirectLoggedUsers
-    },
-  },
+	{
+		path: '',
+		component: LayoutComponent,
+		canActivate: [AngularFireAuthGuard],
+		data: {
+			authGuardPipe: redirectUnauthorizedUsers
+		},
+		children: [
+			{
+				path: 'home',
+				redirectTo: ''
+			},
+			{
+				path: 'usuarios',
+				loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
+			},
+			{
+				path: 'endereco',
+				loadChildren: () => import('./modules/endereco/endereco.module').then(m => m.EnderecoModule)
+			},
+			{
+				path: 'produtos',
+				loadChildren: () => import('./modules/product/product.module').then(m => m.ProductModule)
+			},
+			{
+				path: 'vendas',
+				loadChildren: () => import('./modules/sales/sales.module').then(m => m.SalesModule)
+			},
+		]
+	},
+	{
+		path: 'login',
+		component: AuthComponent,
+		data: {
+			authGuardPipe: redirectLoggedUsers
+		},
+	},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
-  exports: [RouterModule]
+	imports: [RouterModule.forRoot(routes, { useHash: true })],
+	exports: [RouterModule]
 })
 export class AppRoutingModule { }

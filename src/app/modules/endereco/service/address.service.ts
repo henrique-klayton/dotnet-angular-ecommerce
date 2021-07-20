@@ -8,38 +8,38 @@ import { AddressModel } from '../model/address.model';
 
 @Injectable()
 export class AddressService {
-  constructor(
-    private _firestore: AngularFirestore,
-    private _http: HttpClient
-  ) {}
+	constructor(
+		private _firestore: AngularFirestore,
+		private _http: HttpClient
+	) {}
 
-  public fetchCep(cep: string) {
-    if (cep == '' && cep == null && cep == undefined) {
-      return;
-    }
+	public fetchCep(cep: string) {
+		if (cep == '' && cep == null && cep == undefined) {
+			return;
+		}
 
-    return this._http
-      .get<AddressFormModel>(`http://viacep.com.br/ws/${cep}/json`)
-      .toPromise();
-  }
+		return this._http
+			.get<AddressFormModel>(`http://viacep.com.br/ws/${cep}/json`)
+			.toPromise();
+	}
 
-  public fetchData(): Observable<AddressFormModel[]> {
-    return this._firestore.collection<AddressFormModel>('Address').valueChanges();
-  }
+	public fetchData(): Observable<AddressFormModel[]> {
+		return this._firestore.collection<AddressFormModel>('Address').valueChanges();
+	}
 
-  public fetchAddressByCep(cep: string): Observable<AddressModel> {
-    return this._firestore
-      .collection<AddressModel>('Address')
-      .doc(cep)
-      .get()
-      .pipe(map((u) => new AddressModel(u.data())));
-  }
+	public fetchAddressByCep(cep: string): Observable<AddressModel> {
+		return this._firestore
+			.collection<AddressModel>('Address')
+			.doc(cep)
+			.get()
+			.pipe(map((u) => new AddressModel(u.data())));
+	}
 
-  public insertOrUpdateAddress(obj: AddressModel): Promise<void> {
-    return this._firestore.collection('Address').doc(obj.cep).set(obj);
-  }
+	public insertOrUpdateAddress(obj: AddressModel): Promise<void> {
+		return this._firestore.collection('Address').doc(obj.cep).set(obj);
+	}
 
-  public deleteAddress(cep: string): Promise<void> {
-    return this._firestore.collection('Address').doc(cep).delete();
-  }
+	public deleteAddress(cep: string): Promise<void> {
+		return this._firestore.collection('Address').doc(cep).delete();
+	}
 }

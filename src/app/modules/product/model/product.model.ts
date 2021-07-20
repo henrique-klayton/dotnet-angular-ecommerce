@@ -1,13 +1,13 @@
 export class ProductModel {
-  name: string = undefined;
-  description: string = undefined;
-  cost_price: number = undefined;
-  sale_price: number = undefined;
-  active: boolean = false;
-  category: string = undefined;
-  image: string = undefined;
+	name: string = undefined;
+	description: string = undefined;
+	cost_price: number = undefined;
+	sale_price: number = undefined;
+	active: boolean = false;
+	category: string = undefined;
+	image: string = undefined;
 
-  constructor(init?: Partial<ProductModel>) {
-    Object.assign(this, init);
-  }
+	constructor(init?: Partial<ProductModel>) {
+		Object.assign(this, init);
+	}
 }
