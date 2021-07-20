@@ -39,11 +39,12 @@
             "style": "kebab-case"
           }
         ],
-        "indent": ["error", 2, { "SwitchCase": 1 }],
-        "quotes": ["error", "single"],
+        "indent": ["error", "tab", { "SwitchCase": 1 }],
+        "quotes": ["warn", "single"],
         "semi": ["error", "always"],
         "semi-style": ["error", "last"],
         "semi-spacing": ["error", {"before": false, "after": true}],
+        "block-spacing": "error",
         "eqeqeq": ["error", "always"],
         "no-console": "warn",
         "no-extra-parens": "off",
