@@ -28,11 +28,11 @@ export class ProductService {
   }
 
   public insertProduct(obj: ProductModel): Promise<void> {
-    return this._firestore.collection("Products").doc().set(formatObjectToDocument(obj));
+    return this._firestore.collection("Products").doc().set(formatObjectToDocument(obj, ProductModel));
   }
 
   public updateProduct(id: string, obj: ProductModel): Promise<void> {
-    return this._firestore.collection("Products").doc(id).set(formatObjectToDocument(obj));
+    return this._firestore.collection("Products").doc(id).set(formatObjectToDocument(obj, ProductModel));
   }
 
   public deleteProduct(id: string): Promise<void> {
