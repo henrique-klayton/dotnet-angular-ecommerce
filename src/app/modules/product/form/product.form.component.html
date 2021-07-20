@@ -64,7 +64,7 @@
     <mat-form-field>
       <mat-label>Imagem</mat-label>
       <!-- <input type="file" matInput formControlName="image" hidden> -->
-      <ngx-mat-file-input formControlName="image" [errorStateMatcher]="_formValidation" accept="image/*" required>
+      <ngx-mat-file-input formControlName="image" [errorStateMatcher]="_formValidation" accept="image/*" [required]="true">
       </ngx-mat-file-input>
       <mat-error *ngIf="form.touched && form.invalid">
         Adicione uma imagem
