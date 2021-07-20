@@ -1,86 +1,86 @@
 <div class="d-flex align-items-center justify-content-between mb-4">
-    <h1 mat-dialog-title class="mb-0">{{ data ? 'Editar Usuário' : 'Cadastrar Usuário'}}</h1>
-    <button mat-icon-button (click)="dialogRef.close('closed')">
-        <mat-icon>close</mat-icon>
-    </button>
+	<h1 mat-dialog-title class="mb-0">{{ data ? 'Editar Usuário' : 'Cadastrar Usuário'}}</h1>
+	<button mat-icon-button (click)="dialogRef.close('closed')">
+		<mat-icon>close</mat-icon>
+	</button>
 </div>
 
 <form [formGroup]="form">
-    <div class="row">
-        <mat-form-field>
-            <mat-label>Nome</mat-label>
-            <input matInput formControlName="name" [errorStateMatcher]="_formValidation" required>
-						<mat-checkbox matSuffix [checked]="false" formControlName="type" #tipo>
-							{{tipo.checked ? 'Admin' : 'Vendedor'}}
-						</mat-checkbox>
-            <mat-error *ngIf="form.touched && form.invalid">
-                Informe seu Nome
-            </mat-error>
-        </mat-form-field>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <mat-form-field>
-                <mat-label>Email</mat-label>
-                <input matInput type="email" [errorStateMatcher]="_formValidation" formControlName="email" required>
-                <mat-error *ngIf="form.touched && form.invalid">
-                    Informe seu Email
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="col-md-6">
-            <mat-form-field>
-                <mat-label>Senha</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password"
-                    [errorStateMatcher]="_formValidation" minlength="6" required>
-                <mat-error *ngIf="form.touched && form.invalid">
-                    A senha deve ter no mínimo 6 caracteres
-                </mat-error>
-                <button mat-icon-button matSuffix (click)="hide = !hide">
-                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
-            </mat-form-field>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <mat-form-field>
-                <mat-label>Telefone</mat-label>
-                <input matInput formControlName="phone" mask="(00) 0000-0000" [errorStateMatcher]="_formValidation" required>
-                <mat-error *ngIf="form.touched && form.invalid">
-                    Informe seu Telefone
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="col-md-6">
-            <mat-form-field>
-                <mat-label>Data de Nascimento</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="birthday"
-                    [errorStateMatcher]="_formValidation" required>
-                <mat-error *ngIf="form.touched && form.invalid">
-                    Informe sua Data de nascimento
-                </mat-error>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-        </div>
-    </div>
-    <div class="row">
-        <mat-form-field>
-            <mat-label>CEP</mat-label>
-            <input matInput formControlName="cep" mask="00000-000" [errorStateMatcher]="_formValidation" required>
-            <mat-error *ngIf="form.touched && form.invalid">
-                Informe seu CEP
-            </mat-error>
-        </mat-form-field>
-    </div>
-    <div class="row">
-        <mat-form-field>
-            <mat-label>Complemento</mat-label>
-            <textarea matInput formControlName="complement"></textarea>
-        </mat-form-field>
-    </div>
-    <div class="d-flex justify-content-end">
-        <button mat-raised-button (click)="saveUser()" color="primary" [disabled]="form.invalid">Salvar</button>
-    </div>
+	<div class="row">
+		<mat-form-field>
+			<mat-label>Nome</mat-label>
+			<input matInput formControlName="name" [errorStateMatcher]="_formValidation" required>
+			<mat-checkbox matSuffix [checked]="false" formControlName="type" #tipo>
+				{{tipo.checked ? 'Admin' : 'Vendedor'}}
+			</mat-checkbox>
+			<mat-error *ngIf="form.touched && form.invalid">
+				Informe seu Nome
+			</mat-error>
+		</mat-form-field>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<mat-form-field>
+				<mat-label>Email</mat-label>
+				<input matInput type="email" [errorStateMatcher]="_formValidation" formControlName="email" required>
+				<mat-error *ngIf="form.touched && form.invalid">
+					Informe seu Email
+				</mat-error>
+			</mat-form-field>
+		</div>
+		<div class="col-md-6">
+			<mat-form-field>
+				<mat-label>Senha</mat-label>
+				<input matInput [type]="hide ? 'password' : 'text'" formControlName="password"
+					[errorStateMatcher]="_formValidation" minlength="6" required>
+				<mat-error *ngIf="form.touched && form.invalid">
+					A senha deve ter no mínimo 6 caracteres
+				</mat-error>
+				<button mat-icon-button matSuffix (click)="hide = !hide">
+					<mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+				</button>
+			</mat-form-field>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<mat-form-field>
+				<mat-label>Telefone</mat-label>
+				<input matInput formControlName="phone" mask="(00) 0000-0000" [errorStateMatcher]="_formValidation" required>
+				<mat-error *ngIf="form.touched && form.invalid">
+					Informe seu Telefone
+				</mat-error>
+			</mat-form-field>
+		</div>
+		<div class="col-md-6">
+			<mat-form-field>
+				<mat-label>Data de Nascimento</mat-label>
+				<input matInput [matDatepicker]="picker" formControlName="birthday" [errorStateMatcher]="_formValidation"
+					required>
+				<mat-error *ngIf="form.touched && form.invalid">
+					Informe sua Data de nascimento
+				</mat-error>
+				<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+				<mat-datepicker #picker></mat-datepicker>
+			</mat-form-field>
+		</div>
+	</div>
+	<div class="row">
+		<mat-form-field>
+			<mat-label>CEP</mat-label>
+			<input matInput formControlName="cep" mask="00000-000" [errorStateMatcher]="_formValidation" required>
+			<mat-error *ngIf="form.touched && form.invalid">
+				Informe seu CEP
+			</mat-error>
+		</mat-form-field>
+	</div>
+	<div class="row">
+		<mat-form-field>
+			<mat-label>Complemento</mat-label>
+			<textarea matInput formControlName="complement"></textarea>
+		</mat-form-field>
+	</div>
+	<div class="d-flex justify-content-end">
+		<button mat-raised-button (click)="saveUser()" color="primary" [disabled]="form.invalid">Salvar</button>
+	</div>
 </form>

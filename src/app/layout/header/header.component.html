@@ -1,28 +1,27 @@
 <mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <!-- <img class="logo" src="../../../assets/pngwing.com.png" alt=""> -->
-    <mat-icon class="me-2">local_grocery_store</mat-icon>
-    <h1>E-commerce</h1>
-    <button mat-icon-button class="me-auto" aria-label="Example icon-button with menu icon" (click)="sidebar.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
+	<mat-toolbar-row>
+		<mat-icon class="me-2">local_grocery_store</mat-icon>
+		<h1>E-commerce</h1>
+		<button mat-icon-button class="me-auto" aria-label="Example icon-button with menu icon" (click)="sidebar.toggle()">
+			<mat-icon>menu</mat-icon>
+		</button>
 
-    <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+		<button mat-button [matMenuTriggerFor]="menu">Menu</button>
 
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item>
-        <mat-icon>lock</mat-icon>
-        Alterar Senha
-      </button>
-      <button mat-menu-item routerLink="register">
-        <mat-icon>person_add_alt</mat-icon>
-        Cadastrar
-      </button>
-      <button mat-menu-item class="text-danger" (click)="logout()">
-        <mat-icon class="text-danger">logout</mat-icon>
-        Sair
-      </button>
-    </mat-menu>
+		<mat-menu #menu="matMenu">
+			<button mat-menu-item>
+				<mat-icon>lock</mat-icon>
+				Alterar Senha
+			</button>
+			<button mat-menu-item routerLink="register">
+				<mat-icon>person_add_alt</mat-icon>
+				Cadastrar
+			</button>
+			<button mat-menu-item class="text-danger" (click)="logout()">
+				<mat-icon class="text-danger">logout</mat-icon>
+				Sair
+			</button>
+		</mat-menu>
 
-  </mat-toolbar-row>
+	</mat-toolbar-row>
 </mat-toolbar>
