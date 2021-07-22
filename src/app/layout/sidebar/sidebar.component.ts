@@ -29,7 +29,7 @@ export class SidebarComponent implements OnInit {
 		},
 		{
 			route: 'vendas',
-			icon: 'category',
+			icon: 'storefront',
 			label: 'Vendas'
 		}
 	];

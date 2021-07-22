@@ -4,12 +4,22 @@
 			<div class="d-flex justify-content-center">
 				<img mat-card-image class="prod-img" [src]="product.image">
 			</div>
-			<mat-card-title>
-				{{ product.name }}
+			<mat-card-title class="d-flex justify-content-between">
+				<h1>{{ product.name }}</h1>
 			</mat-card-title>
-			<mat-card-content>
-				<p>{{ product.description }}</p>
+			<mat-card-content class="d-flex justify-content-between">
+				<p class="mb-0">{{ product.description }}</p>
+				<p class="text-danger mb-0">{{ product.sale_price | currency: 'BRL' }}</p>
 			</mat-card-content>
+			<mat-card-actions>
+				<mat-form-field>
+					<input matInput required>
+					<mat-label>Quantidade</mat-label>
+					<button matSuffix mat-icon-button color="primary">
+						<mat-icon>add</mat-icon>
+					</button>
+				</mat-form-field>
+			</mat-card-actions>
 		</mat-card>
 	</ng-container>
 </div>
