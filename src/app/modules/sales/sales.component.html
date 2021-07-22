@@ -1,12 +1,14 @@
-<div class="d-flex flex-wrap justify-content-evenly">
+<div class="d-flex flex-wrap justify-content-start">
 	<ng-container *ngFor="let product of products">
-		<mat-card class="flex-fill m-2">
-			<mat-card-header>
-				<img mat-card-image class="prod-image" [src]="product.image">
-			</mat-card-header>
-			<mat-card-title>{{product.name}}</mat-card-title>
+		<mat-card class="m-2 prod-card">
+			<div class="d-flex justify-content-center">
+				<img mat-card-image class="prod-img" [src]="product.image">
+			</div>
+			<mat-card-title>
+				{{ product.name }}
+			</mat-card-title>
 			<mat-card-content>
-				<p>{{product.description}}</p>
+				<p>{{ product.description }}</p>
 			</mat-card-content>
 		</mat-card>
 	</ng-container>
