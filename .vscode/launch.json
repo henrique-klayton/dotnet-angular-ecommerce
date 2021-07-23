@@ -9,7 +9,7 @@
       "port": 9222,
       "request": "attach",
       "type": "pwa-msedge",
-      "url": "http://localhost:4200",
+      "urlFilter": "http://localhost:*/*",
       "webRoot": "${workspaceFolder}"
     },
     {
