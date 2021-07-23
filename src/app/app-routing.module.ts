@@ -37,6 +37,10 @@ const routes: Routes = [
 				path: 'vendas',
 				loadChildren: () => import('./modules/sales/sales.module').then(m => m.SalesModule)
 			},
+			// {
+			// 	path: 'carrinho',
+			// 	loadChildren: () => import('./modules/sales/sales.module').then(m => m.CartModule)
+			// }
 		]
 	},
 	{

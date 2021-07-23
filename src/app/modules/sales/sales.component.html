@@ -13,9 +13,9 @@
 			</mat-card-content>
 			<mat-card-actions>
 				<mat-form-field>
-					<input matInput required>
+					<input matInput [id]="product.id" required>
 					<mat-label>Quantidade</mat-label>
-					<button matSuffix mat-icon-button color="primary">
+					<button matSuffix mat-icon-button color="primary" (click)="addToCart(product)">
 						<mat-icon>add</mat-icon>
 					</button>
 				</mat-form-field>
@@ -23,3 +23,7 @@
 		</mat-card>
 	</ng-container>
 </div>
+
+<button mat-mini-fab class="button-add" color="warn" (click)="openDialog()">
+	<mat-icon>shopping_cart</mat-icon>
+</button>

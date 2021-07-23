@@ -8,9 +8,14 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserFormComponent } from './form/user.form.component';
 import { MaterialModule } from 'src/app/material.module';
+import { CartComponent } from '../cart/cart.component';
 
 @NgModule({
-	declarations: [UserComponent, UserFormComponent],
+	declarations: [
+		UserComponent,
+		UserFormComponent,
+		CartComponent
+	],
 	imports: [
 		CommonModule,
 		UserRoutingModule,
@@ -19,7 +24,10 @@ import { MaterialModule } from 'src/app/material.module';
 		ReactiveFormsModule,
 		MaterialModule
 	],
-	exports: [UserComponent],
+	exports: [
+		UserComponent,
+		CartComponent
+	],
 	providers: [UserService],
 })
 export class UserModule {}
