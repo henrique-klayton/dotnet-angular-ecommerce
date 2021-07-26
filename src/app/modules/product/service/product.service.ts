@@ -1,41 +1,26 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { formatObjectToFirebase } from 'src/app/util/functions';
+import { BaseService } from 'src/app/shared/service/base.service';
 import { ProductFormModel } from '../form/model/product.form.model';
 import { ProductModel } from '../model/product.model';
 
 @Injectable()
-export class ProductService {
-	constructor(private _firestore: AngularFirestore) {}
-
-	public fetchData(): Observable<ProductFormModel[]> {
-		return this._firestore.collection<ProductFormModel>('Products').valueChanges({ idField: 'id' });
+export class ProductService extends BaseService {
+	private collection = 'Products';
+	constructor() {
+		super();
 	}
 
-	public fetchProductById(id: string): Observable<ProductFormModel> {
-		return this._firestore.collection<ProductFormModel>('Products').doc(id).get().pipe(
-			map(p => p.data())
-		);
-	}
+	fetchData = () => this.getData<ProductFormModel>(this.collection);
+	fetchProductById = (id: string) => this.getById<ProductModel>(id, this.collection);
 
-	public insertOrUpdateProduct(obj: ProductModel, id?: string) {
-		if (id) {
-			return this.updateProduct(id, obj);
-		}
-		return this.insertProduct(obj);
-	}
+	insertOrUpdateProduct = (obj: ProductModel, id?: string) =>
+		id ? this.updateProduct(id, obj) : this.insertProduct(obj);
 
-	public insertProduct(obj: ProductModel): Promise<void> {
-		return this._firestore.collection('Products').doc().set(formatObjectToFirebase(obj, ProductModel));
-	}
+	insertProduct = (obj: ProductModel): Promise<void> =>
+		this.create(obj, ProductModel, this.collection);
 
-	public updateProduct(id: string, obj: ProductModel): Promise<void> {
-		return this._firestore.collection('Products').doc(id).set(formatObjectToFirebase(obj, ProductModel));
-	}
+	updateProduct = (id: string, obj: ProductModel): Promise<void> =>
+		this.update(id, obj, ProductModel, this.collection);
 
-	public deleteProduct(id: string): Promise<void> {
-		return this._firestore.collection('Products').doc(id).delete();
-	}
+	deleteProduct = (id: string): Promise<void> => this.delete(id, this.collection);
 }

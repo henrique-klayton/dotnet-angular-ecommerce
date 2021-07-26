@@ -15,4 +15,10 @@ export class AuthService {
 	public register = (email: string, password: string) => this._fireAuth.createUserWithEmailAndPassword(email, password);
 
 	public isLogged = () => false;
+
+	// public async updateUserEmail(email: string) {
+	// 	let user = await this._fireAuth.currentUser;
+	// 	if (user.email !== email)
+	// 		user.email = email;
+	// }
 }

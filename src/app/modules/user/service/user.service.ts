@@ -3,47 +3,32 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/service/auth.service';
+import { BaseService } from 'src/app/shared/service/base.service';
 import { formatFirebaseDate } from 'src/app/util/functions';
 import { UserModel } from '../model/user.model';
 
 @Injectable()
-export class UserService {
-	constructor(
-		private _firestore: AngularFirestore,
-		private _authService: AuthService
-	) {}
-
-	public fetchData(): Observable<UserModel[]> {
-		return this._firestore
-			.collection<UserModel>('Users')
-			.valueChanges({ idField: 'id' });
+export class UserService extends BaseService {
+	private collection = 'Users';
+	constructor(private _authService: AuthService) {
+		super();
 	}
 
-	public fetchUserById(id: string): Observable<UserModel> {
-		return this._firestore
-			.collection<UserModel>('Users')
-			.doc(id)
-			.get()
-			.pipe(map((u) => u.data()));
-	}
+	fetchData = () => this.getData<UserModel>(this.collection);
 
-	public insertUser(obj: UserModel): Promise<void> {
+	fetchUserById = (id: string) => this.getById<UserModel>(id, this.collection);
+
+	insertUser(obj: UserModel) {
 		obj.birthday = formatFirebaseDate(obj.birthday);
-		return this._firestore
-			.collection('Users')
-			.doc()
-			.set(obj)
-			.then(() => {
-				this._authService.register(obj.email, obj.password);
-			});
+		return this.create(obj, UserModel, this.collection)
+			.then(() => this._authService.register(obj.email, obj.password));
 	}
 
-	public deleteUser(id: string): Promise<void> {
-		return this._firestore.collection('Users').doc(id).delete();
-	}
-
-	public updateUser(id: string, obj: UserModel): Promise<void> {
+	updateUser(id: string, obj: UserModel) {
+		// TODO Update user in firebase auth
 		obj.birthday = formatFirebaseDate(obj.birthday);
-		return this._firestore.collection('Users').doc(id).set(obj);
+		return this.update(id, obj, UserModel, this.collection);
 	}
+
+	deleteUser = (id: string) => this.delete(id, this.collection)
 }
