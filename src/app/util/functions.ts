@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 
-interface DocumentModel<T> {
+export interface Constructable<T> {
 	new(init?: Partial<T>): T;
 }
 
@@ -8,7 +8,7 @@ export const formatFirebaseDate = (date: any) => moment.isMoment(date) ? date.to
 
 export function formatObjectToFirebase<T extends D, D>(
 	obj: T,
-	modelRef: DocumentModel<D>,
+	modelRef: Constructable<D>,
 	ignoredFields: string[] = ['id']
 ) {
 	let document: { [index: string]: D[keyof D] } = {};

@@ -1,0 +1,27 @@
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Constructable, formatObjectToFirebase } from 'src/app/util/functions';
+
+interface IBaseService {
+	getData<T>(col: string): Observable<T[]>;
+	getById<T>(id: string, col: string): Observable<T>;
+	create<T>(obj: T, cls: Constructable<T>, col: string): Promise<void>;
+	update<T>(id: string, obj: T, cls: Constructable<T>, col: string): Promise<void>;
+	delete(id: string, collection: string): Promise<void>;
+}
+
+export class BaseService implements IBaseService {
+
+	constructor(private _firestore: AngularFirestore) { }
+	getData = <T>(col: string): Observable<T[]> =>
+		this._firestore.collection<T>(col).valueChanges({ idField: 'id' });
+	getById = <T>(id: string, col: string): Observable<T> =>
+		this._firestore.collection<T>(col).doc(id).get().pipe(map(p => p.data()));
+	create = <T>(obj: T, cls: Constructable<T>, col: string): Promise<void> =>
+		this._firestore.collection(col).doc().set(formatObjectToFirebase(obj, cls));
+	update = <T>(id: string, obj: T, cls: Constructable<T>, col: string): Promise<void> =>
+		this._firestore.collection(col).doc(id).set(formatObjectToFirebase(obj, cls));
+	delete = (id: string, col: string): Promise<void> =>
+		this._firestore.collection(col).doc(id).delete();
+}
