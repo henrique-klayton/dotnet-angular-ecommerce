@@ -2,6 +2,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Constructable, formatObjectToFirebase } from 'src/app/util/functions';
+import { AppInjector } from './injector.service';
 
 interface IBaseService {
 	getData<T>(col: string): Observable<T[]>;
@@ -12,8 +13,11 @@ interface IBaseService {
 }
 
 export class BaseService implements IBaseService {
+	protected _firestore: AngularFirestore;
 
-	constructor(private _firestore: AngularFirestore) { }
+	constructor() {
+		this._firestore = AppInjector.injector.get(AngularFirestore);
+	}
 	getData = <T>(col: string): Observable<T[]> =>
 		this._firestore.collection<T>(col).valueChanges({ idField: 'id' });
 	getById = <T>(id: string, col: string): Observable<T> =>

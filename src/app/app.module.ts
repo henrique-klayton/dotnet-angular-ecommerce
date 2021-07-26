@@ -1,4 +1,4 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { Injector, LOCALE_ID, NgModule } from '@angular/core';
 import pt from '@angular/common/locales/pt';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -16,6 +16,7 @@ import { registerLocaleData } from '@angular/common';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AuthComponent } from './auth/auth.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppInjector } from './shared/service/injector.service';
 
 registerLocaleData(pt);
 
@@ -43,4 +44,8 @@ registerLocaleData(pt);
 	],
 	bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+	constructor(private _injector: Injector) {
+		AppInjector.injector = _injector;
+	}
+}
