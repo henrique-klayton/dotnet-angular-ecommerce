@@ -50,12 +50,9 @@ export class EnderecoFormComponent implements OnInit, OnDestroy {
 	private subscribeCep() {
 		this.form
 			.get('cep')
-			.valueChanges.pipe(debounceTime(1000), takeUntil(this._onDestroy))
-			.subscribe((v: string) => {
-				if (v.length == 8) {
-					this._addressService.fetchCep(v).then(res => this.form.patchValue(res));
-				}
-			});
+			.valueChanges
+			.pipe(debounceTime(1000), takeUntil(this._onDestroy))
+			.subscribe((v) => this.fetchCep(v));
 	}
 
 	public saveAddress() {
@@ -69,5 +66,22 @@ export class EnderecoFormComponent implements OnInit, OnDestroy {
 			.then(() => this._snackBar.open('CEP cadastrado com sucesso!', 'Fechar'))
 			.catch(() => this._snackBar.open('Erro ao cadastrar o CEP!', 'Fechar'));
 		this.dialogRef.close('closed');
+	}
+
+	private async fetchCep(cep: string): Promise<void> {
+		if (cep.length === 8) {
+			try {
+				const res = await this._addressService.fetchCep(cep);
+				if (res.erro) {
+					this._snackBar.open('CEP inválido!', 'Fechar');
+					return;
+				}
+				return this.form.patchValue(res);
+			} catch (err) {
+				this._snackBar.open('Erro ao pesquisar o CEP!', 'Fechar');
+				// eslint-disable-next-line no-console
+				return console.error(err);
+			}
+		}
 	}
 }
