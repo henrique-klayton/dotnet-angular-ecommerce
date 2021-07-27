@@ -36,8 +36,8 @@ export class BaseService implements IBaseService {
 			return data;
 		}));
 	}
-	create = <T>(obj: T, cls: Constructable<T>, col: string): Promise<void> =>
-		this._firestore.collection(col).doc().set(formatObjectToFirebase(obj, cls));
+	create = <T>(obj: T, cls: Constructable<T>, col: string, id?: string): Promise<void> =>
+		this._firestore.collection(col).doc(id).set(formatObjectToFirebase(obj, cls));
 	update = <T>(id: string, obj: T, cls: Constructable<T>, col: string): Promise<void> =>
 		this._firestore.collection(col).doc(id).set(formatObjectToFirebase(obj, cls));
 	delete = (id: string, col: string): Promise<void> =>
