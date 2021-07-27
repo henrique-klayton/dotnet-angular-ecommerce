@@ -4,8 +4,12 @@ import { map } from 'rxjs/operators';
 import { Constructable, formatObjectToFirebase } from 'src/app/util/functions';
 import { AppInjector } from './injector.service';
 
+export interface IGetOptions {
+	idField?: string
+}
+
 interface IBaseService {
-	getData<T>(col: string): Observable<T[]>;
+	getData<T>(col: string, options: IGetOptions): Observable<T[]>;
 	getById<T>(id: string, col: string): Observable<T>;
 	create<T>(obj: T, cls: Constructable<T>, col: string): Promise<void>;
 	update<T>(id: string, obj: T, cls: Constructable<T>, col: string): Promise<void>;
@@ -18,10 +22,20 @@ export class BaseService implements IBaseService {
 	constructor() {
 		this._firestore = AppInjector.injector.get(AngularFirestore);
 	}
-	getData = <T>(col: string): Observable<T[]> =>
-		this._firestore.collection<T>(col).valueChanges({ idField: 'id' });
-	getById = <T>(id: string, col: string): Observable<T> =>
-		this._firestore.collection<T>(col).doc(id).get().pipe(map(p => p.data()));
+	getData<T>(col: string, options?: IGetOptions): Observable<T[]> {
+		options = options ?? {
+			idField: 'id'
+		};
+		return this._firestore.collection<T>(col).valueChanges({ idField: options.idField });
+	}
+	getById<T>(id: string, col: string, options?: IGetOptions): Observable<T> {
+		return this._firestore.collection<T>(col).doc(id).get().pipe(map(p => {
+			let data = p.data();
+			if (options.idField)
+				data[options.idField] = p.id;
+			return data;
+		}));
+	}
 	create = <T>(obj: T, cls: Constructable<T>, col: string): Promise<void> =>
 		this._firestore.collection(col).doc().set(formatObjectToFirebase(obj, cls));
 	update = <T>(id: string, obj: T, cls: Constructable<T>, col: string): Promise<void> =>
