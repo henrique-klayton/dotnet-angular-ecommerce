@@ -24,6 +24,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 		'description',
 		'cost_price',
 		'sale_price',
+		'quantity',
 		'active',
 		'actions',
 	];
@@ -69,7 +70,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	public findProductCategory(id: number): string {
-		return PRODUCT_CATEGORIES.find((v) => v.id == id).name;
+		return PRODUCT_CATEGORIES.find((v) => v.id === id).name;
 	}
 
 	public openDialog(id?: string) {

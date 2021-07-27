@@ -53,6 +53,16 @@
 				</mat-error>
 			</mat-form-field>
 		</div>
+		<div class="col-md-6">
+			<mat-form-field>
+				<mat-label>Quantidade</mat-label>
+				<input matInput formControlName="quantity" mask="separator" thousandSeparator="."
+					[errorStateMatcher]="_formValidation" required>
+				<mat-error *ngIf="form.touched && form.invalid">
+					Informe a Quantidade do Produto
+				</mat-error>
+			</mat-form-field>
+		</div>
 	</div>
 	<div class="row">
 		<mat-form-field>
