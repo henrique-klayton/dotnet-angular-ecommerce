@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -8,6 +9,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PRODUCT_CATEGORIES } from 'src/app/util/constants';
 import { ProductFormComponent } from './form/product.form.component';
+import { ProductFilterModel } from './model/product-filter.model';
 import { ProductModel } from './model/product.model';
 import { ProductService } from './service/product.service';
 
@@ -17,6 +19,7 @@ import { ProductService } from './service/product.service';
 	styleUrls: ['./product.component.scss'],
 })
 export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
+	public formFilter: FormGroup;
 	public dataSource: MatTableDataSource<ProductModel>;
 	public displayedColumns: string[] = [
 		'name',
@@ -28,6 +31,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 		'active',
 		'actions',
 	];
+	public categories = PRODUCT_CATEGORIES;
 
 	private _onDestroy = new Subject<void>();
 
@@ -37,13 +41,16 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 	constructor(
 		public dialog: MatDialog,
 		private _snackBar: MatSnackBar,
-		private _productService: ProductService
+		private _productService: ProductService,
+		private _fb: FormBuilder,
 	) {
 		this.dataSource = new MatTableDataSource();
 	}
 
 	ngOnInit(): void {
 		this.getData();
+		this.formFilter = this._fb.group(new ProductFilterModel());
+		this.dataSource.filterPredicate = (d, f) => this.filter(d, f as ProductFilterModel);
 	}
 
 	ngAfterViewInit() {
@@ -80,12 +87,14 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 		});
 	}
 
-	public applyFilter(event: Event) {
-		const filterValue = (event.target as HTMLInputElement).value;
-		this.dataSource.filter = filterValue.trim().toLowerCase();
+	public applyFilter() {
+		this.dataSource.filter = this.formFilter.value;
 
-		if (this.dataSource.paginator) {
+		if (this.dataSource.paginator)
 			this.dataSource.paginator.firstPage();
-		}
+	}
+
+	private filter(data: ProductModel, filter: ProductFilterModel): boolean {
+		return true;
 	}
 }

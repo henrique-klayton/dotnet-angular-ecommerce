@@ -1,7 +1,27 @@
-<mat-form-field appearance="standard">
-	<mat-label>Filtro</mat-label>
-	<input matInput (keyup)="applyFilter($event)" #input>
-</mat-form-field>
+<form [formGroup]="formFilter">
+	<div class="row">
+		<div class="col-9">
+			<mat-form-field appearance="fill">
+				<mat-label>Filtro</mat-label>
+				<input matInput formControlName="name">
+			</mat-form-field>
+		</div>
+		<div class="col-2">
+			<mat-form-field appearance="fill">
+				<mat-select formControlName="category">
+					<mat-option *ngFor="let cat of categories" [value]="cat.id">
+						{{cat.name}}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</div>
+		<div class="d-flex col-1 mat-form-field-wrapper align-items-center">
+			<button mat-mini-fab color="primary" (click)="applyFilter()">
+				<mat-icon>filter_alt</mat-icon>
+			</button>
+		</div>
+	</div>
+</form>
 
 <mat-card>
 	<table mat-table [dataSource]="dataSource" matSort>
@@ -64,7 +84,7 @@
 		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
 		<tr class="mat-row" *matNoDataRow>
-			<td class="mat-cell" colspan="4">Nenhum dado encontrado com o filtro "{{input.value}}"</td>
+			<td class="mat-cell" colspan="4">Nenhum dado encontrado com o filtro "{{formFilter.get('name').value}}"</td>
 		</tr>
 	</table>
 
