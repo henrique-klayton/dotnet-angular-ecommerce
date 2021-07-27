@@ -1,5 +1,4 @@
 export class AddressModel {
-	cep: string = undefined;
 	logradouro: string = undefined;
 	bairro: string = undefined;
 	localidade: string = undefined;

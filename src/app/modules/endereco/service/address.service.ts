@@ -1,45 +1,40 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BaseService } from 'src/app/shared/service/base.service';
 import { AddressFormModel } from '../form/model/address.form.model';
 import { AddressModel } from '../model/address.model';
 
 @Injectable()
-export class AddressService {
-	constructor(
-		private _firestore: AngularFirestore,
-		private _http: HttpClient
-	) {}
+export class AddressService extends BaseService {
+	private collection = 'Address';
+	constructor(private _http: HttpClient) {
+		super();
+	}
 
 	public fetchCep(cep: string) {
-		if (cep == '' && cep == null && cep == undefined) {
+		if (cep === '' && cep === null && cep === undefined)
 			return;
-		}
 
 		return this._http
 			.get<AddressFormModel>(`http://viacep.com.br/ws/${cep}/json`)
 			.toPromise();
 	}
 
-	public fetchData(): Observable<AddressFormModel[]> {
-		return this._firestore.collection<AddressFormModel>('Address').valueChanges();
-	}
+	fetchData = () =>
+		this.getData<AddressFormModel>(this.collection, { idField: 'cep'});
 
-	public fetchAddressByCep(cep: string): Observable<AddressModel> {
-		return this._firestore
-			.collection<AddressModel>('Address')
-			.doc(cep)
-			.get()
-			.pipe(map((u) => new AddressModel(u.data())));
-	}
+	fetchAddressByCep = (cep: string): Observable<AddressFormModel> =>
+		this.getById(cep, this.collection, { idField: 'cep' })
 
-	public insertOrUpdateAddress(obj: AddressModel): Promise<void> {
-		return this._firestore.collection('Address').doc(obj.cep).set(obj);
-	}
+	insertOrUpdateAddress = (obj: AddressFormModel) =>
+		obj.cep ? this.updateAddress(obj) : this.insertAddress(obj);
 
-	public deleteAddress(cep: string): Promise<void> {
-		return this._firestore.collection('Address').doc(cep).delete();
-	}
+	insertAddress = (obj: AddressFormModel) =>
+		this.create<AddressModel>(obj, AddressModel, this.collection);
+
+	updateAddress = (obj: AddressFormModel) =>
+		this.update<AddressModel>(obj.cep, obj, AddressModel, this.collection);
+
+	deleteAddress = (cep: string) => this.delete(cep, this.collection);
 }

@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/service/auth.service';
 import { BaseService } from 'src/app/shared/service/base.service';
 import { formatFirebaseDate } from 'src/app/util/functions';

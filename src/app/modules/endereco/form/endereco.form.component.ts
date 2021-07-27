@@ -1,19 +1,15 @@
 import {
-	Component,
-	OnInit,
-	ChangeDetectionStrategy,
-	Inject,
-	OnDestroy,
+	ChangeDetectionStrategy, Component, Inject,
+	OnDestroy, OnInit
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { FormValidationService } from 'src/app/shared/service/form.service';
-import { AddressModel } from '../model/address.model';
 import { STATES } from 'src/app/util/constants';
 import { AddressService } from '../service/address.service';
-import { debounceTime, delay, retry, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { AddressFormModel } from './model/address.form.model';
 
 @Component({
@@ -34,11 +30,11 @@ export class EnderecoFormComponent implements OnInit, OnDestroy {
 		public _snackBar: MatSnackBar,
 		public _formValidation: FormValidationService,
 		public dialogRef: MatDialogRef<EnderecoFormComponent>,
-		@Inject(MAT_DIALOG_DATA) public data?: {id: string, table: AddressFormModel[]}
-	) {}
+		@Inject(MAT_DIALOG_DATA) public data?: { id: string, table: AddressFormModel[] }
+	) { }
 
 	ngOnInit(): void {
-		this.form = this._fb.group(new AddressModel());
+		this.form = this._fb.group(new AddressFormModel());
 		this.subscribeCep();
 	}
 
