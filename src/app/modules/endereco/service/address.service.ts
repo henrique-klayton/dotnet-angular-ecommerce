@@ -24,17 +24,11 @@ export class AddressService extends BaseService {
 	fetchData = () =>
 		this.getData<AddressFormModel>(this.collection, { idField: 'cep'});
 
-	fetchAddressByCep = (cep: string): Observable<AddressFormModel> =>
-		this.getById(cep, this.collection, { idField: 'cep' })
-
-	insertOrUpdateAddress = (obj: AddressFormModel) =>
-		obj.cep ? this.updateAddress(obj) : this.insertAddress(obj);
+	fetchAddressById = (cep: string) =>
+		this.getById<AddressFormModel>(cep, this.collection, { idField: 'cep' })
 
 	insertAddress = (obj: AddressFormModel) =>
-		this.create<AddressModel>(obj, AddressModel, this.collection);
-
-	updateAddress = (obj: AddressFormModel) =>
-		this.update<AddressModel>(obj.cep, obj, AddressModel, this.collection);
+		this.create<AddressModel>(obj, AddressModel, this.collection, obj.cep);
 
 	deleteAddress = (cep: string) => this.delete(cep, this.collection);
 }
