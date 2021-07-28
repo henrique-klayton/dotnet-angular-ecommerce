@@ -1,48 +1,60 @@
-<div class="d-flex align-items-center justify-content-between mb-4">
+<div mat-dialog-title class="d-flex align-items-center justify-content-between mb-4">
 	<h1 mat-dialog-title class="mb-0">Carrinho</h1>
 	<button mat-icon-button (click)="dialogRef.close()">
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
 
-<table mat-table [dataSource]="dataSource" matSort>
+<div mat-dialog-content class="table-container">
+	<table mat-table [dataSource]="dataSource" matSort>
 
-	<ng-container matColumnDef="name">
-		<th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
-		<td mat-cell *matCellDef="let row"> {{row.name}} </td>
-		<td mat-footer-cell *matFooterCellDef>Total</td>
-	</ng-container>
+		<ng-container matColumnDef="name">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
+			<td mat-cell *matCellDef="let row"> {{row.name}} </td>
+			<td mat-footer-cell *matFooterCellDef>Total</td>
+		</ng-container>
 
-	<ng-container matColumnDef="quantity">
-		<th mat-header-cell *matHeaderCellDef mat-sort-header> Quantidade</th>
-		<td mat-cell *matCellDef="let row"> {{row.quantity}}</td>
-		<td mat-footer-cell *matFooterCellDef></td>
-	</ng-container>
+		<ng-container matColumnDef="quantity">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header> Quantidade</th>
+			<td mat-cell *matCellDef="let row"> {{row.quantity}}</td>
+			<td mat-footer-cell *matFooterCellDef></td>
+		</ng-container>
 
-	<ng-container matColumnDef="unit_price">
-		<th mat-header-cell *matHeaderCellDef mat-sort-header> Preço Unitário </th>
-		<td mat-cell *matCellDef="let row"> {{row.unit_price | currency : 'BRL'}}</td>
-		<td mat-footer-cell *matFooterCellDef></td>
-	</ng-container>
+		<ng-container matColumnDef="unit_price">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header> Preço Unitário </th>
+			<td mat-cell *matCellDef="let row"> {{row.unit_price | currency : 'BRL'}}</td>
+			<td mat-footer-cell *matFooterCellDef></td>
+		</ng-container>
 
-	<ng-container matColumnDef="price">
-		<th mat-header-cell *matHeaderCellDef mat-sort-header> Preço </th>
-		<td mat-cell *matCellDef="let row"> {{row.price | currency : 'BRL'}}</td>
-		<td mat-footer-cell *matFooterCellDef>{{getTotalPrice() | currency: 'BRL'}}</td>
-	</ng-container>
+		<ng-container matColumnDef="price">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header> Preço </th>
+			<td mat-cell *matCellDef="let row"> {{row.price | currency : 'BRL'}}</td>
+			<td mat-footer-cell *matFooterCellDef>{{getTotalPrice() | currency: 'BRL'}}</td>
+		</ng-container>
 
 
-	<ng-container matColumnDef="actions">
-		<th mat-header-cell *matHeaderCellDef></th>
-		<td mat-cell *matCellDef="let row">
-			<button mat-icon-button color="warn" (click)="removeItem(row)">
-				<mat-icon>delete</mat-icon>
-			</button>
-		</td>
-		<td mat-footer-cell *matFooterCellDef></td>
-	</ng-container>
+		<ng-container matColumnDef="actions">
+			<th mat-header-cell *matHeaderCellDef></th>
+			<td mat-cell *matCellDef="let row">
+				<button mat-icon-button color="warn" (click)="removeItem(row)">
+					<mat-icon>delete</mat-icon>
+				</button>
+			</td>
+			<td mat-footer-cell *matFooterCellDef></td>
+		</ng-container>
 
-	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-	<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-	<tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-</table>
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+		<tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true;"></tr>
+	</table>
+</div>
+
+<!-- TODO criar funções para cancelar/efetuar venda -->
+<div mat-dialog-actions class="d-flex justify-content-between">
+	<button mat-mini-fab matTooltip="Cancelar venda" matTooltipPosition="above" color="warn">
+		<mat-icon>close</mat-icon>
+	</button>
+	<button mat-mini-fab matTooltip="Efetuar venda" matTooltipPosition="above" color="primary">
+		<mat-icon>done</mat-icon>
+	</button>
+</div>
