@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PRODUCT_CATEGORIES } from 'src/app/util/constants';
+import { isNullOrWhitespace } from 'src/app/util/functions';
 import { ProductFormComponent } from './form/product.form.component';
 import { ProductFilterModel } from './model/product-filter.model';
 import { ProductModel } from './model/product.model';
@@ -50,12 +51,12 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 	ngOnInit(): void {
 		this.getData();
 		this.formFilter = this._fb.group(new ProductFilterModel());
-		this.dataSource.filterPredicate = (d, f) => this.filter(d, f as ProductFilterModel);
 	}
 
 	ngAfterViewInit() {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
+		this.dataSource.filterPredicate = (d, f) => this.filter(d, f as ProductFilterModel);
 	}
 
 	ngOnDestroy(): void {
@@ -95,6 +96,14 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	private filter(data: ProductModel, filter: ProductFilterModel): boolean {
+		const prodName = data.name.toLowerCase();
+		const filterName = filter.name?.toLowerCase();
+		if (!isNullOrWhitespace(filterName) && !prodName.includes(filterName))
+			return false;
+		if (!isNullOrWhitespace(filter.category) && data.category !== filter.category)
+			return false;
+		if (!isNullOrWhitespace(filter.active) && data.active !== filter.active)
+			return false;
 		return true;
 	}
 }

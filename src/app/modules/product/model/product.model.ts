@@ -4,7 +4,7 @@ export class ProductModel {
 	cost_price: number = undefined;
 	sale_price: number = undefined;
 	active: boolean = false;
-	category: string = undefined;
+	category: number = undefined;
 	image: string = undefined;
 	quantidade: number = undefined;
 

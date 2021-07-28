@@ -1,13 +1,14 @@
 <form [formGroup]="formFilter">
 	<div class="row">
-		<div class="col-9">
+		<div class="col-3">
 			<mat-form-field appearance="fill">
-				<mat-label>Filtro</mat-label>
+				<mat-label>Nome</mat-label>
 				<input matInput formControlName="name">
 			</mat-form-field>
 		</div>
-		<div class="col-2">
+		<div class="col-3">
 			<mat-form-field appearance="fill">
+				<mat-label>Categoria</mat-label>
 				<mat-select formControlName="category">
 					<mat-option *ngFor="let cat of categories" [value]="cat.id">
 						{{cat.name}}

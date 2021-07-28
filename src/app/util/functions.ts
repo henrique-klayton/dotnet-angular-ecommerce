@@ -4,6 +4,12 @@ export interface Constructable<T> {
 	new(init?: Partial<T>): T;
 }
 
+export function isNullOrWhitespace(value: any) {
+	if (value === undefined || value === null || value === '')
+		return true;
+	return false;
+}
+
 export const formatFirebaseDate = (date: any) => moment.isMoment(date) ? date.toDate() : date;
 
 export function formatObjectToFirebase<T extends D, D>(
