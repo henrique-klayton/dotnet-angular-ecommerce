@@ -53,7 +53,9 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
 	public async saveProduct() {
 		try {
-			let image = await this.readImage(this.form.get('image').value.files);
+			let image = this.form.get('image').value;
+			if (image?.files)
+				image = await this.readImage(this.form.get('image').value.files);
 			const obj = new ProductModel({ ...this.form.value, image });
 
 			await this._productService
