@@ -4,6 +4,7 @@ import { SalesRoutingModule } from './sales-routing.module';
 import { SalesComponent } from './sales.component';
 import { MaterialModule } from 'src/app/material.module';
 import { ProductService } from '../product/service/product.service';
+import { CartModule } from '../cart/cart.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { ProductService } from '../product/service/product.service';
 	imports: [
 		CommonModule,
 		SalesRoutingModule,
-		MaterialModule
+		MaterialModule,
+		CartModule
 	],
 	providers: [
 		ProductService
