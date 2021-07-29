@@ -45,11 +45,10 @@
         "semi-style": ["error", "last"],
         "semi-spacing": ["error", {"before": false, "after": true}],
         "block-spacing": "error",
-        "eqeqeq": ["error", "always"],
+        "eqeqeq": ["error", "smart"],
         "no-console": "warn",
         "no-extra-parens": "off",
-        "no-await-in-loop": "warn",
-				"@angular-eslint/no-empty-lifecycle-method": "off"
+        "no-await-in-loop": "warn"
       }
     },
     {
