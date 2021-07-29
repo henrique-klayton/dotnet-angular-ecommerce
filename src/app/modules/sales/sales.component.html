@@ -1,5 +1,5 @@
 <div class="d-flex flex-wrap justify-content-start">
-	<ng-container *ngFor="let product of products">
+	<ng-container *ngFor="let product of products; let i = index">
 		<mat-card class="m-2 prod-card">
 			<div class="d-flex justify-content-center">
 				<img mat-card-image class="prod-img" [src]="product.image">
@@ -12,20 +12,24 @@
 				<p class="text-danger mb-0">{{ product.sale_price | currency: 'BRL' }}</p>
 			</mat-card-content>
 			<mat-card-actions>
-				<div class="row">
-					<div class="col-9">
-						<mat-form-field>
-							<input matInput [id]="product.id" required>
-							<mat-label>Quantidade</mat-label>
-						</mat-form-field>
+				<form [formGroup]="form[i]">
+					<div class="row">
+						<div class="col-9">
+							<mat-form-field>
+								<input matInput formControlName="quantity" mask="0*" [id]="product.id" required>
+								<mat-label>Quantidade</mat-label>
+							</mat-form-field>
+						</div>
+						<div class="col-1 d-flex align-items-center mat-form-field-wrapper">
+							<div matTooltip="Adicionar ao carrinho" matTooltipPosition="above">
+								<button mat-mini-fab matSuffix color="primary" (click)="addToCart(product, i)"
+									[disabled]="form[i].invalid">
+									<mat-icon>add_shopping_cart</mat-icon>
+								</button>
+							</div>
+						</div>
 					</div>
-					<div class="col-1 d-flex align-items-center mat-form-field-wrapper">
-						<button matSuffix matTooltip="Adicionar ao carrinho" matTooltipPosition="above" mat-mini-fab color="primary"
-							(click)="addToCart(product)">
-							<mat-icon>add_shopping_cart</mat-icon>
-						</button>
-					</div>
-				</div>
+				</form>
 			</mat-card-actions>
 		</mat-card>
 	</ng-container>

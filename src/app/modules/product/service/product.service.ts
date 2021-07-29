@@ -11,6 +11,7 @@ export class ProductService extends BaseService {
 	}
 
 	fetchData = () => this.getData<ProductFormModel>(this.collection);
+	fetchDataOnce = () => this.getDataOnce<ProductFormModel>(this.collection);
 	fetchProductById = (id: string) => this.getById<ProductModel>(id, this.collection);
 
 	insertOrUpdateProduct = (obj: ProductModel, id?: string) =>

@@ -49,12 +49,11 @@
 	</table>
 </div>
 
-<!-- TODO criar funções para cancelar/efetuar venda -->
 <div mat-dialog-actions class="d-flex justify-content-between">
-	<button mat-mini-fab matTooltip="Cancelar venda" matTooltipPosition="above" color="warn">
-		<mat-icon>close</mat-icon>
+	<button mat-raised-button color="warn" (click)="cancelSale()">
+		Cancelar venda
 	</button>
-	<button mat-mini-fab matTooltip="Efetuar venda" matTooltipPosition="above" color="primary">
-		<mat-icon>done</mat-icon>
+	<button mat-raised-button color="primary" (click)="makeSale()">
+		Efetuar venda
 	</button>
 </div>

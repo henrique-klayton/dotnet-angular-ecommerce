@@ -5,6 +5,7 @@ import { SalesComponent } from './sales.component';
 import { MaterialModule } from 'src/app/material.module';
 import { ProductService } from '../product/service/product.service';
 import { CartModule } from '../cart/cart.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -13,9 +14,11 @@ import { CartModule } from '../cart/cart.module';
 	],
 	imports: [
 		CommonModule,
+		CartModule,
+		FormsModule,
+		ReactiveFormsModule,
 		SalesRoutingModule,
 		MaterialModule,
-		CartModule
 	],
 	providers: [
 		ProductService

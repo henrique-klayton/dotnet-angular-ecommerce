@@ -1,6 +1,7 @@
-import { ProductModel } from '../../product/model/product.model';
+import { ProductFormModel } from '../../product/form/model/product.form.model';
 
 export class CartProductModel {
+	id: string = undefined;
 	name: string = undefined;
 	unit_price: number = undefined;
 	quantity: number = undefined;
@@ -10,8 +11,9 @@ export class CartProductModel {
 		Object.assign(this, init);
 	}
 
-	static fromProduct = (product: ProductModel, quantity: number): CartProductModel =>
+	static fromProduct = (product: ProductFormModel, quantity: number): CartProductModel =>
 		new CartProductModel({
+			id: product.id,
 			name: product.name,
 			unit_price: product.sale_price,
 			quantity,

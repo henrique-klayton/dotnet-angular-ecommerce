@@ -1,15 +1,14 @@
-import { Component, OnInit, ChangeDetectionStrategy, Inject, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { ProductModel } from '../product/model/product.model';
-import { ProductService } from '../product/service/product.service';
 import { CartProductModel } from './model/cart-product.model';
+import { CartService } from './service/cart.service';
 
 @Component({
 	selector: 'app-cart',
 	templateUrl: './cart.component.html',
 	styleUrls: ['./cart.component.scss'],
-	// changeDetection: ChangeDetectionStrategy.OnPush
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartComponent implements OnInit {
 	public displayedColumns = [
@@ -23,6 +22,7 @@ export class CartComponent implements OnInit {
 
 	constructor(
 		public dialogRef: MatDialogRef<CartComponent>,
+		private _cartService: CartService,
 		@Inject(MAT_DIALOG_DATA) public data: EventEmitter<CartProductModel>
 	) { }
 
@@ -30,13 +30,34 @@ export class CartComponent implements OnInit {
 		this.getData();
 	}
 
-	getData = () => this.dataSource.data = JSON.parse(localStorage.getItem('cart_products'));
-	removeItem(row) {
-		let cartProducts: CartProductModel[] = JSON.parse(localStorage.getItem('cart_products'));
-		const index = this.dataSource.data.indexOf(row);
-		cartProducts.splice(index, 1);
-		this.dataSource.data = cartProducts;
-		localStorage.setItem('cart_products', JSON.stringify(cartProducts));
+	getData = () =>
+		this.dataSource.data = JSON.parse(localStorage.getItem('cart_products'));
+
+	removeItem(product: CartProductModel) {
+		let cart = this.getCart();
+		const index = cart.indexOf(product);
+		cart.splice(index, 1);
+		this.dataSource.data = cart;
+		localStorage.setItem('cart_products', JSON.stringify(cart));
 	}
-	getTotalPrice = () => this.dataSource.data?.reduce((total, product) => total += product.price, 0);
+	getTotalPrice = () =>
+		this.dataSource.data?.reduce((total, product) => total += product.price, 0);
+
+	cancelSale() {
+		localStorage.removeItem('cart_products');
+		this.getData();
+		this.dialogRef.close(false);
+	}
+
+	makeSale() {
+		this._cartService.executeSale(this.dataSource.data)
+			.then(() => {
+				localStorage.removeItem('cart_products');
+				this.dialogRef.close(true);
+			})
+			.catch((err) => console.error(err));
+	}
+
+	private getCart = (): CartProductModel[] =>
+		JSON.parse(localStorage.getItem('cart_products'));
 }
