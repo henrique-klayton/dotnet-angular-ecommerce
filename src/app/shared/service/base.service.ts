@@ -20,6 +20,25 @@ export class BaseService {
 	): Observable<T[]> {
 		return this._firestore.collection<T>(col).valueChanges({ idField: options.idField });
 	}
+	protected getDataOnce<T>(
+		col: string,
+		options: IGetOptions = { idField: 'id' }
+	): Promise<T[]> {
+		return this._firestore
+			.collection<T>(col)
+			.get()
+			.pipe(
+				map(q => {
+					return q.docs.map(p => {
+						let data = p.data();
+						if (options.idField)
+							data[options.idField] = p.id;
+						return data;
+					});
+				})
+			)
+			.toPromise();
+	}
 	protected getById<T>(
 		id: string,
 		col: string,
