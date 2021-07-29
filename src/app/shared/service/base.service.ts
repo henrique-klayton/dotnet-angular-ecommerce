@@ -33,12 +33,18 @@ export class BaseService implements IBaseService {
 		col: string,
 		options: IGetOptions = { idField: 'id' }
 	): Observable<T> {
-		return this._firestore.collection<T>(col).doc(id).get().pipe(map(p => {
-			let data = p.data();
-			if (options.idField)
-				data[options.idField] = p.id;
-			return data;
-		}));
+		return this._firestore
+			.collection<T>(col)
+			.doc(id)
+			.get()
+			.pipe(
+				map(p => {
+					let data = p.data();
+					if (options.idField)
+						data[options.idField] = p.id;
+					return data;
+				})
+			);
 	}
 	create = <T>(obj: T, cls: Constructable<T>, col: string, id?: string): Promise<void> =>
 		this._firestore.collection(col).doc(id).set(formatObjectToFirebase(obj, cls));
