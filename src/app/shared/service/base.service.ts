@@ -38,10 +38,20 @@ export class BaseService {
 				})
 			);
 	}
-	protected create = <T>(obj: T, cls: Constructable<T>, col: string, id?: string): Promise<void> =>
+	protected create = <T>(
+		obj: T,
+		cls: Constructable<T>,
+		col: string,
+		id?: string
+	): Promise<void> =>
 		this._firestore.collection(col).doc(id).set(formatObjectToFirebase(obj, cls));
-	protected update = <T>(id: string, obj: T, cls: Constructable<T>, col: string): Promise<void> =>
-		this._firestore.collection(col).doc(id).set(formatObjectToFirebase(obj, cls));
+	protected update = <T>(
+		id: string,
+		obj: Partial<T>,
+		cls: Constructable<Partial<T>>,
+		col: string
+	): Promise<void> =>
+		this._firestore.collection(col).doc(id).update(formatObjectToFirebase(obj, cls));
 	protected delete = (id: string, col: string): Promise<void> =>
 		this._firestore.collection(col).doc(id).delete();
 }
