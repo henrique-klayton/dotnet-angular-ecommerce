@@ -57,17 +57,10 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	public openDialog(id?: string): void {
-		const dialogRef = this.dialog.open(UserFormComponent, {
+		this.dialog.open(UserFormComponent, {
 			width: '600px',
 			data: id,
 		});
-
-		dialogRef
-			.afterClosed()
-			.pipe(takeUntil(this._onDestroy))
-			.subscribe((result) => {
-				console.log(result);
-			});
 	}
 
 	public getData() {
@@ -85,7 +78,6 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	public applyFilter(event: Event) {
-		console.log(event);
 		const filterValue = (event.target as HTMLInputElement).value;
 		this.dataSource.filter = filterValue.trim().toLowerCase();
 

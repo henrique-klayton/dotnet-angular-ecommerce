@@ -61,7 +61,7 @@ export class EnderecoFormComponent implements OnInit, OnDestroy {
 		this._addressService.insertAddress(this.form.value)
 			.then(() => this._snackBar.open('CEP cadastrado com sucesso!', 'Fechar'))
 			.catch(() => this._snackBar.open('Erro ao cadastrar o CEP!', 'Fechar'));
-		this.dialogRef.close('closed');
+		this.dialogRef.close();
 	}
 
 	private async fetchCep(cep: string): Promise<void> {

@@ -62,15 +62,10 @@ export class EnderecoComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	public openDialog(id?: string): void {
-		const dialogRef = this.dialog.open(EnderecoFormComponent, {
+		this.dialog.open(EnderecoFormComponent, {
 			width: '600px',
 			data: { id: id, table: this.dataSource.data },
 		});
-
-		dialogRef
-			.afterClosed()
-			.pipe(takeUntil(this._onDestroy))
-			.subscribe((res) => console.log(res));
 	}
 
 	public deleteAddress(cep: string) {

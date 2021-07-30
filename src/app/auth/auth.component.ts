@@ -34,7 +34,6 @@ export class AuthComponent implements OnInit {
 			})
 			.catch((e) => {
 				let errorMessage: string;
-				console.error(e);
 				switch (e.code) {
 					case 'auth/invalid-email':
 						errorMessage = 'Email inválido!';
