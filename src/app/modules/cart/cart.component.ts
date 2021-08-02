@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { CartProductModel } from './model/cart-product.model';
 import { CartService } from './service/cart.service';
@@ -23,6 +24,7 @@ export class CartComponent implements OnInit {
 	constructor(
 		public dialogRef: MatDialogRef<CartComponent>,
 		private _cartService: CartService,
+		private _snackBar: MatSnackBar,
 		@Inject(MAT_DIALOG_DATA) public data: EventEmitter<CartProductModel>
 	) { }
 
@@ -51,11 +53,13 @@ export class CartComponent implements OnInit {
 
 	makeSale() {
 		this._cartService.executeSale(this.dataSource.data)
-			.then(() => {
-				localStorage.removeItem('cart_products');
-				this.dialogRef.close(true);
-			})
-			.catch((err) => console.error(err));
+			.then(() => this.dialogRef.close(true))
+			.catch((err) => {
+				this._snackBar.open('Erro ao efetuar a venda!', 'Fechar');
+				this.getData();
+				// eslint-disable-next-line no-console
+				console.error(err);
+			});
 	}
 
 	private getCart = (): CartProductModel[] =>
