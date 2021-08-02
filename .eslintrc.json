@@ -48,7 +48,8 @@
         "eqeqeq": ["error", "smart"],
         "no-console": "warn",
         "no-extra-parens": "off",
-        "no-await-in-loop": "warn"
+        "no-await-in-loop": "warn",
+        "arrow-body-style": ["error", "as-needed"]
       }
     },
     {
