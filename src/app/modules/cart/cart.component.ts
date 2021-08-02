@@ -37,8 +37,7 @@ export class CartComponent implements OnInit {
 
 	removeItem(product: CartProductModel) {
 		let cart = this.getCart();
-		const index = cart.indexOf(product);
-		cart.splice(index, 1);
+		cart.splice(cart.indexOf(product), 1);
 		this.dataSource.data = cart;
 		localStorage.setItem('cart_products', JSON.stringify(cart));
 	}
