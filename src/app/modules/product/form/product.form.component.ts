@@ -55,7 +55,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 		try {
 			let image = this.form.get('image').value;
 			if (image?.files)
-				image = await this.readImage(this.form.get('image').value.files);
+				image = await this.readImage(this.form.get('image').value.files[0]);
 			const obj = new ProductModel({ ...this.form.value, image });
 
 			await this._productService
@@ -72,16 +72,12 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 		// this._snackBar.open('Erro ao cadastrar o produto!', 'Fechar');
 	}
 
-	private readImage(fileArr: Blob[]) {
+	private readImage(file: Blob) {
 		return new Promise((resolve: (result: string | ArrayBuffer) => void, reject) => {
 			let fr = new FileReader();
-			fr.readAsDataURL(fileArr[0]);
-			fr.onloadend = () => {
-				resolve(fr.result);
-			};
-			fr.onerror = () => {
-				reject(new Error('Unable to read..'));
-			};
+			fr.readAsDataURL(file);
+			fr.onload = () => resolve(fr.result);
+			fr.onerror = () => reject(new Error('Unable to read..'));
 		});
 	}
 }
