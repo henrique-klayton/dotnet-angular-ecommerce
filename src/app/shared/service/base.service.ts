@@ -28,14 +28,12 @@ export class BaseService {
 			.collection<T>(col)
 			.get()
 			.pipe(
-				map(q => {
-					return q.docs.map(p => {
-						let data = p.data();
-						if (options.idField)
-							data[options.idField] = p.id;
-						return data;
-					});
-				})
+				map(q => q.docs.map(p => {
+					let data = p.data();
+					if (options.idField)
+						data[options.idField] = p.id;
+					return data;
+				}))
 			)
 			.toPromise();
 	}
