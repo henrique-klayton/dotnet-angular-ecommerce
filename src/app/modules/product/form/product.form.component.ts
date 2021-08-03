@@ -58,8 +58,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 				image = await this.readImage(this.form.get('image').value.files[0]);
 			const obj = new ProductModel({ ...this.form.value, image });
 
-			await this._productService
-				.insertOrUpdateProduct(obj, this.data);
+			await this._productService.insertOrUpdateProduct(obj, this.data);
 			this.dialogRef.close();
 			this._snackBar.open('Produto cadastrado com sucesso!', 'Fechar');
 		} catch (err) {
@@ -67,7 +66,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 			throw new Error(err);
 		}
 
-		// TODO
+		// TODO Enviar as mensagens corretas
 		// this._snackBar.open('Produto cadastrado com sucesso!', 'Fechar');
 		// this._snackBar.open('Erro ao cadastrar o produto!', 'Fechar');
 	}
