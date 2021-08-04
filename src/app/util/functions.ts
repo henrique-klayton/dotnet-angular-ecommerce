@@ -16,7 +16,7 @@ export function formatObjectToFirebase<T extends D, D>(
 	ignoredFields: string[] = ['id']
 ) {
 	let document: { [index: string]: D[keyof D] } = {};
-	for (let key in new modelRef()) {
+	for (const key in new modelRef()) {
 		if (!ignoredFields.includes(key))
 			document[key] = obj[key];
 	}
