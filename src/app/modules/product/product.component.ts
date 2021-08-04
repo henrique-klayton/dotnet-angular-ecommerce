@@ -96,8 +96,8 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	private filter(data: ProductModel, filter: ProductFilterModel): boolean {
-		const prodName = data.name.toLowerCase();
-		const filterName = filter.name?.toLowerCase();
+		const prodName = data.name.toLowerCase().trim();
+		const filterName = filter.name?.toLowerCase().trim();
 		if (!isNullOrWhitespace(filterName) && !prodName.includes(filterName))
 			return false;
 		if (!isNullOrWhitespace(filter.category) && data.category !== filter.category)

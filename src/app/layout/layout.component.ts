@@ -7,17 +7,15 @@ import { AuthService } from '../auth/service/auth.service';
 	templateUrl: './layout.component.html',
 	styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent implements OnInit, OnDestroy {
+export class LayoutComponent implements OnDestroy {
 	public mobileQuery: MediaQueryList;
 	private _mobileQueryListener: () => void;
 		
-	constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private _authService: AuthService) {
+	constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
 		this.mobileQuery = media.matchMedia('(min-width: 600px)');
 		this._mobileQueryListener = () => changeDetectorRef.detectChanges();
 		this.mobileQuery.addListener(this._mobileQueryListener);
 	}
-
-	ngOnInit(): void {}
 
 	ngOnDestroy(): void {
 		this.mobileQuery.removeListener(this._mobileQueryListener);

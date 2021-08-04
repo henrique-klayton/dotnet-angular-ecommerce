@@ -11,12 +11,14 @@ export class CartProductModel {
 		Object.assign(this, init);
 	}
 
-	static fromProduct = (product: ProductFormModel, quantity: number): CartProductModel =>
-		new CartProductModel({
-			id: product.id,
-			name: product.name,
-			unit_price: product.sale_price,
-			quantity,
-			price: product.sale_price * quantity,
-		});
+	static fromProduct = (
+		product: ProductFormModel,
+		quantity: number
+	): CartProductModel => new CartProductModel({
+		id: product.id,
+		name: product.name,
+		unit_price: product.sale_price,
+		quantity,
+		price: product.sale_price * quantity,
+	});
 }

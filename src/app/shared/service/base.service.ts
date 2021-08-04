@@ -18,7 +18,8 @@ export class BaseService {
 		col: string,
 		options: IGetOptions = { idField: 'id' }
 	): Observable<T[]> {
-		return this._firestore.collection<T>(col).valueChanges({ idField: options.idField });
+		return this._firestore.collection<T>(col)
+			.valueChanges({ idField: options.idField });
 	}
 	protected getDataOnce<T>(
 		col: string,

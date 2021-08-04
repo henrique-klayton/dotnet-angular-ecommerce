@@ -75,8 +75,7 @@ export class EnderecoFormComponent implements OnInit, OnDestroy {
 				return this.form.patchValue(res);
 			} catch (err) {
 				this._snackBar.open('Erro ao pesquisar o CEP!', 'Fechar');
-				// eslint-disable-next-line no-console
-				return console.error(err);
+				throw new Error(err);
 			}
 		}
 	}

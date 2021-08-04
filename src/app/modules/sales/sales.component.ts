@@ -47,9 +47,10 @@ export class SalesComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	addToCart = (product: ProductFormModel, formIndex: number) => {
+	addToCart(product: ProductFormModel, formIndex: number) {
 		const quantity = +this.form[formIndex].get('quantity').value;
-		let cart: CartProductModel[] = JSON.parse(localStorage.getItem('cart_products')) ?? [];
+		let cart: CartProductModel[] =
+			JSON.parse(localStorage.getItem('cart_products')) ?? [];
 		let index = cart.findIndex(v => v.id === product.id);
 
 		if (index === -1) {

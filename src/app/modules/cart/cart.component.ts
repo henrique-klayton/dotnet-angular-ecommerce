@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, OnInit } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	EventEmitter,
+	Inject,
+	OnInit
+} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
@@ -56,8 +62,7 @@ export class CartComponent implements OnInit {
 			.catch((err) => {
 				this._snackBar.open('Erro ao efetuar a venda!', 'Fechar');
 				this.getData();
-				// eslint-disable-next-line no-console
-				console.error(err);
+				throw new Error(err);
 			});
 	}
 

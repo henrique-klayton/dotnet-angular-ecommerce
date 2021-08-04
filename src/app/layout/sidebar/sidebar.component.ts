@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
 	selector: 'app-sidebar',
 	templateUrl: './sidebar.component.html',
 	styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit {
-	public navList: { route: string, icon: string, label: string }[] = [
+export class SidebarComponent {
+	public navList: Array<{ route: string, icon: string, label: string }> = [
 		{
 			route: 'home',
 			icon: 'home',
@@ -38,10 +38,4 @@ export class SidebarComponent implements OnInit {
 			label: 'Carrinho'
 		}
 	];
-
-	constructor() { }
-
-	ngOnInit(): void {
-	}
-
 }
