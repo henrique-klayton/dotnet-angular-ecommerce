@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { BaseService } from 'src/app/shared/service/base.service';
+import { isNullOrWhitespace } from 'src/app/util/functions';
 import { AddressFormModel } from '../form/model/address.form.model';
 import { AddressModel } from '../model/address.model';
 
@@ -12,8 +12,8 @@ export class AddressService extends BaseService {
 		super();
 	}
 
-	public fetchCep(cep: string) {
-		if (cep === '' && cep === null && cep === undefined)
+	fetchCep(cep: string): Promise<AddressFormModel> {
+		if (isNullOrWhitespace(cep))
 			return;
 
 		return this._http
