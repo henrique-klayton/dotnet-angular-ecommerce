@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
-import { AngularFireAuthGuard, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+import {
+	AngularFireAuthGuard,
+	redirectLoggedInTo,
+	redirectUnauthorizedTo
+} from '@angular/fire/auth-guard';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
-import { AuthGuard } from './guard/auth.guard';
 import { LayoutComponent } from './layout/layout.component';
 
 const redirectUnauthorizedUsers = () => redirectUnauthorizedTo(['login']);
@@ -27,19 +30,23 @@ const routes: Routes = [
 			},
 			{
 				path: 'endereco',
-				loadChildren: () => import('./modules/endereco/endereco.module').then(m => m.EnderecoModule)
+				loadChildren: () =>
+					import('./modules/endereco/endereco.module').then(m => m.EnderecoModule)
 			},
 			{
 				path: 'produtos',
-				loadChildren: () => import('./modules/product/product.module').then(m => m.ProductModule)
+				loadChildren: () =>
+					import('./modules/product/product.module').then(m => m.ProductModule)
 			},
 			{
 				path: 'vendas',
-				loadChildren: () => import('./modules/sales/sales.module').then(m => m.SalesModule)
+				loadChildren: () =>
+					import('./modules/sales/sales.module').then(m => m.SalesModule)
 			},
 			// {
 			// 	path: 'carrinho',
-			// 	loadChildren: () => import('./modules/sales/sales.module').then(m => m.CartModule)
+			// 	loadChildren: () =>
+			// 	import('./modules/sales/sales.module').then(m => m.CartModule)
 			// }
 		]
 	},
