@@ -1,6 +1,21 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+	MatSnackBar,
+	MatSnackBarConfig,
+	MatSnackBarRef,
+	TextOnlySnackBar
+} from '@angular/material/snack-bar';
 import { AppInjector } from './injector.service';
+
+export interface IAlertOptions {
+	action?: string;
+	objName?: string;
+	config?: MatSnackBarConfig;
+}
+
+const OPTIONS: IAlertOptions = {
+	action: 'OK'
+};
 
 @Injectable()
 export class AlertService {
@@ -10,10 +25,13 @@ export class AlertService {
 		this._snackBar = AppInjector.injector.get(MatSnackBar);
 	}
 
-	successAlert(item: string, success: boolean, action: string = 'OK') {
+	baseAlert = (message: string, options = OPTIONS): MatSnackBarRef<TextOnlySnackBar> =>
+		this._snackBar.open(message, options.action, options.config);
+
+	statusAlert(success: boolean, options: IAlertOptions) {
 		const message = success
-			? `${item} cadastrado com sucesso`
-			: `Erro ao cadastrar ${item}`;
-		return this._snackBar.open(message, action);
+			? `${options.objName} cadastrado com sucesso`
+			: `Erro ao cadastrar ${options.objName}`;
+		return this.baseAlert(message, options);
 	}
 }
