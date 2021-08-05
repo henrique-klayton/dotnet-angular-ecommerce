@@ -124,3 +124,7 @@ table,
   background-color: white;
   color: map.get($my-custom-primary-color, 500) !important;
 }
+
+mat-form-field > * > * {
+	align-items: center !important;
+}
