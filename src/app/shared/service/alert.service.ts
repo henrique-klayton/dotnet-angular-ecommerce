@@ -9,11 +9,10 @@ import { AppInjector } from './injector.service';
 
 export interface IAlertOptions {
 	action?: string;
-	objName?: string;
 	config?: MatSnackBarConfig;
 }
 
-const OPTIONS: IAlertOptions = {
+const DEFAULT_OPTIONS: IAlertOptions = {
 	action: 'OK'
 };
 
@@ -25,13 +24,16 @@ export class AlertService {
 		this._snackBar = AppInjector.injector.get(MatSnackBar);
 	}
 
-	baseAlert = (message: string, options = OPTIONS): MatSnackBarRef<TextOnlySnackBar> =>
+	baseAlert = (
+		message: string,
+		options = DEFAULT_OPTIONS,
+	): MatSnackBarRef<TextOnlySnackBar> =>
 		this._snackBar.open(message, options.action, options.config);
 
-	statusAlert(success: boolean, options: IAlertOptions) {
+	statusAlert(success: boolean, objName: string, options?: IAlertOptions) {
 		const message = success
-			? `${options.objName} cadastrado com sucesso`
-			: `Erro ao cadastrar ${options.objName}`;
+			? `${objName} cadastrado com sucesso`
+			: `Erro ao cadastrar ${objName}`;
 		return this.baseAlert(message, options);
 	}
 }
