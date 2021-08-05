@@ -2,28 +2,53 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Constructable, formatObjectToFirebase } from 'src/app/util/functions';
+import { AlertService, IAlertOptions } from './alert.service';
 import { AppInjector } from './injector.service';
 
+export type ISetOptions = IBaseSetOptions & IAlertConfig;
+export type IAlertConfig = INoAlert | IBaseAlertConfig | IStatusAlertConfig;
+
 export interface IGetOptions {
-	idField?: string
+	idField?: string;
 }
+export interface IBaseSetOptions { }
+export interface INoAlert {
+	useAlert: 'none';
+}
+export interface IBaseAlertConfig {
+	useAlert: 'base';
+	errorMsg: string;
+	successMsg: string;
+	alertOptions?: IAlertOptions;
+}
+export interface IStatusAlertConfig {
+	useAlert: 'status';
+	objName: string;
+	alertOptions?: IAlertOptions;
+}
+
+const DEFAULT_GET_OPTIONS: IGetOptions = {
+	idField: 'id'
+};
 
 export class BaseService {
 	protected _firestore: AngularFirestore;
+	public alertService: AlertService;
 
 	constructor() {
 		this._firestore = AppInjector.injector.get(AngularFirestore);
+		this.alertService = AppInjector.injector.get(AlertService);
 	}
 	protected getData<T>(
 		col: string,
-		options: IGetOptions = { idField: 'id' }
+		options = DEFAULT_GET_OPTIONS
 	): Observable<T[]> {
 		return this._firestore.collection<T>(col)
-			.valueChanges({ idField: options.idField });
+			.valueChanges(options.idField && { idField: options.idField });
 	}
 	protected getDataOnce<T>(
 		col: string,
-		options: IGetOptions = { idField: 'id' }
+		options = DEFAULT_GET_OPTIONS
 	): Promise<T[]> {
 		return this._firestore
 			.collection<T>(col)
@@ -41,7 +66,7 @@ export class BaseService {
 	protected getById<T>(
 		id: string,
 		col: string,
-		options: IGetOptions = { idField: 'id' }
+		options = DEFAULT_GET_OPTIONS
 	): Observable<T> {
 		return this._firestore
 			.collection<T>(col)
@@ -56,20 +81,52 @@ export class BaseService {
 				})
 			);
 	}
-	protected create = <T>(
+	protected create<T>(
 		obj: T,
 		cls: Constructable<T>,
 		col: string,
-		id?: string
-	): Promise<void> =>
-		this._firestore.collection(col).doc(id).set(formatObjectToFirebase(obj, cls));
-	protected update = <T>(
+		options: ISetOptions,
+		id?: string,
+	): Promise<void> {
+		return this._firestore.collection(col).doc(id)
+			.set(formatObjectToFirebase(obj, cls))
+			.then(() => this.showAlert(true, options))
+			.catch(() => this.showAlert(false, options));
+	}
+	protected update<T>(
 		id: string,
 		obj: Partial<T>,
 		cls: Constructable<Partial<T>>,
-		col: string
-	): Promise<void> =>
-		this._firestore.collection(col).doc(id).update(formatObjectToFirebase(obj, cls));
-	protected delete = (id: string, col: string): Promise<void> =>
-		this._firestore.collection(col).doc(id).delete();
+		col: string,
+		options: ISetOptions,
+	): Promise<void> {
+		return this._firestore.collection(col).doc(id)
+			.update(formatObjectToFirebase(obj, cls))
+			.then(() => this.showAlert(true, options))
+			.catch(() => this.showAlert(false, options));
+	}
+	protected delete(
+		id: string,
+		col: string,
+		options: ISetOptions,
+	): Promise<void> {
+		return this._firestore.collection(col).doc(id)
+			.delete()
+			.then(() => this.showAlert(true, options))
+			.catch(() => this.showAlert(false, options));
+	}
+
+	private showAlert(success: boolean, options: ISetOptions) {
+		switch (options.useAlert) {
+			case 'base':
+				this.alertService.baseAlert(
+					success ? options.successMsg : options.errorMsg,
+					options.alertOptions
+				);
+				break;
+			case 'status':
+				this.alertService.statusAlert(success, options.objName, options.alertOptions);
+				break;
+		}
+	}
 }
