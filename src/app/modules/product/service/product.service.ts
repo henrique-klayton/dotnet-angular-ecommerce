@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BaseService } from 'src/app/shared/service/base.service';
+import { BaseService, ISetOptions } from 'src/app/shared/service/base.service';
 import { ProductFormModel } from '../form/model/product.form.model';
 import { ProductModel } from '../model/product.model';
 
 @Injectable()
 export class ProductService extends BaseService {
 	private collection = 'Products';
+	private setOptions: ISetOptions = { useAlert: 'status', objName: 'Produto' }
 	constructor() {
 		super();
 	}
@@ -18,10 +19,11 @@ export class ProductService extends BaseService {
 		id ? this.updateProduct(id, obj) : this.insertProduct(obj);
 
 	insertProduct = (obj: ProductModel): Promise<void> =>
-		this.create(obj, ProductModel, this.collection);
+		this.create(obj, ProductModel, this.collection, this.setOptions);
 
 	updateProduct = (id: string, obj: ProductModel): Promise<void> =>
-		this.update(id, obj, ProductModel, this.collection);
+		this.update(id, obj, ProductModel, this.collection, this.setOptions);
 
-	deleteProduct = (id: string): Promise<void> => this.delete(id, this.collection);
+	deleteProduct = (id: string): Promise<void> =>
+		this.delete(id, this.collection, this.setOptions);
 }

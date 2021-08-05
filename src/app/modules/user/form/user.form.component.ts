@@ -1,13 +1,9 @@
 import {
-	Component,
-	OnInit,
-	ChangeDetectionStrategy,
-	Inject,
-	OnDestroy,
+	ChangeDetectionStrategy, Component, Inject,
+	OnDestroy, OnInit
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FormValidationService } from 'src/app/shared/service/form.service';
@@ -29,7 +25,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
 	constructor(
 		private _userService: UserService,
 		private _fb: FormBuilder,
-		private _snackBar: MatSnackBar,
 		public _formValidation: FormValidationService,
 		public dialogRef: MatDialogRef<UserFormComponent>,
 		@Inject(MAT_DIALOG_DATA) public data?: string
@@ -53,24 +48,10 @@ export class UserFormComponent implements OnInit, OnDestroy {
 	public saveUser() {
 		const obj: UserModel = this.form.value;
 		if (!this.data) {
-			return this._userService
-				.insertUser(obj)
-				.then(() => {
-					this.dialogRef.close();
-					this._snackBar.open('Usuário cadastrado com sucesso!', 'Fechar');
-				})
-				.catch(() =>
-					this._snackBar.open('Erro ao cadastrar o usuário!', 'Fechar')
-				);
+			return this._userService.insertUser(obj)
+				.then(() => this.dialogRef.close());
 		}
-		return this._userService
-			.updateUser(this.data, obj)
-			.then(() => {
-				this.dialogRef.close();
-				this._snackBar.open('Usuário atualizado com sucesso!', 'Fechar');
-			})
-			.catch(() =>
-				this._snackBar.open('Erro ao atualizar os dados do usuário!', 'Fechar')
-			);
+		return this._userService.updateUser(this.data, obj)
+			.then(() => this.dialogRef.close());
 	}
 }

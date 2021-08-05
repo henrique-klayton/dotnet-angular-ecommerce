@@ -1,13 +1,9 @@
 import {
-	Component,
-	OnInit,
-	ChangeDetectionStrategy,
-	Inject,
-	OnDestroy,
+	ChangeDetectionStrategy, Component, Inject,
+	OnDestroy, OnInit
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FormValidationService } from 'src/app/shared/service/form.service';
@@ -30,7 +26,6 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 	constructor(
 		private _fb: FormBuilder,
 		private _productService: ProductService,
-		private _snackBar: MatSnackBar,
 		public _formValidation: FormValidationService,
 		public dialogRef: MatDialogRef<ProductFormComponent>,
 		@Inject(MAT_DIALOG_DATA) public data?: string
@@ -57,18 +52,11 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 			if (image?.files)
 				image = await this.readImage(this.form.get('image').value.files[0]);
 			const obj = new ProductModel({ ...this.form.value, image });
-
 			await this._productService.insertOrUpdateProduct(obj, this.data);
 			this.dialogRef.close();
-			this._snackBar.open('Produto cadastrado com sucesso!', 'Fechar');
 		} catch (err) {
-			this._snackBar.open('Erro ao cadastrar o produto!', 'Fechar');
 			throw new Error(err);
 		}
-
-		// TODO Enviar as mensagens corretas
-		// this._snackBar.open('Produto cadastrado com sucesso!', 'Fechar');
-		// this._snackBar.open('Erro ao cadastrar o produto!', 'Fechar');
 	}
 
 	private readImage(file: Blob) {

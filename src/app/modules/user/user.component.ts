@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
@@ -37,7 +36,6 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
 	constructor(
 		private _userService: UserService,
 		public dialog: MatDialog,
-		private _snackBar: MatSnackBar
 	) {
 		this.dataSource = new MatTableDataSource();
 	}
@@ -70,12 +68,7 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
 			.subscribe((res) => (this.dataSource.data = res));
 	}
 
-	public deleteUser(id: string) {
-		this._userService
-			.deleteUser(id)
-			.then(() => this._snackBar.open('Usuário deletado com sucesso!', 'Fechar'))
-			.catch(() => this._snackBar.open('Erro ao deletar o usuário!', 'Fechar'));
-	}
+	public deleteUser = (id: string) => this._userService.deleteUser(id);
 
 	public applyFilter(event: Event) {
 		const filterValue = (event.target as HTMLInputElement).value;
@@ -86,6 +79,7 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
 		}
 	}
 
+	// FIXME Remover dados inválidos no banco
 	public formatDate(date: string | { toDate: () => Date }) {
 		if (typeof date === 'object') {
 			return moment(date.toDate()).format('L');

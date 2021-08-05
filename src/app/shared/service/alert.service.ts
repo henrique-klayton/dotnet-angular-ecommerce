@@ -7,14 +7,17 @@ import {
 } from '@angular/material/snack-bar';
 import { AppInjector } from './injector.service';
 
-export interface IAlertOptions {
-	action?: string;
-	config?: MatSnackBarConfig;
+export enum ActionType {
+	CREATE,
+	UPDATE,
+	DELETE,
 }
 
-const DEFAULT_OPTIONS: IAlertOptions = {
-	action: 'OK'
-};
+export interface IAlertOptions {
+	action?: string;
+	type?: ActionType;
+	config?: MatSnackBarConfig;
+}
 
 @Injectable()
 export class AlertService {
@@ -26,14 +29,27 @@ export class AlertService {
 
 	baseAlert = (
 		message: string,
-		options = DEFAULT_OPTIONS,
-	): MatSnackBarRef<TextOnlySnackBar> =>
-		this._snackBar.open(message, options.action, options.config);
+		action: string,
+		config: MatSnackBarConfig,
+	): MatSnackBarRef<TextOnlySnackBar> => this._snackBar.open(message, action, config);
 
-	statusAlert(success: boolean, objName: string, options?: IAlertOptions) {
+	statusAlert(success: boolean, objName: string, options: IAlertOptions) {
+		options.action ??= 'Fechar';
+		const [successMsg, errorMsg] = this.defaultMsg(options.type);
 		const message = success
-			? `${objName} cadastrado com sucesso`
-			: `Erro ao cadastrar ${objName}`;
-		return this.baseAlert(message, options);
+			? `${objName} ${successMsg} com sucesso`
+			: `Erro ao ${errorMsg} ${objName.toLowerCase()}`;
+		return this.baseAlert(message, options.action, options.config);
+	}
+
+	private defaultMsg(type: ActionType) {
+		switch (type) {
+			case ActionType.CREATE:
+				return ['cadastrado', 'cadastrar'];
+			case ActionType.UPDATE:
+				return ['atualizado', 'atualizar'];
+			case ActionType.DELETE:
+				return ['deletado', 'deletar'];
+		}
 	}
 }

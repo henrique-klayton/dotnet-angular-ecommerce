@@ -27,6 +27,7 @@ export class EnderecoFormComponent implements OnInit, OnDestroy {
 	constructor(
 		private _fb: FormBuilder,
 		private _addressService: AddressService,
+		// TODO Usar serviço de alerta
 		public _snackBar: MatSnackBar,
 		public _formValidation: FormValidationService,
 		public dialogRef: MatDialogRef<EnderecoFormComponent>,
@@ -59,9 +60,7 @@ export class EnderecoFormComponent implements OnInit, OnDestroy {
 			return;
 		}
 		this._addressService.insertAddress(this.form.value)
-			.then(() => this._snackBar.open('CEP cadastrado com sucesso!', 'Fechar'))
-			.catch(() => this._snackBar.open('Erro ao cadastrar o CEP!', 'Fechar'));
-		this.dialogRef.close();
+			.then(() => this.dialogRef.close());
 	}
 
 	private async fetchCep(cep: string): Promise<void> {

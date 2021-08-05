@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BaseService } from 'src/app/shared/service/base.service';
+import { BaseService, ISetOptions } from 'src/app/shared/service/base.service';
 import { isNullOrWhitespace } from 'src/app/util/functions';
 import { AddressFormModel } from '../form/model/address.form.model';
 import { AddressModel } from '../model/address.model';
@@ -8,6 +8,7 @@ import { AddressModel } from '../model/address.model';
 @Injectable()
 export class AddressService extends BaseService {
 	private collection = 'Address';
+	private setOptions: ISetOptions = { useAlert: 'status', objName: 'Endereço' }
 	constructor(private _http: HttpClient) {
 		super();
 	}
@@ -28,7 +29,7 @@ export class AddressService extends BaseService {
 		this.getById<AddressFormModel>(cep, this.collection, { idField: 'cep' })
 
 	insertAddress = (obj: AddressFormModel) =>
-		this.create<AddressModel>(obj, AddressModel, this.collection, obj.cep);
+		this.create(obj, AddressModel, this.collection, this.setOptions, obj.cep);
 
-	deleteAddress = (cep: string) => this.delete(cep, this.collection);
+	deleteAddress = (cep: string) => this.delete(cep, this.collection, this.setOptions);
 }

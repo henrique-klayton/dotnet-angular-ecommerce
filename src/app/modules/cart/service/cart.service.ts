@@ -30,6 +30,7 @@ export class CartService extends BaseService {
 			return;
 
 		product.quantity -= item.quantity;
+		// TODO useAlert == 'none'
 		return this._productService.updateProduct(product.id, product)
 			.catch((err) => Promise.reject({ error: err, product: product }));
 	}

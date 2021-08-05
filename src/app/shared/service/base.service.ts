@@ -2,7 +2,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Constructable, formatObjectToFirebase } from 'src/app/util/functions';
-import { AlertService, IAlertOptions } from './alert.service';
+import { ActionType, AlertService, IAlertOptions } from './alert.service';
 import { AppInjector } from './injector.service';
 
 export type ISetOptions = IBaseSetOptions & IAlertConfig;
@@ -88,6 +88,10 @@ export class BaseService {
 		options: ISetOptions,
 		id?: string,
 	): Promise<void> {
+		if (options.useAlert === 'status') {
+			options.alertOptions ??= {};
+			options.alertOptions.type = ActionType.CREATE;
+		}
 		return this._firestore.collection(col).doc(id)
 			.set(formatObjectToFirebase(obj, cls))
 			.then(() => this.showAlert(true, options))
@@ -100,6 +104,10 @@ export class BaseService {
 		col: string,
 		options: ISetOptions,
 	): Promise<void> {
+		if (options.useAlert === 'status') {
+			options.alertOptions ??= {};
+			options.alertOptions.type = ActionType.UPDATE;
+		}
 		return this._firestore.collection(col).doc(id)
 			.update(formatObjectToFirebase(obj, cls))
 			.then(() => this.showAlert(true, options))
@@ -110,6 +118,10 @@ export class BaseService {
 		col: string,
 		options: ISetOptions,
 	): Promise<void> {
+		if (options.useAlert === 'status') {
+			options.alertOptions ??= {};
+			options.alertOptions.type = ActionType.DELETE;
+		}
 		return this._firestore.collection(col).doc(id)
 			.delete()
 			.then(() => this.showAlert(true, options))
@@ -121,7 +133,8 @@ export class BaseService {
 			case 'base':
 				this.alertService.baseAlert(
 					success ? options.successMsg : options.errorMsg,
-					options.alertOptions
+					options.alertOptions.action,
+					options.alertOptions.config
 				);
 				break;
 			case 'status':

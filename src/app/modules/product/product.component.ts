@@ -2,7 +2,6 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
@@ -41,7 +40,6 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	constructor(
 		public dialog: MatDialog,
-		private _snackBar: MatSnackBar,
 		private _productService: ProductService,
 		private _fb: FormBuilder,
 	) {
@@ -72,9 +70,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	public deleteProduct(id: string) {
-		this._productService.deleteProduct(id)
-			.then(() => this._snackBar.open('Produto deletado com sucesso!', 'Fechar'))
-			.catch(() => this._snackBar.open('Erro ao deletar o produto!', 'Fechar'));
+		this._productService.deleteProduct(id);
 	}
 
 	public findProductCategory(id: number): string {

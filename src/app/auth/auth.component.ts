@@ -19,6 +19,7 @@ export class AuthComponent implements OnInit {
 		private _authService: AuthService,
 		private _fb: FormBuilder,
 		private _router: Router,
+		// TODO Usar serviço de alerta
 		private _snackBar: MatSnackBar
 	) {}
 

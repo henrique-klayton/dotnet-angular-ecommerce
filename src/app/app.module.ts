@@ -17,6 +17,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AuthComponent } from './auth/auth.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppInjector } from './shared/service/injector.service';
+import { AlertService } from './shared/service/alert.service';
 
 registerLocaleData(pt);
 
@@ -40,6 +41,7 @@ registerLocaleData(pt);
 		MaterialModule
 	],
 	providers: [
+		AlertService,
 		{ provide: LOCALE_ID, useValue: 'pt-BR' }
 	],
 	bootstrap: [AppComponent],

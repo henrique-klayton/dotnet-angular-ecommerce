@@ -30,6 +30,7 @@ export class CartComponent implements OnInit {
 	constructor(
 		public dialogRef: MatDialogRef<CartComponent>,
 		private _cartService: CartService,
+		// TODO Usar serviço de alerta
 		private _snackBar: MatSnackBar,
 		@Inject(MAT_DIALOG_DATA) public data: EventEmitter<CartProductModel>
 	) { }
