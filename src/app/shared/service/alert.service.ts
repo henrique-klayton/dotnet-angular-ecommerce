@@ -39,7 +39,7 @@ export class AlertService {
 			case ActionType.UPDATE:
 				return ['atualizado', 'atualizar'];
 			case ActionType.DELETE:
-				return ['deletado', 'deletar'];
+				return ['removido', 'remover'];
 		}
 	}
 }
