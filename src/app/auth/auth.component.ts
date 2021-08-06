@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { AlertService } from '../shared/service/alert.service';
 import { FormValidationService } from '../shared/service/form.service';
 import { AuthService } from './service/auth.service';
 
@@ -19,8 +19,7 @@ export class AuthComponent implements OnInit {
 		private _authService: AuthService,
 		private _fb: FormBuilder,
 		private _router: Router,
-		// TODO Usar serviço de alerta
-		private _snackBar: MatSnackBar
+		private _alert: AlertService
 	) {}
 
 	ngOnInit(): void {
@@ -46,7 +45,7 @@ export class AuthComponent implements OnInit {
 						errorMessage = 'Erro ao realizar o login!';
 						break;
 				}
-				this._snackBar.open(errorMessage, 'Fechar');
+				this._alert.baseAlert(errorMessage);
 			});
 	}
 }

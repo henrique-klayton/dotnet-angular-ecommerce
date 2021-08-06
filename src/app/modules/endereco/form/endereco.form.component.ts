@@ -1,14 +1,14 @@
 import {
-	ChangeDetectionStrategy, Component, Inject,
-	OnDestroy, OnInit
+	ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
+import { AlertService } from 'src/app/shared/service/alert.service';
 import { FormValidationService } from 'src/app/shared/service/form.service';
 import { STATES } from 'src/app/util/constants';
+import { isNullOrWhitespace } from 'src/app/util/functions';
 import { AddressService } from '../service/address.service';
 import { AddressFormModel } from './model/address.form.model';
 
@@ -27,8 +27,7 @@ export class EnderecoFormComponent implements OnInit, OnDestroy {
 	constructor(
 		private _fb: FormBuilder,
 		private _addressService: AddressService,
-		// TODO Usar serviço de alerta
-		public _snackBar: MatSnackBar,
+		public _alert: AlertService,
 		public _formValidation: FormValidationService,
 		public dialogRef: MatDialogRef<EnderecoFormComponent>,
 		@Inject(MAT_DIALOG_DATA) public data?: { id: string, table: AddressFormModel[] }
@@ -44,38 +43,31 @@ export class EnderecoFormComponent implements OnInit, OnDestroy {
 		this._onDestroy.complete();
 	}
 
-	private subscribeCep() {
-		this.form
-			.get('cep')
-			.valueChanges
-			.pipe(debounceTime(1000), takeUntil(this._onDestroy))
-			.subscribe((v) => this.fetchCep(v));
+	private subscribeCep(): void {
+		this.cep.valueChanges
+			.pipe(
+				debounceTime(1000),
+				takeUntil(this._onDestroy)
+			).subscribe((v) => this.fetchCep(v));
 	}
 
-	public saveAddress() {
-		const cep = this.form.get('cep').value;
-		const address = this.data.table.find(endereco => endereco.cep === cep);
+	public saveAddress(): void {
+		const cep = this.cep.value;
+		const address = this.data.table.find(a => a.cep === cep);
 		if (address) {
-			this._snackBar.open(`CEP ${cep} já cadastrado!`, 'Fechar');
+			this._alert.baseAlert(`CEP ${cep} já cadastrado!`);
 			return;
 		}
 		this._addressService.insertAddress(this.form.value)
 			.then(() => this.dialogRef.close());
 	}
 
-	private async fetchCep(cep: string): Promise<void> {
-		if (cep.length === 8) {
-			try {
-				const res = await this._addressService.fetchCep(cep);
-				if (res.erro) {
-					this._snackBar.open('CEP inválido!', 'Fechar');
-					return;
-				}
-				return this.form.patchValue(res);
-			} catch (err) {
-				this._snackBar.open('Erro ao pesquisar o CEP!', 'Fechar');
-				throw new Error(err);
-			}
-		}
+	private fetchCep(cep: string) {
+		if (!isNullOrWhitespace(cep) && cep.length === 8)
+			this._addressService.fetchCep(cep).then((res) => this.form.patchValue(res));
+	}
+
+	get cep(): AbstractControl {
+		return this.form.get('cep');
 	}
 }

@@ -1,25 +1,31 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseService, ISetOptions } from 'src/app/shared/service/base.service';
-import { isNullOrWhitespace } from 'src/app/util/functions';
 import { AddressFormModel } from '../form/model/address.form.model';
 import { AddressModel } from '../model/address.model';
 
 @Injectable()
 export class AddressService extends BaseService {
 	private collection = 'Address';
-	private setOptions: ISetOptions = { useAlert: 'status', objName: 'Endereço' }
+	private setOptions: ISetOptions = { useAlert: 'status', objName: 'Endereço' };
 	constructor(private _http: HttpClient) {
 		super();
 	}
 
-	fetchCep(cep: string): Promise<AddressFormModel> {
-		if (isNullOrWhitespace(cep))
-			return;
-
-		return this._http
-			.get<AddressFormModel>(`http://viacep.com.br/ws/${cep}/json`)
-			.toPromise();
+	async fetchCep(cep: string): Promise<AddressFormModel> {
+		try {
+			const res = await this._http
+				.get<AddressFormModel>(`http://viacep.com.br/ws/${cep}/json`)
+				.toPromise();
+			if (res.erro) {
+				this._alert.baseAlert('CEP inválido!');
+				throw new Error('CEP inválido!');
+			}
+			return res;
+		} catch (e) {
+			this._alert.baseAlert('Erro ao pesquisar o CEP!');
+			throw new Error(e);
+		}
 	}
 
 	fetchData = () =>

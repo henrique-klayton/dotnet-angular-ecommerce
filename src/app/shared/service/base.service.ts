@@ -31,13 +31,13 @@ const DEFAULT_GET_OPTIONS: IGetOptions = {
 	idField: 'id'
 };
 
-export class BaseService {
+export abstract class BaseService {
 	protected _firestore: AngularFirestore;
-	public alertService: AlertService;
+	protected _alert: AlertService;
 
 	constructor() {
 		this._firestore = AppInjector.injector.get(AngularFirestore);
-		this.alertService = AppInjector.injector.get(AlertService);
+		this._alert = AppInjector.injector.get(AlertService);
 	}
 	protected getData<T>(
 		col: string,
@@ -131,14 +131,14 @@ export class BaseService {
 	private showAlert(success: boolean, options: ISetOptions) {
 		switch (options.useAlert) {
 			case 'base':
-				this.alertService.baseAlert(
+				this._alert.baseAlert(
 					success ? options.successMsg : options.errorMsg,
 					options.alertOptions.action,
 					options.alertOptions.config
 				);
 				break;
 			case 'status':
-				this.alertService.statusAlert(success, options.objName, options.alertOptions);
+				this._alert.statusAlert(success, options.objName, options.alertOptions);
 				break;
 		}
 	}
