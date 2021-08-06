@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AlertService } from 'src/app/shared/service/alert.service';
 import { CartComponent } from '../cart/cart.component';
 import { CartProductModel } from '../cart/model/cart-product.model';
 import { ProductFormModel } from '../product/form/model/product.form.model';
@@ -20,8 +21,9 @@ export class SalesComponent implements OnInit, OnDestroy {
 	private _onDestroy = new Subject<void>();
 
 	constructor(
-		private _productService: ProductService,
-		private _dialog: MatDialog
+		private _alert: AlertService,
+		private _dialog: MatDialog,
+		private _productService: ProductService
 	) { }
 
 	ngOnInit(): void {
@@ -54,11 +56,42 @@ export class SalesComponent implements OnInit, OnDestroy {
 		let index = cart.findIndex(v => v.id === product.id);
 
 		if (index === -1) {
-			cart.push(CartProductModel.fromProduct(product, quantity));
+			this.checkProductStock(product.id, quantity).then(() => {
+				cart.push(CartProductModel.fromProduct(product, quantity));
+				localStorage.setItem('cart_products', JSON.stringify(cart));
+				this._alert.baseAlert('Produto adicionado ao carrinho!');
+			});
 		} else {
-			cart[index].quantity += quantity;
-			cart[index].price += quantity * product.sale_price;
+			const newQuantity = cart[index].quantity + quantity;
+			this.checkProductStock(cart[index].id, newQuantity, cart[index].quantity)
+				.then(() => {
+					cart[index].quantity = newQuantity;
+					cart[index].price += quantity * product.sale_price;
+					localStorage.setItem('cart_products', JSON.stringify(cart));
+					this._alert.baseAlert('Produto adicionado ao carrinho!');
+				});
 		}
-		localStorage.setItem('cart_products', JSON.stringify(cart));
+	}
+
+	private async checkProductStock(
+		id: string,
+		quantity: number,
+		oldQuantity?: number
+	): Promise<void> {
+		try {
+			oldQuantity ??= quantity;
+			const stockAmount = (await this._productService.fetchProductById(id).toPromise())
+				.quantity;
+			if (quantity >= stockAmount) {
+				this._alert.baseAlert(
+					`Não há quantidade suficiente em estoque!
+					Restam ${stockAmount - oldQuantity} unidades desse produto.`
+				);
+				return Promise.reject();
+			}
+		} catch (err) {
+			this._alert.baseAlert('Erro ao adicionar produto ao carrinho!');
+			throw new Error(err);
+		}
 	}
 }
