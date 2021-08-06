@@ -29,8 +29,8 @@ export class AlertService {
 
 	baseAlert = (
 		message: string,
-		action: string,
-		config: MatSnackBarConfig,
+		action: string = 'Fechar',
+		config?: MatSnackBarConfig,
 	): MatSnackBarRef<TextOnlySnackBar> => this._snackBar.open(message, action, config);
 
 	statusAlert(success: boolean, objName: string, options: IAlertOptions) {
