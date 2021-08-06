@@ -7,8 +7,8 @@ import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { AlertService } from 'src/app/shared/service/alert.service';
 import { FormValidationService } from 'src/app/shared/service/form.service';
-import { STATES } from 'src/app/util/constants';
-import { isNullOrWhitespace } from 'src/app/util/functions';
+import { STATES } from 'src/app/utils/constants';
+import { isNullOrWhitespace } from 'src/app/utils/functions';
 import { AddressService } from '../service/address.service';
 import { AddressFormModel } from './model/address.form.model';
 

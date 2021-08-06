@@ -44,7 +44,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { getPtBrPaginatorIntl } from './util/pt-br-paginator-intl';
+import { getPtBrPaginatorIntl } from './utils/pt-br-paginator-intl';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { ClipboardModule } from '@angular/cdk/clipboard';

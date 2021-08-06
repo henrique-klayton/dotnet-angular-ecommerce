@@ -1,7 +1,7 @@
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Constructable, formatObjectToFirebase } from 'src/app/util/functions';
+import { Constructable, formatObjectToFirebase } from 'src/app/utils/functions';
 import { ActionType, AlertService, IAlertOptions } from './alert.service';
 import { AppInjector } from './injector.service';
 

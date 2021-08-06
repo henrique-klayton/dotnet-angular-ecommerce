@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from 'src/app/auth/service/auth.service';
 import { BaseService, ISetOptions } from 'src/app/shared/service/base.service';
-import { formatFirebaseDate } from 'src/app/util/functions';
+import { formatFirebaseDate } from 'src/app/utils/functions';
 import { UserModel } from '../model/user.model';
 
 @Injectable()

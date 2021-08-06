@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from 'src/app/shared/service/base.service';
-import { isNullOrWhitespace } from 'src/app/util/functions';
+import { isNullOrWhitespace } from 'src/app/utils/functions';
 import { ProductFormModel } from '../../product/form/model/product.form.model';
 import { ProductService } from '../../product/service/product.service';
 import { CartProductModel } from '../model/cart-product.model';

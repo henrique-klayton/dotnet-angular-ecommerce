@@ -7,7 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FormValidationService } from 'src/app/shared/service/form.service';
-import { PRODUCT_CATEGORIES } from 'src/app/util/constants';
+import { PRODUCT_CATEGORIES } from 'src/app/utils/constants';
 import { ProductModel } from '../model/product.model';
 import { ProductService } from '../service/product.service';
 import { ProductFormModel } from './model/product.form.model';
