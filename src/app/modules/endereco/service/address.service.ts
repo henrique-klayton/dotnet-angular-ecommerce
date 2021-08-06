@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BaseService, ISetOptions } from 'src/app/shared/service/base.service';
+import { AlertType } from 'src/app/shared/enums';
+import { ISetOptions } from 'src/app/shared/interfaces';
+import { BaseService } from 'src/app/shared/service/base.service';
 import { AddressFormModel } from '../form/model/address.form.model';
 import { AddressModel } from '../model/address.model';
 
 @Injectable()
 export class AddressService extends BaseService {
 	private collection = 'Address';
-	private setOptions: ISetOptions = { useAlert: 'status', objName: 'Endereço' };
+	private setOptions: ISetOptions = { useAlert: AlertType.STATUS, objName: 'Endereço' };
 	constructor(private _http: HttpClient) {
 		super();
 	}

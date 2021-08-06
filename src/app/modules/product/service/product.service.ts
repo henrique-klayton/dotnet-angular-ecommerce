@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BaseService, ISetOptions } from 'src/app/shared/service/base.service';
+import { AlertType } from 'src/app/shared/enums';
+import { ISetOptions } from 'src/app/shared/interfaces';
+import { BaseService } from 'src/app/shared/service/base.service';
 import { ProductFormModel } from '../form/model/product.form.model';
 import { ProductModel } from '../model/product.model';
 
 @Injectable()
 export class ProductService extends BaseService {
 	private collection = 'Products';
-	private setOptions: ISetOptions = { useAlert: 'status', objName: 'Produto' }
+	private setOptions: ISetOptions = { useAlert: AlertType.STATUS, objName: 'Produto' }
 	constructor() {
 		super();
 	}

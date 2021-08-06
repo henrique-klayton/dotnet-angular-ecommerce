@@ -2,30 +2,10 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Constructable, formatObjectToFirebase } from 'src/app/utils/functions';
-import { ActionType, AlertService, IAlertOptions } from './alert.service';
+import { ActionType, AlertType } from '../enums';
+import { IGetOptions, ISetOptions } from '../interfaces';
+import { AlertService } from './alert.service';
 import { AppInjector } from './injector.service';
-
-export type ISetOptions = IBaseSetOptions & IAlertConfig;
-export type IAlertConfig = INoAlert | IBaseAlertConfig | IStatusAlertConfig;
-
-export interface IGetOptions {
-	idField?: string;
-}
-export interface IBaseSetOptions { }
-export interface INoAlert {
-	useAlert: 'none';
-}
-export interface IBaseAlertConfig {
-	useAlert: 'base';
-	errorMsg: string;
-	successMsg: string;
-	alertOptions?: IAlertOptions;
-}
-export interface IStatusAlertConfig {
-	useAlert: 'status';
-	objName: string;
-	alertOptions?: IAlertOptions;
-}
 
 const DEFAULT_GET_OPTIONS: IGetOptions = {
 	idField: 'id'
@@ -88,7 +68,7 @@ export abstract class BaseService {
 		options: ISetOptions,
 		id?: string,
 	): Promise<void> {
-		if (options.useAlert === 'status') {
+		if (options.useAlert === AlertType.STATUS) {
 			options.alertOptions ??= {};
 			options.alertOptions.type = ActionType.CREATE;
 		}
@@ -104,7 +84,7 @@ export abstract class BaseService {
 		col: string,
 		options: ISetOptions,
 	): Promise<void> {
-		if (options.useAlert === 'status') {
+		if (options.useAlert === AlertType.STATUS) {
 			options.alertOptions ??= {};
 			options.alertOptions.type = ActionType.UPDATE;
 		}
@@ -118,7 +98,7 @@ export abstract class BaseService {
 		col: string,
 		options: ISetOptions,
 	): Promise<void> {
-		if (options.useAlert === 'status') {
+		if (options.useAlert === AlertType.STATUS) {
 			options.alertOptions ??= {};
 			options.alertOptions.type = ActionType.DELETE;
 		}
@@ -130,14 +110,14 @@ export abstract class BaseService {
 
 	private showAlert(success: boolean, options: ISetOptions) {
 		switch (options.useAlert) {
-			case 'base':
+			case AlertType.BASE:
 				this._alert.baseAlert(
 					success ? options.successMsg : options.errorMsg,
 					options.alertOptions.action,
 					options.alertOptions.config
 				);
 				break;
-			case 'status':
+			case AlertType.STATUS:
 				this._alert.statusAlert(success, options.objName, options.alertOptions);
 				break;
 		}

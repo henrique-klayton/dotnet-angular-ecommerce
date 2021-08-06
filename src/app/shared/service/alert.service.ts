@@ -5,19 +5,9 @@ import {
 	MatSnackBarRef,
 	TextOnlySnackBar
 } from '@angular/material/snack-bar';
+import { ActionType } from '../enums';
+import { IAlertOptions } from '../interfaces';
 import { AppInjector } from './injector.service';
-
-export enum ActionType {
-	CREATE,
-	UPDATE,
-	DELETE,
-}
-
-export interface IAlertOptions {
-	action?: string;
-	type?: ActionType;
-	config?: MatSnackBarConfig;
-}
 
 @Injectable()
 export class AlertService {

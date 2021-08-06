@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from 'src/app/auth/service/auth.service';
-import { BaseService, ISetOptions } from 'src/app/shared/service/base.service';
+import { AlertType } from 'src/app/shared/enums';
+import { ISetOptions } from 'src/app/shared/interfaces';
+import { BaseService } from 'src/app/shared/service/base.service';
 import { formatFirebaseDate } from 'src/app/utils/functions';
 import { UserModel } from '../model/user.model';
 
 @Injectable()
 export class UserService extends BaseService {
 	private collection = 'Users';
-	private setOptions: ISetOptions = { useAlert: 'status', objName: 'Usuário' }
+	private setOptions: ISetOptions = { useAlert: AlertType.STATUS, objName: 'Usuário' }
 	constructor(private _authService: AuthService) {
 		super();
 	}
