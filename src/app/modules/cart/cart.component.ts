@@ -62,7 +62,7 @@ export class CartComponent implements OnInit {
 			.catch((err) => {
 				this._alert.baseAlert('Erro ao efetuar a venda!', 'Fechar');
 				this.getData();
-				throw new Error(err);
+				console.error(err);
 			});
 	}
 
