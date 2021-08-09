@@ -27,7 +27,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 		'description',
 		'cost_price',
 		'sale_price',
-		'quantity',
+		'amount',
 		'active',
 		'actions',
 	];

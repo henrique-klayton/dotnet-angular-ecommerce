@@ -17,7 +17,7 @@ import { ProductService } from '../product/service/product.service';
 export class SalesComponent implements OnInit, OnDestroy {
 	public form: FormGroup[];
 	public products: ProductFormModel[];
-	public quantity: number;
+	public amount: number;
 	private _onDestroy = new Subject<void>();
 
 	constructor(
@@ -32,7 +32,7 @@ export class SalesComponent implements OnInit, OnDestroy {
 			.pipe(takeUntil(this._onDestroy))
 			.subscribe((res) => {
 				res.forEach(() => this.form.push(
-					new FormGroup({ quantity: new FormControl(undefined, Validators.min(1)) })
+					new FormGroup({ amount: new FormControl(undefined, Validators.min(1)) })
 				));
 				this.products = res;
 			});
@@ -50,23 +50,23 @@ export class SalesComponent implements OnInit, OnDestroy {
 	}
 
 	addToCart(product: ProductFormModel, formIndex: number): void {
-		const quantity = +this.form[formIndex].get('quantity').value;
+		const amount = +this.form[formIndex].get('amount').value;
 		let cart: CartProductModel[] =
 			JSON.parse(localStorage.getItem('cart_products')) ?? [];
 		let index = cart.findIndex(v => v.id === product.id);
 
 		if (index === -1) {
-			if (this.hasEnoughStock(product.quantity, quantity, 0)) {
-				cart.push(CartProductModel.fromProduct(product, quantity));
+			if (this.hasEnoughStock(product.amount, amount, 0)) {
+				cart.push(CartProductModel.fromProduct(product, amount));
 				localStorage.setItem('cart_products', JSON.stringify(cart));
 				this._alert.baseAlert('Produto adicionado ao carrinho!');
 				return;
 			};
 		} else {
-			const newQuantity = cart[index].quantity + quantity;
-			if (this.hasEnoughStock(product.quantity, newQuantity, cart[index].quantity)) {
-				cart[index].quantity = newQuantity;
-				cart[index].price += quantity * product.sale_price;
+			const newAmount = cart[index].amount + amount;
+			if (this.hasEnoughStock(product.amount, newAmount, cart[index].amount)) {
+				cart[index].amount = newAmount;
+				cart[index].price += amount * product.sale_price;
 				localStorage.setItem('cart_products', JSON.stringify(cart));
 				this._alert.baseAlert('Produto adicionado ao carrinho!');
 			};
@@ -74,14 +74,14 @@ export class SalesComponent implements OnInit, OnDestroy {
 	}
 
 	private hasEnoughStock(
-		stockQuantity: number,
-		saleQuantity: number,
-		cartQuantity: number
+		stockAmount: number,
+		saleAmount: number,
+		cartAmount: number
 	): boolean {
-		if (saleQuantity >= stockQuantity) {
+		if (saleAmount >= stockAmount) {
 			this._alert.baseAlert(
 				`Não há quantidade suficiente em estoque!
-				Restam ${stockQuantity - cartQuantity} unidades desse produto.`
+				Restam ${stockAmount - cartAmount} unidades desse produto.`
 			);
 			return false;
 		}

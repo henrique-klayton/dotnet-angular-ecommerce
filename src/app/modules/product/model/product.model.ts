@@ -6,7 +6,7 @@ export class ProductModel {
 	active: boolean = false;
 	category: number = undefined;
 	image: string = undefined;
-	quantity: number = undefined;
+	amount: number = undefined;
 
 	constructor(init?: Partial<ProductModel>) {
 		Object.assign(this, init);

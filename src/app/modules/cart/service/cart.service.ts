@@ -29,7 +29,7 @@ export class CartService extends BaseService {
 		if (isNullOrWhitespace(item))
 			return;
 
-		product.quantity -= item.quantity;
+		product.amount -= item.amount;
 		// TODO useAlert == 'none'
 		return this._productService.updateProduct(product.id, product)
 			.catch((err) => Promise.reject({ error: err, product: product }));

@@ -4,7 +4,7 @@ export class CartProductModel {
 	id: string = undefined;
 	name: string = undefined;
 	unit_price: number = undefined;
-	quantity: number = undefined;
+	amount: number = undefined;
 	price: number = 0;
 
 	constructor(init?: Partial<CartProductModel>) {
@@ -13,12 +13,12 @@ export class CartProductModel {
 
 	static fromProduct = (
 		product: ProductFormModel,
-		quantity: number
+		amount: number
 	): CartProductModel => new CartProductModel({
 		id: product.id,
 		name: product.name,
 		unit_price: product.sale_price,
-		quantity,
-		price: product.sale_price * quantity,
+		amount,
+		price: product.sale_price * amount,
 	});
 }

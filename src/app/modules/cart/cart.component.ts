@@ -20,7 +20,7 @@ import { CartService } from './service/cart.service';
 export class CartComponent implements OnInit {
 	public displayedColumns = [
 		'name',
-		'quantity',
+		'amount',
 		'unit_price',
 		'price',
 		'actions',
