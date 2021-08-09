@@ -6,7 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { PRODUCT_CATEGORIES } from 'src/app/utils/constants';
+import { PRODUCT_CATEGORIES, STATUS } from 'src/app/utils/constants';
 import { isNullOrWhitespace } from 'src/app/utils/functions';
 import { ProductFormComponent } from './form/product.form.component';
 import { ProductFilterModel } from './model/product-filter.model';
@@ -32,6 +32,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 		'actions',
 	];
 	public categories = PRODUCT_CATEGORIES;
+	public status = STATUS;
 
 	private _onDestroy = new Subject<void>();
 
@@ -47,14 +48,15 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	ngOnInit(): void {
-		this.getData();
 		this.formFilter = this._fb.group(new ProductFilterModel());
+		this.getData();
 	}
 
 	ngAfterViewInit() {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
 		this.dataSource.filterPredicate = (d, f) => this.filter(d, f as ProductFilterModel);
+		this.applyFilter();
 	}
 
 	ngOnDestroy(): void {
@@ -93,8 +95,10 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	private filter(data: ProductModel, filter: ProductFilterModel): boolean {
 		const prodName = data.name.toLowerCase().trim();
-		const filterName = filter.name?.toLowerCase().trim();
-		if (!isNullOrWhitespace(filterName) && !prodName.includes(filterName))
+		const prodDesc = data.description?.toLowerCase().trim() ?? '';
+		const filterText = filter.text?.toLowerCase().trim();
+		if (!isNullOrWhitespace(filterText) && !prodName.includes(filterText)
+				&& !prodDesc.includes(filterText))
 			return false;
 		if (!isNullOrWhitespace(filter.category) && data.category !== filter.category)
 			return false;

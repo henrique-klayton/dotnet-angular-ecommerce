@@ -2,8 +2,19 @@
 	<div class="row">
 		<div class="col-3">
 			<mat-form-field appearance="fill">
-				<mat-label>Nome</mat-label>
-				<input matInput formControlName="name">
+				<mat-label>Filtro</mat-label>
+				<input matInput formControlName="text">
+			</mat-form-field>
+		</div>
+		<div class="col-3">
+			<mat-form-field appearance="fill">
+				<mat-label>Ativo</mat-label>
+				<mat-select formControlName="active">
+					<option [ngValue]="null" disabled selected hidden>Todos</option>
+					<mat-option *ngFor="let stat of status" [value]="stat.id">
+						{{stat.name}}
+					</mat-option>
+				</mat-select>
 			</mat-form-field>
 		</div>
 		<div class="col-3">
@@ -85,7 +96,9 @@
 		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
 		<tr class="mat-row" *matNoDataRow>
-			<td class="mat-cell" colspan="4">Nenhum dado encontrado com o filtro "{{formFilter.get('name').value}}"</td>
+			<td class="mat-cell" colspan="4">
+				Nenhum dado encontrado com o filtro especificado!
+			</td>
 		</tr>
 	</table>
 

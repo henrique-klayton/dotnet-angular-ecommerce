@@ -1,7 +1,7 @@
 export class ProductFilterModel {
-	name?: string = undefined;
-	category?: number = undefined;
-	active?: boolean = undefined;
+	text?: string = undefined;
+	category?: number | '' = '';
+	active?: boolean | '' = true;
 
 	constructor(init?: Partial<ProductFilterModel>) {
 		Object.assign(this, init);

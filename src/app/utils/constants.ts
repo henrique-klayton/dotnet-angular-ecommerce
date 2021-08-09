@@ -1,4 +1,6 @@
-export const STATES: Array<{ id: string; name: string }> = [
+export type ISelectOptions<K, V> = Array<{ id: K | ''; name: V }>;
+
+export const STATES: ISelectOptions<string, string> = [
 	{ id: 'AC', name: 'ACRE' },
 	{ id: 'AL', name: 'ALAGOAS' },
 	{ id: 'AP', name: 'AMAPÁ' },
@@ -28,8 +30,15 @@ export const STATES: Array<{ id: string; name: string }> = [
 	{ id: 'TO', name: 'TOCANTINS' },
 ];
 
-export const PRODUCT_CATEGORIES: Array<{ id: number; name: string }> = [
-	{id: 0, name: 'Eletrodomésticos'},
-	{id: 1, name: 'Informática'},
-	{id: 2, name: 'Alimentos'}
+export const PRODUCT_CATEGORIES: ISelectOptions<number, string> = [
+	{ id: '', name: 'Todas' },
+	{ id: 0, name: 'Eletrodomésticos' },
+	{ id: 1, name: 'Informática' },
+	{ id: 2, name: 'Alimentos' }
+];
+
+export const STATUS: ISelectOptions<boolean, string> = [
+	{ id: '', name: 'Todos' },
+	{ id: true, name: 'Ativo' },
+	{ id: false, name: 'Inativo' }
 ];
