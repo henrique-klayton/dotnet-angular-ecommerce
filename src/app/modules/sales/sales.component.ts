@@ -43,55 +43,48 @@ export class SalesComponent implements OnInit, OnDestroy {
 		this._onDestroy.complete();
 	}
 
-	openDialog() {
+	openDialog(): void {
 		this._dialog.open(CartComponent, {
 			width: '600px'
 		});
 	}
 
-	addToCart(product: ProductFormModel, formIndex: number) {
+	addToCart(product: ProductFormModel, formIndex: number): void {
 		const quantity = +this.form[formIndex].get('quantity').value;
 		let cart: CartProductModel[] =
 			JSON.parse(localStorage.getItem('cart_products')) ?? [];
 		let index = cart.findIndex(v => v.id === product.id);
 
 		if (index === -1) {
-			this.checkProductStock(product.id, quantity).then(() => {
+			if (this.hasEnoughStock(product.quantity, quantity, 0)) {
 				cart.push(CartProductModel.fromProduct(product, quantity));
 				localStorage.setItem('cart_products', JSON.stringify(cart));
 				this._alert.baseAlert('Produto adicionado ao carrinho!');
-			});
+				return;
+			};
 		} else {
 			const newQuantity = cart[index].quantity + quantity;
-			this.checkProductStock(cart[index].id, newQuantity, cart[index].quantity)
-				.then(() => {
-					cart[index].quantity = newQuantity;
-					cart[index].price += quantity * product.sale_price;
-					localStorage.setItem('cart_products', JSON.stringify(cart));
-					this._alert.baseAlert('Produto adicionado ao carrinho!');
-				});
+			if (this.hasEnoughStock(product.quantity, newQuantity, cart[index].quantity)) {
+				cart[index].quantity = newQuantity;
+				cart[index].price += quantity * product.sale_price;
+				localStorage.setItem('cart_products', JSON.stringify(cart));
+				this._alert.baseAlert('Produto adicionado ao carrinho!');
+			};
 		}
 	}
 
-	private async checkProductStock(
-		id: string,
-		quantity: number,
-		oldQuantity?: number
-	): Promise<void> {
-		try {
-			oldQuantity ??= quantity;
-			const stockAmount = (await this._productService.fetchProductById(id).toPromise())
-				.quantity;
-			if (quantity >= stockAmount) {
-				this._alert.baseAlert(
-					`Não há quantidade suficiente em estoque!
-					Restam ${stockAmount - oldQuantity} unidades desse produto.`
-				);
-				return Promise.reject();
-			}
-		} catch (err) {
-			this._alert.baseAlert('Erro ao adicionar produto ao carrinho!');
-			throw new Error(err);
+	private hasEnoughStock(
+		stockQuantity: number,
+		saleQuantity: number,
+		cartQuantity: number
+	): boolean {
+		if (saleQuantity >= stockQuantity) {
+			this._alert.baseAlert(
+				`Não há quantidade suficiente em estoque!
+				Restam ${stockQuantity - cartQuantity} unidades desse produto.`
+			);
+			return false;
 		}
+		return true;
 	}
 }
