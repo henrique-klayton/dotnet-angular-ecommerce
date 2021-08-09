@@ -6,15 +6,17 @@ export interface Constructable<T> {
 
 export const formatFirebaseDate = (date: any) => moment.isMoment(date) ? date.toDate() : date;
 
-export function formatObjectToFirebase<T extends D, D>(
+export function formatObjectToFirebase<T>(
 	obj: T,
-	modelRef: Constructable<D>,
+	test: any,
 	ignoredFields: string[] = ['id']
 ) {
-	let document: { [index: string]: D[keyof D] } = {};
-	for (let key in new modelRef()) {
+	let document: { [index: string]: T[keyof T] } = {};
+	Object.keys(obj).forEach(key => {
 		if (!ignoredFields.includes(key))
 			document[key] = obj[key];
-	}
+	});
+	// for (const key in new modelRef()) {
+	// }
 	return document;
 }
