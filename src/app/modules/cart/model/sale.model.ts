@@ -1,10 +1,9 @@
 import { CartProductModel } from './cart-product.model';
 
 export class SaleModel {
-	constructor(init?: SaleModel) {
+	constructor(init?: Partial<SaleModel>) {
 		Object.assign(this, init);
 	}
-	id?: string;
-	products: CartProductModel[];
-	created: Date;
+	products: CartProductModel[] = undefined;
+	created: Date = undefined;
 }
