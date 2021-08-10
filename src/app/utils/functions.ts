@@ -15,13 +15,13 @@ export const formatFirebaseDate = (date: any) =>
 
 export function formatObjectToFirebase<T extends D, D>(
 	obj: T,
-	modelRef: Constructable<D>,
-	ignoredFields: string[] = ['id']
+	modelRef: Constructable<D>
 ) {
 	let document: { [index: string]: D[keyof D] } = {};
-	for (const key in new modelRef()) {
-		if (!ignoredFields.includes(key))
-			document[key] = obj[key];
-	}
+	Object.keys(new modelRef()).forEach(key => {
+		const value = obj[key];
+		if (!isNullOrUndefined(value))
+			document[key] = value;
+	});
 	return document;
 }
