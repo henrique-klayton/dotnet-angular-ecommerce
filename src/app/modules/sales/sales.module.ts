@@ -6,6 +6,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { ProductService } from '../product/service/product.service';
 import { CartModule } from '../cart/cart.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SaleService } from './service/sale.service';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 		MaterialModule,
 	],
 	providers: [
-		ProductService
+		ProductService,
+		SaleService
 	]
 })
 export class SalesModule { }
