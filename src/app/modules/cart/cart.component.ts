@@ -8,6 +8,7 @@ import {
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { AlertService } from 'src/app/shared/service/alert.service';
+import { isNullOrUndefined } from 'src/app/utils/functions';
 import { CartProductModel } from './model/cart-product.model';
 import { CartService } from './service/cart.service';
 
@@ -57,16 +58,18 @@ export class CartComponent implements OnInit {
 	}
 
 	makeSale() {
-		this._cartService.executeSale(this.dataSource.data)
-			.then(() => {
-				this.dialogRef.close(true);	
-				localStorage.removeItem('cart_products');
-			})
-			.catch((err) => {
-				this._alert.baseAlert('Erro ao efetuar a venda!', 'Fechar');
-				this.getData();
-				console.error(err);
-			});
+		if (!isNullOrUndefined(this.dataSource.data) || this.dataSource.data.length !== 0) {
+			this._cartService.executeSale(this.dataSource.data)
+				.then(() => {
+					this.dialogRef.close(true);	
+					localStorage.removeItem('cart_products');
+					this.getData();
+				})
+				.catch((err) => {
+					this._alert.baseAlert('Erro ao efetuar a venda!', 'Fechar');
+					console.error(err);
+				});
+		}
 	}
 
 	private getCart = (): CartProductModel[] =>
