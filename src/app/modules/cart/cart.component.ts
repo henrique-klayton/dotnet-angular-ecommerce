@@ -58,7 +58,10 @@ export class CartComponent implements OnInit {
 
 	makeSale() {
 		this._cartService.executeSale(this.dataSource.data)
-			.then(() => this.dialogRef.close(true))
+			.then(() => {
+				this.dialogRef.close(true);	
+				localStorage.removeItem('cart_products');
+			})
 			.catch((err) => {
 				this._alert.baseAlert('Erro ao efetuar a venda!', 'Fechar');
 				this.getData();
