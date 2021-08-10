@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AlertService } from 'src/app/shared/service/alert.service';
+import { isNullOrUndefined } from 'src/app/utils/functions';
 import { CartComponent } from '../cart/cart.component';
 import { CartProductModel } from '../cart/model/cart-product.model';
 import { ProductFormModel } from '../product/form/model/product.form.model';
@@ -17,7 +18,6 @@ import { ProductService } from '../product/service/product.service';
 export class SalesComponent implements OnInit, OnDestroy {
 	public form: FormGroup[];
 	public products: ProductFormModel[];
-	public amount: number;
 	private _onDestroy = new Subject<void>();
 
 	constructor(
@@ -43,40 +43,39 @@ export class SalesComponent implements OnInit, OnDestroy {
 		this._onDestroy.complete();
 	}
 
-	openDialog(): void {
+	openDialog() {
 		this._dialog.open(CartComponent, {
 			width: '600px'
 		});
 	}
 
-	addToCart(product: ProductFormModel, formIndex: number): void {
-		const amount = +this.form[formIndex].get('amount').value;
+	addToCart(product: ProductFormModel, formIndex: number) {
+		const amountControl = this.getAmount(formIndex);
+		const amount = +amountControl.value;
 		let cart: CartProductModel[] =
 			JSON.parse(localStorage.getItem('cart_products')) ?? [];
-		let index = cart.findIndex(v => v.id === product.id);
+		let item = cart.find(v => v.id === product.id);
 
-		if (index === -1) {
-			if (this.hasEnoughStock(product.amount, amount, 0)) {
-				cart.push(CartProductModel.fromProduct(product, amount));
-				localStorage.setItem('cart_products', JSON.stringify(cart));
-				this._alert.baseAlert('Produto adicionado ao carrinho!');
-				return;
-			};
-		} else {
-			const newAmount = cart[index].amount + amount;
-			if (this.hasEnoughStock(product.amount, newAmount, cart[index].amount)) {
-				cart[index].amount = newAmount;
-				cart[index].price += amount * product.sale_price;
-				localStorage.setItem('cart_products', JSON.stringify(cart));
-				this._alert.baseAlert('Produto adicionado ao carrinho!');
-			};
+		if (isNullOrUndefined(item) && this.hasEnoughStock(product.amount, amount)) {
+			cart.push(CartProductModel.fromProduct(product, amount));
+			localStorage.setItem('cart_products', JSON.stringify(cart));
+			this._alert.baseAlert('Produto adicionado ao carrinho!');
+			return amountControl.setValue(undefined);
+		}
+		const newAmount = item.amount + amount;
+		if (this.hasEnoughStock(product.amount, newAmount, item.amount)) {
+			item.amount = newAmount;
+			item.price += amount * product.sale_price;
+			localStorage.setItem('cart_products', JSON.stringify(cart));
+			this._alert.baseAlert('Produto adicionado ao carrinho!');
+			return amountControl.setValue(undefined);
 		}
 	}
 
 	private hasEnoughStock(
 		stockAmount: number,
 		saleAmount: number,
-		cartAmount: number
+		cartAmount: number = 0
 	): boolean {
 		if (saleAmount >= stockAmount) {
 			this._alert.baseAlert(
@@ -87,4 +86,6 @@ export class SalesComponent implements OnInit, OnDestroy {
 		}
 		return true;
 	}
+
+	getAmount = (index: number) => this.form[index].get('amount');
 }
