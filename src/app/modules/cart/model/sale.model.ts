@@ -5,5 +5,5 @@ export class SaleModel {
 		Object.assign(this, init);
 	}
 	products: CartProductModel[] = undefined;
-	created: Date = undefined;
+	created: any = undefined;
 }
