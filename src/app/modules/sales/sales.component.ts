@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { ProductService } from '../product/service/product.service';
 	styleUrls: ['./sales.component.scss']
 })
 export class SalesComponent implements OnInit, OnDestroy {
-	public form: FormGroup[];
+	public forms: FormGroup[];
 	public products: ProductFormModel[];
 	private _onDestroy = new Subject<void>();
 
@@ -27,11 +27,11 @@ export class SalesComponent implements OnInit, OnDestroy {
 	) { }
 
 	ngOnInit(): void {
-		this.form = [];
+		this.forms = [];
 		this._productService.fetchData()
 			.pipe(takeUntil(this._onDestroy))
 			.subscribe((res) => {
-				res.forEach(() => this.form.push(
+				res.forEach(() => this.forms.push(
 					new FormGroup({ amount: new FormControl(undefined, Validators.min(1)) })
 				));
 				this.products = res;
@@ -43,15 +43,14 @@ export class SalesComponent implements OnInit, OnDestroy {
 		this._onDestroy.complete();
 	}
 
-	openDialog() {
+	openDialog(): void {
 		this._dialog.open(CartComponent, {
 			width: '600px'
 		});
 	}
 
-	addToCart(product: ProductFormModel, formIndex: number) {
-		const amountControl = this.getAmount(formIndex);
-		const amount = +amountControl.value;
+	addToCart(product: ProductFormModel, formIndex: number): void {
+		const amount = +this.getForm(formIndex).get('amount').value;
 		let cart: CartProductModel[] =
 			JSON.parse(localStorage.getItem('cart_products')) ?? [];
 		let item = cart.find(v => v.id === product.id);
@@ -60,15 +59,16 @@ export class SalesComponent implements OnInit, OnDestroy {
 			cart.push(CartProductModel.fromProduct(product, amount));
 			localStorage.setItem('cart_products', JSON.stringify(cart));
 			this._alert.baseAlert('Produto adicionado ao carrinho!');
-			return amountControl.setValue(undefined);
+			return this.getForm(formIndex).reset();
 		}
+
 		const newAmount = item.amount + amount;
 		if (this.hasEnoughStock(product.amount, newAmount, item.amount)) {
 			item.amount = newAmount;
 			item.price += amount * product.sale_price;
 			localStorage.setItem('cart_products', JSON.stringify(cart));
 			this._alert.baseAlert('Produto adicionado ao carrinho!');
-			return amountControl.setValue(undefined);
+			return this.getForm(formIndex).reset();
 		}
 	}
 
@@ -87,5 +87,5 @@ export class SalesComponent implements OnInit, OnDestroy {
 		return true;
 	}
 
-	getAmount = (index: number) => this.form[index].get('amount');
+	getForm = (index: number): FormGroup => this.forms[index];
 }
