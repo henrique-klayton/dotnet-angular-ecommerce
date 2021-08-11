@@ -12,8 +12,8 @@ export class SaleService extends BaseService {
 		super();
 	}
 
-	fetchSales = () => this.getData<SaleModel>(this.collection);
-	fetchSalesOnce = () => this.getDataOnce<SaleModel>(this.collection);
+	fetchData = () => this.getData<SaleModel>(this.collection);
+	fetchDataOnce = () => this.getDataOnce<SaleModel>(this.collection);
 	fetchSaleById = (id: string) => this.getById<SaleModel>(id, this.collection);
 	insertSale = (obj: SaleModel): Promise<void> =>
 		this.create(obj, SaleModel, this.collection, this.setOptions);

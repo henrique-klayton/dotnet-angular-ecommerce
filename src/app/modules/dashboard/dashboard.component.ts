@@ -1,20 +1,14 @@
-import { ChangeDetectionStrategy } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ECharts, EChartsOption } from 'echarts';
-import * as moment from 'moment';
-import { map } from 'rxjs/operators';
 import { MONTHS } from 'src/app/utils/constants';
-import { SaleModel } from '../cart/model/sale.model';
-import { SaleService } from '../sales/service/sale.service';
+import { DashboardService } from './service/dashboard.service';
 
 @Component({
 	selector: 'app-dashboard',
 	templateUrl: './dashboard.component.html',
-	styleUrls: ['./dashboard.component.scss'],
-	// changeDetection: ChangeDetectionStrategy.OnPush
+	styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-	private data: SaleModel[] = [];
 	public isLoading: boolean = false;
 	public chartOption: EChartsOption = {
 		tooltip: {
@@ -46,17 +40,12 @@ export class DashboardComponent {
 		],
 	};
 
-	constructor(private _saleService: SaleService) { }
+	constructor(private _service: DashboardService) { }
 
 	getData(chart: ECharts) {
 		this.isLoading = true;
-		this._saleService.fetchSales()
-			.subscribe(res => {
-				let data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-				res.forEach(sale => {
-					const index = moment(sale.created.seconds * 1000).month();
-					data[index] = data[index] + 1;
-				});
+		this._service.fetchSales()
+			.subscribe(data => {
 				chart.setOption({
 					series: [{ data }]
 				});

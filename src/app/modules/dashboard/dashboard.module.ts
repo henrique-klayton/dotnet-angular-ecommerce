@@ -1,12 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { DashboardRoutingModule } from './dashboard-routing.module';
-import { DashboardComponent } from './dashboard.component';
+import { NgModule } from '@angular/core';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { MaterialModule } from 'src/app/material.module';
 import { SaleService } from '../sales/service/sale.service';
-
+import { DashboardRoutingModule } from './dashboard-routing.module';
+import { DashboardComponent } from './dashboard.component';
+import { DashboardService } from './service/dashboard.service';
 
 @NgModule({
 	declarations: [
@@ -19,6 +18,7 @@ import { SaleService } from '../sales/service/sale.service';
 		NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
 	],
 	providers: [
+		DashboardService,
 		SaleService,
 	]
 })
