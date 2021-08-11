@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -43,11 +43,7 @@ export class SalesComponent implements OnInit, OnDestroy {
 		this._onDestroy.complete();
 	}
 
-	openDialog(): void {
-		this._dialog.open(CartComponent, {
-			width: '600px'
-		});
-	}
+	openDialog = (): void => void this._dialog.open(CartComponent, { width: '600px' });
 
 	addToCart(product: ProductFormModel, formIndex: number): void {
 		const amount = +this.getForm(formIndex).get('amount').value;

@@ -41,7 +41,7 @@
           }
         ],
         "indent": ["error", "tab", { "SwitchCase": 1 }],
-        "max-len": ["error", {"code": 88, "tabWidth": 2}],
+        "max-len": ["error", {"code": 100, "tabWidth": 2}],
         "quotes": ["warn", "single"],
         "semi": ["error", "always"],
         "semi-style": ["error", "last"],

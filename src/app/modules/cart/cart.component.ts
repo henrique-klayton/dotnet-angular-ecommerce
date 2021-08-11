@@ -35,12 +35,9 @@ export class CartComponent implements OnInit {
 		@Inject(MAT_DIALOG_DATA) public data: EventEmitter<CartProductModel>
 	) { }
 
-	ngOnInit(): void {
-		this.getData();
-	}
+	ngOnInit = (): void => this.getData();
 
-	getData = () =>
-		this.dataSource.data = JSON.parse(localStorage.getItem('cart_products'));
+	getData = (): void => this.dataSource.data = JSON.parse(localStorage.getItem('cart_products'));
 
 	removeItem(product: CartProductModel) {
 		let cart = this.getCart();
@@ -48,8 +45,8 @@ export class CartComponent implements OnInit {
 		this.dataSource.data = cart;
 		localStorage.setItem('cart_products', JSON.stringify(cart));
 	}
-	getTotalPrice = () =>
-		this.dataSource.data?.reduce((total, product) => total += product.price, 0);
+	getTotalPrice = (): number => this.dataSource.data
+		.reduce((total, product) => total += product.price, 0);
 
 	cancelSale() {
 		localStorage.removeItem('cart_products');
@@ -72,6 +69,5 @@ export class CartComponent implements OnInit {
 		}
 	}
 
-	private getCart = (): CartProductModel[] =>
-		JSON.parse(localStorage.getItem('cart_products'));
+	private getCart = (): CartProductModel[] => JSON.parse(localStorage.getItem('cart_products'));
 }
