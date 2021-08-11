@@ -128,3 +128,11 @@ table,
 mat-form-field > * > * {
 	align-items: center !important;
 }
+
+mat-card {
+	border-radius: 10px !important;
+}
+
+mat-dialog-container {
+	border-radius: 10px !important;
+}
