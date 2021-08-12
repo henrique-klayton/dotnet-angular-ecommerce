@@ -34,3 +34,41 @@ export const SaleChartOptions: EChartsOption = {
 		},
 	],
 };
+
+export const ProductChartOptions: EChartsOption = {
+	tooltip: {
+		trigger: 'item',
+	},
+	grid: {
+		top: '20%',
+		left: '0%',
+		right: '2%',
+		bottom: '0%',
+		containLabel: true
+	},
+	legend: {
+		type: 'scroll',
+		orient: 'vertical',
+		right: 20,
+		top: 20,
+		bottom: 20,
+		data: [],
+		textStyle: {
+			width: 160,
+			overflow: 'truncate',
+		},
+	},
+	series: [
+		{
+			name: 'Produtos',
+			type: 'pie',
+			data: [],
+			label: {
+				show: true,
+				width: 80,
+			},
+			center: ['30%', '50%'],
+			
+		},
+	],
+};

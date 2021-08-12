@@ -10,11 +10,13 @@ import { CardComponent } from './card/card.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardService } from './service/dashboard.service';
+import { ChartComponent } from './chart/chart.component';
 
 @NgModule({
 	declarations: [
 		DashboardComponent,
-		CardComponent
+		CardComponent,
+		ChartComponent
 	],
 	imports: [
 		CommonModule,

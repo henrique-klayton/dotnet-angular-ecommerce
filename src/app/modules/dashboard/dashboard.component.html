@@ -6,19 +6,38 @@
 		<app-dashboard-card title="Estoque total de Produtos" icon="widgets" [value]="totalStock"></app-dashboard-card>
 	</div>
 	<div class="col-4">
-		<app-dashboard-card title="Número de Filiais" icon="store" [value]="numBranch"></app-dashboard-card>
+		<app-dashboard-card title="Número de Filiais" icon="store" [value]="numBranches"></app-dashboard-card>
 	</div>
 
-	<div class="col-12">
-		<mat-card>
-			<mat-card-header>
-				<mat-card-title>Número de vendas mensais</mat-card-title>
-			</mat-card-header>
-			<mat-card-content>
-				<div style="max-height: 250px" echarts [options]="chartOptions" [loading]="isLoading"
-					(chartInit)="getData($event)">
-				</div>
-			</mat-card-content>
-		</mat-card>
+	<div class="col-12 mb-3">
+		<app-dashboard-chart [title]="'Número de vendas mensais'" [chartOptions]="saleChartOptions"
+			[chartData]="fetchSales()" [dataFormatter]="setSaleChartData"></app-dashboard-chart>
 	</div>
+
+	<mat-card>
+		<div class="row">
+			<div class="col-4 list-cards">
+				<mat-card class="my-2" *ngFor="let category of categories" (click)="changeCategory(category.name)">
+					<h4>{{category.name}}</h4>
+					<div class="d-flex justify-content-between">
+						<div class="d-flex flex-column align-items-end">
+							<h6 class="m-0 mb-1">Qtd. de produtos</h6>
+							<h4 class="m-0 me-2">{{category.numProducts}}</h4>
+						</div>
+						<div class="d-flex flex-column align-items-end">
+							<h6 class="m-0 mb-1">Unidades em estoque</h6>
+							<h4 class="m-0 me-2">{{category.stockAmount}}</h4>
+						</div>
+					</div>
+				</mat-card>
+			</div>
+
+			<div class="col-8">
+				<app-dashboard-chart [title]="'Produtos por Categoria'" [chartOptions]="productChartOptions"
+					[chartData]="fetchProducts()" [dataFormatter]="setProductChartData" [data]="productCategory"
+					[repeatOn]="categoryEvent">
+				</app-dashboard-chart>
+			</div>
+		</div>
+	</mat-card>
 </div>
