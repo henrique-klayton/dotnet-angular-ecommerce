@@ -1,7 +1,7 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ECharts } from 'echarts';
 import { Observable, Subject } from 'rxjs';
-import { repeatWhen, take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { PRODUCT_CATEGORIES } from 'src/app/utils/constants';
 import { ProductFormModel } from '../product/form/model/product.form.model';
 import { DashboardService } from './service/dashboard.service';
@@ -19,8 +19,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	private _onDestroy = new Subject<void>();
 
 	public isLoading: boolean = false;
-	// public productCategory: string = 'Alimentos';
-	public productCategory: string = 'Informática';
+	public productCategory: string = 'Alimentos';
 	public categories: CardCategories = [];
 	public saleChartOptions = SaleChartOptions;
 	public productChartOptions = ProductChartOptions;
@@ -28,7 +27,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	public numBranches: number = 0;
 	public totalStock: number = 0;
 
-	public categoryEvent = new Subject<void>();
+	public categoryEvent = new Subject<string>();
 	constructor(private _service: DashboardService) { }
 	ngOnInit(): void {
 		this.subscribeAll();
@@ -36,6 +35,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	ngOnDestroy(): void {
 		this._onDestroy.next();
 		this._onDestroy.complete();
+		this.categoryEvent.complete();
 	}
 	fetchSales = (): Observable<number[]> => this._service.fetchSales();
 	fetchProducts = (): Observable<ProductFormModel[]> => this._service.fetchProducts();
@@ -51,7 +51,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	}
 	changeCategory(category: string) {
 		this.productCategory = category;
-		this.categoryEvent.next();
+		this.categoryEvent.next(category);
 	}
 
 	private subscribeAll() {

@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ECharts, EChartsOption } from 'echarts/lib/echarts';
 import { Observable, Subject } from 'rxjs';
-import { delay, repeatWhen, take, takeUntil, takeWhile } from 'rxjs/operators';
-import { isNullOrWhitespace } from 'src/app/utils/functions';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-dashboard-chart',
@@ -15,9 +14,9 @@ export class ChartComponent<T, D> implements OnInit, OnDestroy {
 	public css: string;
 	@Input() title: string;
 	@Input() chartOptions: EChartsOption;
-	@Input() maxHeight?: string;
+	@Input() maxHeight: string = '250px';
 	@Input() chartData: Observable<T[]>;
-	@Input() repeatOn: Observable<void>;
+	@Input() repeatOn: Observable<D>;
 	@Input() dataFormatter: (chart: ECharts, chartData: T[], data?: D) => void;
 	@Input() data?: D;
 
@@ -25,7 +24,7 @@ export class ChartComponent<T, D> implements OnInit, OnDestroy {
 	private currentData: T[];
 	constructor() {	}
 	ngOnInit(): void {
-		this.css = `max-height: ${this.maxHeight ?? '250px'};`;
+		this.css = `max-height: ${this.maxHeight};`;
 	}
 	ngOnDestroy(): void {
 		this._onDestroy.next();
@@ -34,18 +33,19 @@ export class ChartComponent<T, D> implements OnInit, OnDestroy {
 	getData(chart: ECharts) {
 		this.isLoading = true;
 		this.chartData
-			.pipe(
-				takeWhile(() => true),
-				takeUntil(this._onDestroy),
-				repeatWhen(() => {
-					if (this.repeatOn)
-						return this.repeatOn;
-				})
-			)
+			.pipe(takeUntil(this._onDestroy))
 			.subscribe(data => {
 				this.currentData = data;
 				this.dataFormatter(chart, this.currentData, this.data);
 				this.isLoading = false;
 			});
+		if(this.repeatOn)
+			this.repeatOn
+				.pipe(takeUntil(this._onDestroy))
+				.subscribe(category => {
+					this.isLoading = true;
+					this.dataFormatter(chart, this.currentData, category);
+					this.isLoading = false;
+				});
 	}
 }
