@@ -35,7 +35,9 @@ export class CartComponent implements OnInit {
 		@Inject(MAT_DIALOG_DATA) public data: EventEmitter<CartProductModel>
 	) { }
 
-	ngOnInit = (): void => this.getData();
+	ngOnInit(): void {
+		this.getData();
+	}
 
 	getData = (): void => this.dataSource.data = JSON.parse(localStorage.getItem('cart_products'));
 
