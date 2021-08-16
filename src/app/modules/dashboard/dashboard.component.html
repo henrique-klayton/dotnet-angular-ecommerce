@@ -10,8 +10,7 @@
 	</div>
 
 	<div class="col-12 mb-3">
-		<app-dashboard-chart [title]="'Número de vendas mensais'" [chartOptions]="saleChartOptions"
-			[chartData]="fetchSales()" [dataFormatter]="setSaleChartData"></app-dashboard-chart>
+		<app-dashboard-chart-sales></app-dashboard-chart-sales>
 	</div>
 
 	<mat-card>
@@ -33,10 +32,9 @@
 			</div>
 
 			<div class="col-8">
-				<app-dashboard-chart [title]="'Produtos por Categoria'" [chartOptions]="productChartOptions"
-					[chartData]="fetchProducts()" [dataFormatter]="setProductChartData" [data]="productCategory"
-					[repeatOn]="categoryEvent">
-				</app-dashboard-chart>
+				<app-dashboard-chart-products [categoryEvent]="categoryEvent"
+					[categorizedProductsEvent]="categorizedProductsEvent">
+				</app-dashboard-chart-products>
 			</div>
 		</div>
 	</mat-card>

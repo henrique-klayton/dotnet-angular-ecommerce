@@ -1,7 +1,7 @@
 import { EChartsOption } from 'echarts';
 import { MONTHS } from 'src/app/utils/constants';
 
-export const SaleChartOptions: EChartsOption = {
+export const SALE_CHART_OPTIONS: EChartsOption = {
 	tooltip: {
 		trigger: 'axis',
 		axisPointer: {
@@ -35,7 +35,7 @@ export const SaleChartOptions: EChartsOption = {
 	],
 };
 
-export const ProductChartOptions: EChartsOption = {
+export const PRODUCT_CHART_OPTIONS: EChartsOption = {
 	tooltip: {
 		trigger: 'item',
 	},
