@@ -13,29 +13,31 @@
 		<app-dashboard-chart-sales></app-dashboard-chart-sales>
 	</div>
 
-	<mat-card>
-		<div class="row">
-			<div class="col-4 list-cards">
-				<mat-card class="my-2" *ngFor="let category of categories" (click)="changeCategory(category.name)">
-					<h4>{{category.name}}</h4>
-					<div class="d-flex justify-content-between">
-						<div class="d-flex flex-column align-items-end">
-							<h6 class="m-0 mb-1">Qtd. de produtos</h6>
-							<h4 class="m-0 me-2">{{category.numProducts}}</h4>
+	<div class="12">
+		<mat-card>
+			<div class="row">
+				<div class="col-4 list-cards">
+					<mat-card class="my-2" *ngFor="let category of categories" (click)="changeCategory(category.name)">
+						<h4>{{category.name}}</h4>
+						<div class="d-flex justify-content-between">
+							<div class="d-flex flex-column align-items-end">
+								<h6 class="m-0 mb-1">Qtd. de produtos</h6>
+								<h4 class="m-0 me-2">{{category.numProducts}}</h4>
+							</div>
+							<div class="d-flex flex-column align-items-end">
+								<h6 class="m-0 mb-1">Unidades em estoque</h6>
+								<h4 class="m-0 me-2">{{category.stockAmount}}</h4>
+							</div>
 						</div>
-						<div class="d-flex flex-column align-items-end">
-							<h6 class="m-0 mb-1">Unidades em estoque</h6>
-							<h4 class="m-0 me-2">{{category.stockAmount}}</h4>
-						</div>
-					</div>
-				</mat-card>
-			</div>
+					</mat-card>
+				</div>
 
-			<div class="col-8">
-				<app-dashboard-chart-products [categoryEvent]="categoryEvent"
-					[categorizedProductsEvent]="categorizedProductsEvent">
-				</app-dashboard-chart-products>
+				<div class="col-8">
+					<app-dashboard-chart-products [categoryEvent]="categoryEvent"
+						[categorizedProductsEvent]="categorizedProductsEvent">
+					</app-dashboard-chart-products>
+				</div>
 			</div>
-		</div>
-	</mat-card>
+		</mat-card>
+	</div>
 </div>
