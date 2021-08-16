@@ -1,8 +1,8 @@
 export class ProductModel {
 	name: string = undefined;
 	description: string = undefined;
-	cost_price: number = undefined;
-	sale_price: number = undefined;
+	cost_price: string | number = undefined;
+	sale_price: string | number = undefined;
 	active: boolean = false;
 	category: number = undefined;
 	image: string = undefined;

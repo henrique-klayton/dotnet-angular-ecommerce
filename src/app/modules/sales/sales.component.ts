@@ -61,7 +61,7 @@ export class SalesComponent implements OnInit, OnDestroy {
 		const newAmount = item.amount + amount;
 		if (this.hasEnoughStock(product.amount, newAmount, item.amount)) {
 			item.amount = newAmount;
-			item.price += amount * product.sale_price;
+			item.price += amount * (product.sale_price as number);
 			localStorage.setItem('cart_products', JSON.stringify(cart));
 			this._alert.baseAlert('Produto adicionado ao carrinho!');
 			return this.getForm(formIndex).reset();
