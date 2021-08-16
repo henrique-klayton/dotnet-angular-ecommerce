@@ -1,15 +1,32 @@
+import { formatCurrency } from '@angular/common';
 import { EChartsOption } from 'echarts';
 import { MONTHS } from 'src/app/utils/constants';
+
+const labelFormatter = (value) => formatCurrency(value.data as number, 'pt-BR', 'R$');
+
+const tooltipFormatter = ([value]) => {
+	const price = labelFormatter(value);
+	const baseStyle = 'font-size:14px;color:#666;';
+	const titleStyle = `${baseStyle}font-weight:400;line-height:1;`;
+	const seriesStyle = `${baseStyle}font-weight:400;margin-left:2px;`;
+	const priceStyle = `${baseStyle}font-weight:900;float:right;margin-left:20px;`;
+
+	return `<span style="${titleStyle}">${value.name}</span><br>
+					${value.marker}
+					<span style="${seriesStyle}">${value.seriesName}</span>
+					<span style="${priceStyle}">${price}</span>`;
+};
 
 export const SALE_CHART_OPTIONS: EChartsOption = {
 	tooltip: {
 		trigger: 'axis',
 		axisPointer: {
 			type: 'line',
-		}
+		},
+		formatter: tooltipFormatter,
 	},
 	grid: {
-		top: '20%',
+		top: '15%',
 		left: '0%',
 		right: '2%',
 		bottom: '0%',
@@ -30,6 +47,7 @@ export const SALE_CHART_OPTIONS: EChartsOption = {
 			smooth: true,
 			label: {
 				show: true,
+				formatter: labelFormatter,
 			},
 		},
 	],
@@ -42,7 +60,7 @@ export const PRODUCT_CHART_OPTIONS: EChartsOption = {
 	grid: {
 		top: '20%',
 		left: '0%',
-		right: '2%',
+		right: '0%',
 		bottom: '0%',
 		containLabel: true
 	},
