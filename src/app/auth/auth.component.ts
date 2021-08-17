@@ -39,7 +39,8 @@ export class AuthComponent implements OnInit {
 						errorMessage = 'Email inválido!';
 						break;
 					case 'auth/wrong-password':
-						errorMessage = 'Senha incorreta!';
+					case 'auth/user-not-found':
+						errorMessage = 'Usuário ou Senha incorreta!';
 						break;
 					default:
 						errorMessage = 'Erro ao realizar o login!';
