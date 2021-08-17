@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row gy-3">
 	<div class="col-4">
 		<app-dashboard-card title="Número total de Vendas" icon="receipt_long" [value]="numSales"></app-dashboard-card>
 	</div>
@@ -9,34 +9,35 @@
 		<app-dashboard-card title="Número de Filiais" icon="store" [value]="numBranches"></app-dashboard-card>
 	</div>
 
-	<div class="col-12 mb-3">
+	<div class="col-12">
 		<app-dashboard-chart-sales></app-dashboard-chart-sales>
 	</div>
 
-	<div class="12">
+	<div class="col-12">
 		<mat-card>
-			<mat-card-header>
-				<mat-card-title>Categorias</mat-card-title>
-			</mat-card-header>
 			<div class="row">
-				<div class="col-4 list-cards">
-					<mat-card class="my-2 category-card" *ngFor="let category of categories"
-						(click)="changeCategory(category.name)">
-						<h4>{{category.name}}</h4>
-						<mat-card-content>
-							<div class="d-flex justify-content-start">
-								<h5 class="m-0 mb-1">Quantidade de produtos:</h5>
-								<h4 class="m-0 ms-2 text-primary">{{category.numProducts}}</h4>
-							</div>
-							<div class="d-flex justify-content-start">
-								<h5 class="m-0">Total de unidades em estoque:</h5>
-								<h4 class="m-0 ms-2 text-primary">{{category.stockAmount}}</h4>
-							</div>
-						</mat-card-content>
-					</mat-card>
+				<div class="col-4">
+					<h2 class="ms-3">Categorias</h2>
+					<div class="list-cards">
+						<mat-card class="my-2 category-card" *ngFor="let category of categoryCards"
+							(click)="changeCategory(category)">
+							<h4 class="mb-1">{{category.name}}</h4>
+							<mat-card-content>
+								<div class="d-flex justify-content-start align-items-end">
+									<h5 class="m-0">Quantidade de produtos:</h5>
+									<label class="m-0 ms-2 text-primary fw-bold">{{category.numProducts}}</label>
+								</div>
+								<div class="d-flex justify-content-start">
+									<h5 class="m-0">Total de unidades em estoque:</h5>
+									<label class="m-0 ms-2 text-primary fw-bold">{{category.stockAmount}}</label>
+								</div>
+							</mat-card-content>
+						</mat-card>
+					</div>
 				</div>
 
 				<div class="col-8">
+					<h2 class="ms-3">Produtos por Categoria</h2>
 					<app-dashboard-chart-products [categoryEvent]="categoryEvent" [productsEvent]="productsEvent">
 					</app-dashboard-chart-products>
 				</div>
