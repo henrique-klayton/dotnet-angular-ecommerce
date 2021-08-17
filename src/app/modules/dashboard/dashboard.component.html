@@ -15,20 +15,24 @@
 
 	<div class="12">
 		<mat-card>
+			<mat-card-header>
+				<mat-card-title>Categorias</mat-card-title>
+			</mat-card-header>
 			<div class="row">
 				<div class="col-4 list-cards">
-					<mat-card class="my-2" *ngFor="let category of categories" (click)="changeCategory(category.name)">
+					<mat-card class="my-2 category-card" *ngFor="let category of categories"
+						(click)="changeCategory(category.name)">
 						<h4>{{category.name}}</h4>
-						<div class="d-flex justify-content-between">
-							<div class="d-flex flex-column align-items-end">
-								<h6 class="m-0 mb-1">Qtd. de produtos</h6>
-								<h4 class="m-0 me-2">{{category.numProducts}}</h4>
+						<mat-card-content>
+							<div class="d-flex justify-content-start">
+								<h5 class="m-0 mb-1">Quantidade de produtos:</h5>
+								<h4 class="m-0 ms-2 text-primary">{{category.numProducts}}</h4>
 							</div>
-							<div class="d-flex flex-column align-items-end">
-								<h6 class="m-0 mb-1">Unidades em estoque</h6>
-								<h4 class="m-0 me-2">{{category.stockAmount}}</h4>
+							<div class="d-flex justify-content-start">
+								<h5 class="m-0">Total de unidades em estoque:</h5>
+								<h4 class="m-0 ms-2 text-primary">{{category.stockAmount}}</h4>
 							</div>
-						</div>
+						</mat-card-content>
 					</mat-card>
 				</div>
 
