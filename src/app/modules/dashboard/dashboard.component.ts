@@ -48,6 +48,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 			.pipe(takeUntil(this._onDestroy))
 			.subscribe(products => {
 				this._getCategorizedProducts(products);
+				this._setNewActiveCard();
 				this._getTotalStock();
 			});
 	}
@@ -80,5 +81,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	private _getTotalStock() {
 		this.totalStock = Object.values(this.categoryCards)
 			.reduce((amount, card) => amount + card.stockAmount, 0);
+	}
+	private _setNewActiveCard() {
+		const activeCardName = this.categoryCards.find(card => card.active)?.name;
+		if (activeCardName) {
+			let card = this.categoryCards.find(card => card.name === activeCardName);
+			if (card !== undefined)
+				return card.active = true;
+		}
+		this.changeCategory(this.categoryCards[2]);
 	}
 }

@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ECharts } from 'echarts/lib/echarts';
 import { combineLatest, Observable } from 'rxjs';
-import { startWith } from 'rxjs/operators';
 import { PRODUCT_CHART_OPTIONS } from '../utils/chart-options';
 import { CategorizedProducts } from '../utils/interfaces';
 
@@ -27,7 +26,7 @@ export class ChartProductsComponent implements OnInit {
 	getData(chart: ECharts) {
 		combineLatest([
 			this.productsEvent,
-			this.categoryEvent.pipe(startWith('Alimentos'))
+			this.categoryEvent
 		]).subscribe(([data, category]: CombinedData) => {
 			this.setChartData(chart, data, category);
 		});
