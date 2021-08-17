@@ -1,10 +1,10 @@
 import { formatCurrency } from '@angular/common';
-import { EChartsOption } from 'echarts';
+import { EChartsOption } from 'echarts/lib/echarts';
 import { MONTHS } from 'src/app/utils/constants';
 
-const labelFormatter = (value) => formatCurrency(value.data as number, 'pt-BR', 'R$');
+const labelFormatter = (value: any): string => formatCurrency(value.data as number, 'pt-BR', 'R$');
 
-const tooltipFormatter = ([value]) => {
+const tooltipFormatter = ([value]): string => {
 	const price = labelFormatter(value);
 	const baseStyle = 'font-size:14px;color:#666;';
 	const titleStyle = `${baseStyle}font-weight:400;line-height:1;`;

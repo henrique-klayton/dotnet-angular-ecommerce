@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ECharts } from 'echarts/lib/echarts';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { DashboardService } from '../service/dashboard.service';
 import { SALE_CHART_OPTIONS } from '../utils/chart-options';
 
@@ -25,7 +26,7 @@ export class ChartSalesComponent implements OnInit, OnDestroy {
 		this._onDestroy.complete();
 	}
 	setChartData = (chart: ECharts, data: number[]) => chart.setOption({ series: [{ data }] });
-	getData(chart: ECharts) {
-		this._service.fetchSales().subscribe(sales => this.setChartData(chart, sales));
-	}
+	getData = (chart: ECharts) => this._service.fetchSales()
+		.pipe(takeUntil(this._onDestroy))
+		.subscribe(sales => this.setChartData(chart, sales));
 }
