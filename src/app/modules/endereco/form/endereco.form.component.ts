@@ -21,7 +21,6 @@ import { AddressFormModel } from './model/address.form.model';
 export class EnderecoFormComponent implements OnInit, OnDestroy {
 	public form: FormGroup;
 	public states = STATES;
-
 	private _onDestroy = new Subject<void>();
 
 	constructor(
@@ -29,8 +28,7 @@ export class EnderecoFormComponent implements OnInit, OnDestroy {
 		private _addressService: AddressService,
 		public _alert: AlertService,
 		public _formValidation: FormValidationService,
-		public dialogRef: MatDialogRef<EnderecoFormComponent>,
-		@Inject(MAT_DIALOG_DATA) public data?: { id: string, table: AddressFormModel[] }
+		@Inject(MAT_DIALOG_DATA) public data?: { id: string, tableData: AddressFormModel[] }
 	) { }
 
 	ngOnInit(): void {
@@ -45,13 +43,12 @@ export class EnderecoFormComponent implements OnInit, OnDestroy {
 
 	public saveAddress(): void {
 		const cep = this.cep.value;
-		const address = this.data.table.find(a => a.cep === cep);
+		const address = this.data.tableData.find(a => a.cep === cep);
 		if (address) {
 			this._alert.baseAlert(`CEP ${cep} já cadastrado!`);
 			return;
 		}
-		this._addressService.insertAddress(this.form.value)
-			.then(() => this.dialogRef.close());
+		this._addressService.insertAddress(this.form.value).then(() => this.dialogRef.close());
 	}
 
 	private _subscribeCep(): void {

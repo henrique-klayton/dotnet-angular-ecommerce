@@ -23,7 +23,7 @@ export class EnderecoComponent implements OnInit, AfterViewInit, OnDestroy {
 		'uf',
 		'actions',
 	];
-	public dataSource: MatTableDataSource<AddressFormModel>;
+	public dataSource = new MatTableDataSource<AddressFormModel>();
 
 	private _onDestroy = new Subject<void>();
 
@@ -33,15 +33,13 @@ export class EnderecoComponent implements OnInit, AfterViewInit, OnDestroy {
 	constructor(
 		private _addressService: AddressService,
 		public dialog: MatDialog,
-	) {
-		this.dataSource = new MatTableDataSource();
-	}
+	) {}
 
 	ngOnInit(): void {
-		this.getData();
+		this._getData();
 	}
 
-	ngAfterViewInit() {
+	ngAfterViewInit(): void {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
 	}
@@ -51,30 +49,27 @@ export class EnderecoComponent implements OnInit, AfterViewInit, OnDestroy {
 		this._onDestroy.complete();
 	}
 
-	public getData() {
-		this._addressService
-			.fetchData()
-			.pipe(takeUntil(this._onDestroy))
-			.subscribe((res) => (this.dataSource.data = res));
-	}
-
-	public openDialog(id?: string): void {
+	openDialog(id?: string): void {
 		this.dialog.open(EnderecoFormComponent, {
 			width: '600px',
 			data: { id: id, table: this.dataSource.data },
 		});
 	}
 
-	public deleteAddress(cep: string) {
-		this._addressService.deleteAddress(cep);
-	}
+	deleteAddress = (cep: string) => this._addressService.deleteAddress(cep);
 
-	public applyFilter(event: Event) {
+	applyFilter(event: Event) {
 		const filterValue = (event.target as HTMLInputElement).value;
 		this.dataSource.filter = filterValue.trim().toLowerCase();
 
-		if (this.dataSource.paginator) {
+		if (this.dataSource.paginator)
 			this.dataSource.paginator.firstPage();
-		}
+	}
+
+	private _getData() {
+		this._addressService
+			.fetchData()
+			.pipe(takeUntil(this._onDestroy))
+			.subscribe((res) => (this.dataSource.data = res));
 	}
 }
