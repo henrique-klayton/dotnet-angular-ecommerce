@@ -43,7 +43,7 @@ export class AuthComponent implements OnInit {
 						errorMessage = 'Usuário ou Senha incorreta!';
 						break;
 					default:
-						errorMessage = 'Erro ao realizar o login!';
+						errorMessage = 'Erro ao fazer o login!';
 						break;
 				}
 				this._alert.baseAlert(errorMessage);
