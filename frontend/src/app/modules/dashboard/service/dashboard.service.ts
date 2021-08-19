@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BaseService } from 'src/app/shared/service/base.service';
-import { AddressService } from '../../endereco/service/address.service';
+import { AddressService } from '../../address/service/address.service';
 import { ProductFormModel } from '../../product/form/model/product.form.model';
 import { ProductService } from '../../product/service/product.service';
 import { SaleService } from '../../sales/service/sale.service';

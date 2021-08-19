@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EnderecoComponent } from './endereco.component';
+import { AddressComponent } from './address.component';
 
 describe('EnderecoComponent', () => {
-	let component: EnderecoComponent;
-	let fixture: ComponentFixture<EnderecoComponent>;
+	let component: AddressComponent;
+	let fixture: ComponentFixture<AddressComponent>;
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			declarations: [ EnderecoComponent ]
+			declarations: [ AddressComponent ]
 		})
 			.compileComponents();
 	});
 
 	beforeEach(() => {
-		fixture = TestBed.createComponent(EnderecoComponent);
+		fixture = TestBed.createComponent(AddressComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

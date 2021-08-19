@@ -13,12 +13,12 @@ import { AddressService } from '../service/address.service';
 import { AddressFormModel } from './model/address.form.model';
 
 @Component({
-	selector: 'app-endereco.form',
-	templateUrl: './endereco.form.component.html',
-	styleUrls: ['./endereco.form.component.scss'],
+	selector: 'app-address.form',
+	templateUrl: './address.form.component.html',
+	styleUrls: ['./address.form.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EnderecoFormComponent implements OnInit, OnDestroy {
+export class AddressFormComponent implements OnInit, OnDestroy {
 	public form: FormGroup;
 	public states = STATES;
 
@@ -29,8 +29,8 @@ export class EnderecoFormComponent implements OnInit, OnDestroy {
 		private _addressService: AddressService,
 		public _alert: AlertService,
 		public _formValidation: FormValidationService,
-		public dialogRef: MatDialogRef<EnderecoFormComponent>,
-		@Inject(MAT_DIALOG_DATA) public data?: { id: string, table: AddressFormModel[] }
+		public dialogRef: MatDialogRef<AddressFormComponent>,
+		@Inject(MAT_DIALOG_DATA) public data?: { id: string, tableData: AddressFormModel[] }
 	) { }
 
 	ngOnInit(): void {

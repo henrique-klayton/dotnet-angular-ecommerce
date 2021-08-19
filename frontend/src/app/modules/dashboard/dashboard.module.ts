@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { MaterialModule } from 'src/app/material.module';
-import { AddressService } from '../endereco/service/address.service';
+import { AddressService } from '../address/service/address.service';
 import { ProductService } from '../product/service/product.service';
 import { SaleService } from '../sales/service/sale.service';
 import { CardComponent } from './card/card.component';
