@@ -28,10 +28,10 @@ export class ChartProductsComponent implements OnInit {
 			this.productsEvent,
 			this.categoryEvent
 		]).subscribe(([data, category]: CombinedData) => {
-			this.updateChartData(chart, data, category);
+			this._updateChartData(chart, data, category);
 		});
 	}
-	updateChartData(chart: ECharts, data: CategorizedProducts, category: string) {
+	private _updateChartData(chart: ECharts, data: CategorizedProducts, category: string) {
 		const products = data[category];
 		const productsName = products.map(({ name }) => name);
 		chart.setOption({

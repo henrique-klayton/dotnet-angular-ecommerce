@@ -27,6 +27,8 @@ export class ChartSalesComponent implements OnInit, OnDestroy {
 	}
 	getData = (chart: ECharts) => this._service.fetchSales()
 		.pipe(takeUntil(this._onDestroy))
-		.subscribe(sales => this.updateChartData(chart, sales));
-	updateChartData = (chart: ECharts, data: number[]) => chart.setOption({ series: [{ data }] });
+		.subscribe(sales => this._updateChartData(chart, sales));
+	private _updateChartData = (chart: ECharts, data: number[]) => chart.setOption({
+		series: [{ data }],
+	});
 }

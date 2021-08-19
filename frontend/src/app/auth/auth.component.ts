@@ -28,7 +28,7 @@ export class AuthComponent implements OnInit {
 
 	public login() {
 		this._authService
-			.login(this.form.value)
+			.login(this.form.get('email').value, this.form.get('password').value)
 			.then(() => {
 				this._router.navigate(['home']);
 			})
