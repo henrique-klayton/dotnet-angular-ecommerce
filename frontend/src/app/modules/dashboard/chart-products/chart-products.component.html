@@ -1,0 +1,5 @@
+<mat-card style="min-height: 20rem;">
+	<mat-card-content>
+		<div [style]="css" echarts [options]="chartOptions" [loading]="isLoading" (chartInit)="getData($event)"></div>
+	</mat-card-content>
+</mat-card>

@@ -17,8 +17,8 @@ export class CartProductModel {
 	): CartProductModel => new CartProductModel({
 		id: product.id,
 		name: product.name,
-		unit_price: product.sale_price,
+		unit_price: product.sale_price as number,
 		amount,
-		price: product.sale_price * amount,
+		price: product.sale_price as number * amount,
 	});
 }

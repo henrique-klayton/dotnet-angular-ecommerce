@@ -7,16 +7,18 @@ import { AddressService } from '../endereco/service/address.service';
 import { ProductService } from '../product/service/product.service';
 import { SaleService } from '../sales/service/sale.service';
 import { CardComponent } from './card/card.component';
+import { ChartProductsComponent } from './chart-products/chart-products.component';
+import { ChartSalesComponent } from './chart-sales/chart-sales.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardService } from './service/dashboard.service';
-import { ChartComponent } from './chart/chart.component';
 
 @NgModule({
 	declarations: [
 		DashboardComponent,
 		CardComponent,
-		ChartComponent
+		ChartSalesComponent,
+		ChartProductsComponent
 	],
 	imports: [
 		CommonModule,

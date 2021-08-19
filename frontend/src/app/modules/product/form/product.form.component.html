@@ -6,8 +6,25 @@
 </div>
 
 <form [formGroup]="form">
+	<div class="row img-div justify-content-center align-items-center">
+		<mat-form-field hidden>
+			<input matInput formControlName="image" type="text">
+		</mat-form-field>
+		<img [src]="image.value">
+	</div>
 	<div class="row">
-		<div class="col-md-12">
+		<mat-form-field>
+			<mat-label>Imagem</mat-label>
+			<ngx-mat-file-input formControlName="imageInput" [errorStateMatcher]="_formValidation" accept="image/*"
+				[required]="!image.value">
+			</ngx-mat-file-input>
+			<mat-error *ngIf="form.touched && form.invalid">
+				Adicione uma imagem
+			</mat-error>
+		</mat-form-field>
+	</div>
+	<div class="row">
+		<div class="col-6">
 			<mat-form-field>
 				<mat-label>Nome</mat-label>
 				<input matInput formControlName="name" [errorStateMatcher]="_formValidation" required>
@@ -16,9 +33,7 @@
 				</mat-error>
 			</mat-form-field>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12">
+		<div class="col-6">
 			<mat-form-field>
 				<mat-label>Categoria</mat-label>
 				<mat-select formControlName="category" [errorStateMatcher]="_formValidation" required>
@@ -33,33 +48,33 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-4">
+			<mat-form-field>
+				<mat-label>Qtd. em Estoque</mat-label>
+				<input matInput formControlName="amount" mask="separator" thousandSeparator="."
+					[errorStateMatcher]="_formValidation" required>
+				<mat-error *ngIf="form.touched && form.invalid">
+					Informe a Qtd. em Estoque
+				</mat-error>
+			</mat-form-field>
+		</div>
+		<div class="col-4">
 			<mat-form-field>
 				<mat-label>Preço de Custo</mat-label>
 				<input matInput formControlName="cost_price" prefix="R$ " mask="separator.2" thousandSeparator="."
 					[errorStateMatcher]="_formValidation" required>
 				<mat-error *ngIf="form.touched && form.invalid">
-					Informe o Preço de Custo do Produto
+					Informe o Preço de Custo
 				</mat-error>
 			</mat-form-field>
 		</div>
-		<div class="col-md-6">
+		<div class="col-4">
 			<mat-form-field>
 				<mat-label>Preço de Venda</mat-label>
 				<input matInput formControlName="sale_price" prefix="R$ " mask="separator.2" thousandSeparator="."
 					[errorStateMatcher]="_formValidation" required>
 				<mat-error *ngIf="form.touched && form.invalid">
-					Informe o Preço de Venda do Produto
-				</mat-error>
-			</mat-form-field>
-		</div>
-		<div class="col-md-6">
-			<mat-form-field>
-				<mat-label>Quantidade</mat-label>
-				<input matInput formControlName="amount" mask="separator" thousandSeparator="."
-					[errorStateMatcher]="_formValidation" required>
-				<mat-error *ngIf="form.touched && form.invalid">
-					Informe a Quantidade do Produto
+					Informe o Preço de Venda
 				</mat-error>
 			</mat-form-field>
 		</div>
@@ -71,28 +86,14 @@
 		</mat-form-field>
 	</div>
 	<div class="row">
-		<mat-form-field>
-			<mat-label>Imagem</mat-label>
-			<ngx-mat-file-input formControlName="image" [errorStateMatcher]="_formValidation" accept="image/*"
-				[required]="true">
-			</ngx-mat-file-input>
-			<mat-error *ngIf="form.touched && form.invalid">
-				Adicione uma imagem
-			</mat-error>
-		</mat-form-field>
-	</div>
-	<div class="row">
-		<div class="col-12">
-			<mat-slide-toggle #status formControlName="active">
-				Ativo
-				<ng-container *ngIf="status.checked; else elseTemplate">
-					<span class="text-success">Sim</span>
-				</ng-container>
-				<ng-template #elseTemplate>
-					<span class="text-danger">Não</span>
-				</ng-template>
-			</mat-slide-toggle>
-		</div>
+		<mat-slide-toggle #status formControlName="active" required>
+			<ng-container *ngIf="status.checked; else elseTemplate">
+				<span class="text-success">Ativo</span>
+			</ng-container>
+			<ng-template #elseTemplate>
+				<span class="text-danger">Inativo</span>
+			</ng-template>
+		</mat-slide-toggle>
 	</div>
 	<div class="d-flex justify-content-end">
 		<button mat-raised-button (click)="saveProduct()" color="primary" [disabled]="form.invalid">Salvar</button>

@@ -10,8 +10,8 @@
 		<mat-form-field>
 			<mat-label>Nome</mat-label>
 			<input matInput formControlName="name" [errorStateMatcher]="_formValidation" required>
-			<mat-checkbox matSuffix [checked]="false" formControlName="type" #tipo>
-				{{tipo.checked ? 'Admin' : 'Vendedor'}}
+			<mat-checkbox matSuffix [checked]="false" formControlName="type" #type>
+				{{ type.checked ? 'Admin' : 'Vendedor' }}
 			</mat-checkbox>
 			<mat-error *ngIf="form.touched && form.invalid">
 				Informe seu Nome

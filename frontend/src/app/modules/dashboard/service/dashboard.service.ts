@@ -23,7 +23,7 @@ export class DashboardService extends BaseService {
 			let data: number[] = new Array(12).fill(0);
 			sales.forEach(sale => {
 				const index = moment(sale.created.seconds * 1000).month();
-				data[index] = data[index] + 1;
+				data[index] = data[index] + sale.products.reduce((total, prod) => total + prod.price, 0);
 			});
 			return data;
 		})
@@ -32,6 +32,6 @@ export class DashboardService extends BaseService {
 	numSales = () => this._sale.fetchData().pipe(map(sales => sales.length));
 	numAddress = () => this._address.fetchData().pipe(map(address => address.length));
 	totalProductsStock = () => this._product.fetchData().pipe(
-		map(products => products.reduce((total, product) => total = total + product.amount, 0))
+		map(products => products.reduce((total, product) => total + product.amount, 0))
 	);
 }

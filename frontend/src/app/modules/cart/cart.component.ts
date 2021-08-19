@@ -47,8 +47,7 @@ export class CartComponent implements OnInit {
 		this.dataSource.data = cart;
 		localStorage.setItem('cart_products', JSON.stringify(cart));
 	}
-	getTotalPrice = (): number => this.dataSource.data
-		.reduce((total, product) => total += product.price, 0);
+	getTotalPrice = (): number => this.dataSource.data.reduce((total, prod) => total + prod.price, 0);
 
 	cancelSale() {
 		localStorage.removeItem('cart_products');

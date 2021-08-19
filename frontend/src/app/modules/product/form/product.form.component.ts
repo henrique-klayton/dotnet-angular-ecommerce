@@ -1,11 +1,14 @@
+import { formatNumber } from '@angular/common';
 import {
 	ChangeDetectionStrategy, Component, Inject,
 	OnDestroy, OnInit
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { map, skip, takeUntil } from 'rxjs/operators';
+import { AlertService } from 'src/app/shared/service/alert.service';
 import { FormValidationService } from 'src/app/shared/service/form.service';
 import { PRODUCT_CATEGORIES } from 'src/app/utils/constants';
 import { ProductModel } from '../model/product.model';
@@ -28,6 +31,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 		private _productService: ProductService,
 		public _formValidation: FormValidationService,
 		public dialogRef: MatDialogRef<ProductFormComponent>,
+		private _sanitizer: DomSanitizer,
+		private _alert: AlertService,
 		@Inject(MAT_DIALOG_DATA) public data?: string
 	) {}
 
@@ -36,9 +41,20 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 		if (this.data) {
 			this._productService
 				.fetchProductById(this.data)
-				.pipe(takeUntil(this._onDestroy))
+				.pipe(takeUntil(this._onDestroy), map(p => {
+					p.cost_price = formatNumber(p.cost_price as number, 'pt-BR', '1.2-2');
+					p.sale_price = formatNumber(p.sale_price as number, 'pt-BR', '1.2-2');
+					return p;
+				}))
 				.subscribe((p) => this.form.patchValue(p));
 		}
+
+		this.form.get('imageInput').valueChanges
+			.pipe(takeUntil(this._onDestroy))
+			.subscribe(value => {
+				if (value?.files)
+					this.readImage(value.files[0]);
+			});
 	}
 
 	ngOnDestroy(): void {
@@ -48,10 +64,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 
 	public async saveProduct() {
 		try {
-			let image = this.form.get('image').value;
-			if (image?.files)
-				image = await this.readImage(this.form.get('image').value.files[0]);
-			const obj = new ProductModel({ ...this.form.value, image });
+			const obj = new ProductModel({ ...this.form.value });
 			await this._productService.insertOrUpdateProduct(obj, this.data);
 			this.dialogRef.close();
 		} catch (err) {
@@ -60,11 +73,19 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 	}
 
 	private readImage(file: Blob) {
-		return new Promise((resolve: (result: string | ArrayBuffer) => void, reject) => {
-			let fr = new FileReader();
-			fr.readAsDataURL(file);
-			fr.onload = () => resolve(fr.result);
-			fr.onerror = () => reject(new Error('Unable to read..'));
-		});
+		let fr = new FileReader();
+		fr.readAsDataURL(file);
+		fr.onload = () => {
+			// FIXME Verificar tipo de dado antes de aplicar imagem (data:image)
+			this.image.patchValue(this._sanitizer.bypassSecurityTrustUrl(fr.result as string));
+			this._alert.baseAlert('Imagem carregada com sucesso!');
+		};
+		fr.onerror = () => {
+			this._alert.baseAlert('Erro ao carregar a imagem!');
+		};
+	}
+
+	get image() {
+		return this.form.get('image');
 	}
 }
