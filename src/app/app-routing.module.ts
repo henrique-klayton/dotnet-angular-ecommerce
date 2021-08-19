@@ -37,7 +37,7 @@ const routes: Routes = [
 			{
 				path: 'endereco',
 				loadChildren: () =>
-					import('./modules/endereco/endereco.module').then(m => m.EnderecoModule)
+					import('./modules/address/address.module').then(m => m.AddressModule)
 			},
 			{
 				path: 'produtos',

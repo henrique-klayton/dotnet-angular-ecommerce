@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EnderecoFormComponent } from './endereco.form.component';
+import { AddressFormComponent } from './address.form.component';
 
 describe('EnderecoFormComponent', () => {
-	let component: EnderecoFormComponent;
-	let fixture: ComponentFixture<EnderecoFormComponent>;
+	let component: AddressFormComponent;
+	let fixture: ComponentFixture<AddressFormComponent>;
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			declarations: [ EnderecoFormComponent ]
+			declarations: [ AddressFormComponent ]
 		})
 			.compileComponents();
 	});
 
 	beforeEach(() => {
-		fixture = TestBed.createComponent(EnderecoFormComponent);
+		fixture = TestBed.createComponent(AddressFormComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

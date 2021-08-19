@@ -5,16 +5,16 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { EnderecoFormComponent } from './form/endereco.form.component';
+import { AddressFormComponent } from './form/address.form.component';
 import { AddressFormModel } from './form/model/address.form.model';
 import { AddressService } from './service/address.service';
 
 @Component({
-	selector: 'app-endereco',
-	templateUrl: './endereco.component.html',
-	styleUrls: ['./endereco.component.scss'],
+	selector: 'app-address',
+	templateUrl: './address.component.html',
+	styleUrls: ['./address.component.scss'],
 })
-export class EnderecoComponent implements OnInit, AfterViewInit, OnDestroy {
+export class AddressComponent implements OnInit, AfterViewInit, OnDestroy {
 	public displayedColumns: string[] = [
 		'cep',
 		'logradouro',
@@ -50,7 +50,7 @@ export class EnderecoComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	openDialog(id?: string): void {
-		this.dialog.open(EnderecoFormComponent, {
+		this.dialog.open(AddressFormComponent, {
 			width: '600px',
 			data: { id: id, table: this.dataSource.data },
 		});

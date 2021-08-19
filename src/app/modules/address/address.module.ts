@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { EnderecoRoutingModule } from './endereco-routing.module';
-import { EnderecoComponent } from './endereco.component';
+import { AddressRoutingModule } from './address-routing.module';
+import { AddressComponent } from './address.component';
 import { MaterialModule } from 'src/app/material.module';
-import { EnderecoFormComponent } from './form/endereco.form.component';
+import { AddressFormComponent } from './form/address.form.component';
 import { AddressService } from './service/address.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -13,12 +13,12 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
 	declarations: [
-		EnderecoComponent,
-		EnderecoFormComponent,
+		AddressComponent,
+		AddressFormComponent,
 	],
 	imports: [
 		CommonModule,
-		EnderecoRoutingModule,
+		AddressRoutingModule,
 		FormsModule,
 		ReactiveFormsModule,
 		MaterialModule,
@@ -29,4 +29,4 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 		AddressService
 	]
 })
-export class EnderecoModule { }
+export class AddressModule { }
