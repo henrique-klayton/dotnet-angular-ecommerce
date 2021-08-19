@@ -20,7 +20,7 @@ export class CartService extends BaseService {
 	async executeSale(items: CartProductModel[]): Promise<void> {
 		let products: ProductFormModel[] = await this._productService.fetchDataOnce();
 		let promises = await Promise.allSettled(
-			products.map((product) => this.updateProduct(product, items))
+			products.map((product) => this._updateProduct(product, items))
 		);
 		let errors = promises.map<string>(res => {
 			if (res.status === 'rejected')
@@ -31,7 +31,7 @@ export class CartService extends BaseService {
 		return this._saleService.insertSale({ products: items, created: new Date() });
 	}
 
-	private updateProduct(
+	private _updateProduct(
 		product: ProductFormModel,
 		items: CartProductModel[]
 	): Promise<void> {

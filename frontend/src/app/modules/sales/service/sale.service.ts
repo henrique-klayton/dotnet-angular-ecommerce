@@ -6,17 +6,17 @@ import { SaleModel } from '../../cart/model/sale.model';
 
 @Injectable()
 export class SaleService extends BaseService {
-	private collection = 'Sales';
-	private setOptions: ISetOptions = { useAlert: AlertType.NONE };
+	private _collection = 'Sales';
+	private _setOptions: ISetOptions = { useAlert: AlertType.NONE };
 	constructor() {
 		super();
 	}
 
-	fetchData = () => this.getData<SaleModel>(this.collection);
-	fetchDataOnce = () => this.getDataOnce<SaleModel>(this.collection);
-	fetchSaleById = (id: string) => this.getById<SaleModel>(id, this.collection);
+	fetchData = () => this.getData<SaleModel>(this._collection);
+	fetchDataOnce = () => this.getDataOnce<SaleModel>(this._collection);
+	fetchSaleById = (id: string) => this.getById<SaleModel>(id, this._collection);
 	insertSale = (obj: SaleModel): Promise<void> =>
-		this.create(obj, SaleModel, this.collection, this.setOptions);
+		this.create(obj, SaleModel, this._collection, this._setOptions);
 	deleteSale = (id: string): Promise<void> =>
-		this.delete(id, this.collection, this.setOptions);
+		this.delete(id, this._collection, this._setOptions);
 }

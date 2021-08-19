@@ -35,20 +35,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.form = this._fb.group(new AddressFormModel());
-		this.subscribeCep();
+		this._subscribeCep();
 	}
 
 	ngOnDestroy(): void {
 		this._onDestroy.next();
 		this._onDestroy.complete();
-	}
-
-	private subscribeCep(): void {
-		this.cep.valueChanges
-			.pipe(
-				debounceTime(1000),
-				takeUntil(this._onDestroy)
-			).subscribe((v) => this.fetchCep(v));
 	}
 
 	public saveAddress(): void {
@@ -62,7 +54,15 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 			.then(() => this.dialogRef.close());
 	}
 
-	private fetchCep(cep: string) {
+	private _subscribeCep(): void {
+		this.cep.valueChanges
+			.pipe(
+				debounceTime(1000),
+				takeUntil(this._onDestroy)
+			).subscribe((v) => this._fetchCep(v));
+	}
+
+	private _fetchCep(cep: string) {
 		if (!isNullOrWhitespace(cep) && cep.length === 8)
 			this._addressService.fetchCep(cep).then((res) => this.form.patchValue(res));
 	}

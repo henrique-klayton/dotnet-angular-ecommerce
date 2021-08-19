@@ -13,7 +13,7 @@ import { AuthService } from '../auth/service/auth.service';
 	providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-	constructor(private _authService: AuthService, private router: Router) {}
+	constructor(private _authService: AuthService, private _router: Router) {}
 
 	canActivate(
 		route: ActivatedRouteSnapshot,
@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
 		// eslint-disable-next-line no-console
 		console.log(route);
 		if (!this._authService.isLogged()) {
-			return this.router.navigate(['login']);
+			return this._router.navigate(['login']);
 		}
 		return true;
 	}

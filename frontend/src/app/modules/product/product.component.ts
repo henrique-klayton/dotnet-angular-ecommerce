@@ -55,7 +55,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 	ngAfterViewInit() {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
-		this.dataSource.filterPredicate = (d, f) => this.filter(d, f as ProductFilterModel);
+		this.dataSource.filterPredicate = (d, f) => this._filter(d, f as ProductFilterModel);
 		this.applyFilter();
 	}
 
@@ -93,7 +93,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 			this.dataSource.paginator.firstPage();
 	}
 
-	private filter(data: ProductModel, filter: ProductFilterModel): boolean {
+	private _filter(data: ProductModel, filter: ProductFilterModel): boolean {
 		const prodName = data.name.toLowerCase().trim();
 		const prodDesc = data.description?.toLowerCase().trim() ?? '';
 		const filterText = filter.text?.toLowerCase().trim();
