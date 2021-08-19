@@ -27,10 +27,10 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 	private _onDestroy = new Subject<void>();
 
 	constructor(
-		private _fb: FormBuilder,
-		private _productService: ProductService,
 		public _formValidation: FormValidationService,
 		public dialogRef: MatDialogRef<ProductFormComponent>,
+		private _fb: FormBuilder,
+		private _productService: ProductService,
 		private _sanitizer: DomSanitizer,
 		private _alert: AlertService,
 		@Inject(MAT_DIALOG_DATA) public data?: string
@@ -53,7 +53,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 			.pipe(takeUntil(this._onDestroy))
 			.subscribe(value => {
 				if (value?.files)
-					this.readImage(value.files[0]);
+					this._readImage(value.files[0]);
 			});
 	}
 
@@ -72,7 +72,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	private readImage(file: Blob) {
+	private _readImage(file: Blob) {
 		let fr = new FileReader();
 		fr.readAsDataURL(file);
 		fr.onload = () => {

@@ -8,29 +8,29 @@ import { ProductModel } from '../model/product.model';
 
 @Injectable()
 export class ProductService extends BaseService {
-	private collection = 'Products';
-	private setOptions: ISetOptions = { useAlert: AlertType.STATUS, objName: 'Produto' }
+	private _collection = 'Products';
+	private _setOptions: ISetOptions = { useAlert: AlertType.STATUS, objName: 'Produto' }
 	constructor() {
 		super();
 	}
 
-	fetchData = () => this.getData<ProductFormModel>(this.collection);
-	fetchDataOnce = () => this.getDataOnce<ProductFormModel>(this.collection);
-	fetchProductById = (id: string) => this.getById<ProductModel>(id, this.collection);
+	fetchData = () => this.getData<ProductFormModel>(this._collection);
+	fetchDataOnce = () => this.getDataOnce<ProductFormModel>(this._collection);
+	fetchProductById = (id: string) => this.getById<ProductModel>(id, this._collection);
 
 	insertOrUpdateProduct = (obj: ProductModel, id?: string) =>
 		id ? this.updateProduct(id, obj) : this.insertProduct(obj);
 
 	insertProduct = (obj: ProductModel): Promise<void> =>
-		this.create(obj, ProductModel, this.collection, this.setOptions);
+		this.create(obj, ProductModel, this._collection, this._setOptions);
 
 	updateProduct(id: string, obj: ProductModel, useAlert?: AlertType): Promise<void> {
-		let setOptions = this.setOptions;
+		let setOptions = this._setOptions;
 		if (!isNullOrWhitespace(useAlert))
 			setOptions.useAlert = useAlert;
-		return this.update(id, obj, ProductModel, this.collection, setOptions);
+		return this.update(id, obj, ProductModel, this._collection, setOptions);
 	}
 
 	deleteProduct = (id: string): Promise<void> =>
-		this.delete(id, this.collection, this.setOptions);
+		this.delete(id, this._collection, this._setOptions);
 }

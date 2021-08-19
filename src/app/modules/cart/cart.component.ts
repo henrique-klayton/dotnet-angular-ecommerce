@@ -42,7 +42,7 @@ export class CartComponent implements OnInit {
 	getData = (): void => this.dataSource.data = JSON.parse(localStorage.getItem('cart_products'));
 
 	removeItem(product: CartProductModel) {
-		let cart = this.getCart();
+		let cart = this._getCart();
 		cart.splice(cart.indexOf(product), 1);
 		this.dataSource.data = cart;
 		localStorage.setItem('cart_products', JSON.stringify(cart));
@@ -70,5 +70,5 @@ export class CartComponent implements OnInit {
 		}
 	}
 
-	private getCart = (): CartProductModel[] => JSON.parse(localStorage.getItem('cart_products'));
+	private _getCart = (): CartProductModel[] => JSON.parse(localStorage.getItem('cart_products'));
 }

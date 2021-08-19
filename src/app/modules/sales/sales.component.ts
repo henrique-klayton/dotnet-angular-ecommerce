@@ -51,7 +51,7 @@ export class SalesComponent implements OnInit, OnDestroy {
 			JSON.parse(localStorage.getItem('cart_products')) ?? [];
 		let item = cart.find(v => v.id === product.id);
 
-		if (isNullOrUndefined(item) && this.hasEnoughStock(product.amount, amount)) {
+		if (isNullOrUndefined(item) && this._hasEnoughStock(product.amount, amount)) {
 			cart.push(CartProductModel.fromProduct(product, amount));
 			localStorage.setItem('cart_products', JSON.stringify(cart));
 			this._alert.baseAlert('Produto adicionado ao carrinho!');
@@ -59,7 +59,7 @@ export class SalesComponent implements OnInit, OnDestroy {
 		}
 
 		const newAmount = item.amount + amount;
-		if (this.hasEnoughStock(product.amount, newAmount, item.amount)) {
+		if (this._hasEnoughStock(product.amount, newAmount, item.amount)) {
 			item.amount = newAmount;
 			item.price += amount * (product.sale_price as number);
 			localStorage.setItem('cart_products', JSON.stringify(cart));
@@ -68,7 +68,7 @@ export class SalesComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	private hasEnoughStock(
+	private _hasEnoughStock(
 		stockAmount: number,
 		saleAmount: number,
 		cartAmount: number = 0

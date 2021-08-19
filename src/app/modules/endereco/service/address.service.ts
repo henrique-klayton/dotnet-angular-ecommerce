@@ -8,8 +8,8 @@ import { AddressModel } from '../model/address.model';
 
 @Injectable()
 export class AddressService extends BaseService {
-	private collection = 'Address';
-	private setOptions: ISetOptions = { useAlert: AlertType.STATUS, objName: 'Endereço' };
+	private _collection = 'Address';
+	private _setOptions: ISetOptions = { useAlert: AlertType.STATUS, objName: 'Endereço' };
 	constructor(private _http: HttpClient) {
 		super();
 	}
@@ -31,13 +31,13 @@ export class AddressService extends BaseService {
 	}
 
 	fetchData = () =>
-		this.getData<AddressFormModel>(this.collection, { idField: 'cep'});
+		this.getData<AddressFormModel>(this._collection, { idField: 'cep'});
 
 	fetchAddressById = (cep: string) =>
-		this.getById<AddressFormModel>(cep, this.collection, { idField: 'cep' })
+		this.getById<AddressFormModel>(cep, this._collection, { idField: 'cep' })
 
 	insertAddress = (obj: AddressFormModel) =>
-		this.create(obj, AddressModel, this.collection, this.setOptions, obj.cep);
+		this.create(obj, AddressModel, this._collection, this._setOptions, obj.cep);
 
-	deleteAddress = (cep: string) => this.delete(cep, this.collection, this.setOptions);
+	deleteAddress = (cep: string) => this.delete(cep, this._collection, this._setOptions);
 }

@@ -74,8 +74,8 @@ export abstract class BaseService {
 		}
 		return this._firestore.collection(col).doc(id)
 			.set(formatObjectToFirebase(obj, cls))
-			.then(() => this.showAlert(true, options))
-			.catch(() => this.showAlert(false, options));
+			.then(() => this._showAlert(true, options))
+			.catch(() => this._showAlert(false, options));
 	}
 	protected update<T>(
 		id: string,
@@ -90,8 +90,8 @@ export abstract class BaseService {
 		}
 		return this._firestore.collection(col).doc(id)
 			.update(formatObjectToFirebase(obj, cls))
-			.then(() => this.showAlert(true, options))
-			.catch(() => this.showAlert(false, options));
+			.then(() => this._showAlert(true, options))
+			.catch(() => this._showAlert(false, options));
 	}
 	protected delete(
 		id: string,
@@ -104,11 +104,11 @@ export abstract class BaseService {
 		}
 		return this._firestore.collection(col).doc(id)
 			.delete()
-			.then(() => this.showAlert(true, options))
-			.catch(() => this.showAlert(false, options));
+			.then(() => this._showAlert(true, options))
+			.catch(() => this._showAlert(false, options));
 	}
 
-	private showAlert(success: boolean, options: ISetOptions) {
+	private _showAlert(success: boolean, options: ISetOptions) {
 		switch (options.useAlert) {
 			case AlertType.BASE:
 				this._alert.baseAlert(

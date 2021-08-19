@@ -25,14 +25,14 @@ export class AlertService {
 
 	statusAlert(success: boolean, objName: string, options: IAlertOptions) {
 		options.action ??= 'Fechar';
-		const [successMsg, errorMsg] = this.defaultMsg(options.type);
+		const [successMsg, errorMsg] = this._defaultMsg(options.type);
 		const message = success
 			? `${objName} ${successMsg} com sucesso`
 			: `Erro ao ${errorMsg} ${objName.toLowerCase()}`;
 		return this.baseAlert(message, options.action, options.config);
 	}
 
-	private defaultMsg(type: ActionType) {
+	private _defaultMsg(type: ActionType) {
 		switch (type) {
 			case ActionType.CREATE:
 				return ['cadastrado', 'cadastrar'];
