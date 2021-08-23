@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,7 +25,10 @@ namespace E_commerce {
 		public void ConfigureServices(IServiceCollection services) {
 
 			services.AddControllers();
-			services.AddDbContext<EcommerceDbContext>();
+			services.AddDbContext<EcommerceDbContext>(options => options.UseMySql(
+				Configuration.GetConnectionString("DefaultConnection"),
+				ServerVersion.Parse("10.6.4-mariadb")
+			));
 			services.AddSwaggerGen(c => {
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "E_commerce", Version = "v1" });
 			});

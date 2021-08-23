@@ -7,15 +7,8 @@ namespace E_commerce.Models {
 
 		public int TemperatureC { get; set; }
 
-		public int TemperatureF { get; set; }
+		public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 
 		public string Summary { get; set; }
-
-		public WeatherForecast(DateTime date, int temperatureC, string summary) {
-			Date = date;
-			TemperatureC = temperatureC;
-			TemperatureF = 32 + (int)(temperatureC / 0.5556);
-			Summary = summary;
-		}
 	}
 }

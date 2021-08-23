@@ -7,19 +7,15 @@ namespace BackEnd.Models {
 
 		[Key]
 		public int Id { get; set; }
+		[Required]
 		public string PostalCode { get; set; }
+		[Required]
 		public string Street { get; set; }
+		[Required]
 		public string District { get; set; }
+		[Required]
 		public string City { get; set; }
+		[Required]
 		public string State { get; set; }
-
-		public Address(int id, string postalCode, string street, string district, string city, string state) {
-			Id = id;
-			PostalCode = postalCode;
-			Street = street;
-			District = district;
-			City = city;
-			State = state;
-		}
 	}
 }

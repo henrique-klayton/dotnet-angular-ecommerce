@@ -8,14 +8,10 @@ namespace BackEnd.Models {
 
 		[Key]
 		public int Id { get; set; }
+		[Required]
 		public string Name { get; set; }
 
+		[Required]
 		public ICollection<Product> Product { get; set; }
-
-		public Category(int id, string name, ICollection<Product> product) {
-			Id = id;
-			Name = name;
-			Product = product;
-		}
 	}
 }

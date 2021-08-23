@@ -6,28 +6,22 @@ namespace BackEnd.Models {
 	public class User {
 		[Key]
 		public int Id { get; set; }
+		[Required]
 		public string Name { get; set; }
-	
 		[EmailAddress]
 		public string Email { get; set; }
+		[Required]
 		public string PasswordHash { get; set; }
+		[Required]
 		public string PasswordSalt { get; set; }
+		[Required]
 		public string Phone { get; set; }
+		[Required]
 		public DateTime BirthDate { get; set; }
+		[Required]
 		public string Role { get; set; }
 
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public DateTime Created { get; set; }
-
-		public User(int id, string name, string email, string passwordHash, string passwordSalt, string phone, DateTime birthDate, string role) {
-			Id = id;
-			Name = name;
-			Email = email;
-			PasswordHash = passwordHash;
-			PasswordSalt = passwordSalt;
-			Phone = phone;
-			BirthDate = birthDate;
-			Role = role;
-		}
 	}
 }

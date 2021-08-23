@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>E_commerce</RootNamespace>
-		<Nullable>enable</Nullable>
     <UserSecretsId>c65c9be5-93f8-4fa2-9571-1fe723c780a3</UserSecretsId>
   </PropertyGroup>
 
