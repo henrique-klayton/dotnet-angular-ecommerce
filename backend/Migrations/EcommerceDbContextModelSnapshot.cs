@@ -19,7 +19,7 @@ namespace E_commerce.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.9");
 
-            modelBuilder.Entity("BackEnd.Models.Address", b =>
+            modelBuilder.Entity("Ecommerce.Models.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,7 +50,7 @@ namespace E_commerce.Migrations
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("BackEnd.Models.Category", b =>
+            modelBuilder.Entity("Ecommerce.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -65,7 +65,7 @@ namespace E_commerce.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("BackEnd.Models.Product", b =>
+            modelBuilder.Entity("Ecommerce.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,7 +101,7 @@ namespace E_commerce.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("BackEnd.Models.User", b =>
+            modelBuilder.Entity("Ecommerce.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -143,9 +143,9 @@ namespace E_commerce.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BackEnd.Models.Product", b =>
+            modelBuilder.Entity("Ecommerce.Models.Product", b =>
                 {
-                    b.HasOne("BackEnd.Models.Category", "Category")
+                    b.HasOne("Ecommerce.Models.Category", "Category")
                         .WithMany("Product")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -154,7 +154,7 @@ namespace E_commerce.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("BackEnd.Models.Category", b =>
+            modelBuilder.Entity("Ecommerce.Models.Category", b =>
                 {
                     b.Navigation("Product");
                 });

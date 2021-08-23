@@ -1,5 +1,5 @@
 ﻿using System;
-using BackEnd.Models;
+using Ecommerce.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
