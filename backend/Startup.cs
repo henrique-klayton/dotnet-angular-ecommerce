@@ -24,6 +24,7 @@ namespace E_commerce {
 		public void ConfigureServices(IServiceCollection services) {
 
 			services.AddControllers();
+			services.AddDbContext<EcommerceDbContext>();
 			services.AddSwaggerGen(c => {
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "E_commerce", Version = "v1" });
 			});

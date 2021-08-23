@@ -1,14 +1,12 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace E_commerce.Models {
-	public partial class EcommerceContext : DbContext {
-		public EcommerceContext() {
-		}
+namespace E_commerce {
+	public partial class EcommerceDbContext : DbContext {
+		public EcommerceDbContext() {}
 
-		public EcommerceContext(DbContextOptions<EcommerceContext> options) : base(options) {
-		}
+		public EcommerceDbContext(DbContextOptions<EcommerceDbContext> options) : base(options) {}
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
 			if (!optionsBuilder.IsConfigured) {
