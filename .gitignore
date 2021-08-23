@@ -15,6 +15,7 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/*
+omnisharp.json
 
 # misc
 keys/
