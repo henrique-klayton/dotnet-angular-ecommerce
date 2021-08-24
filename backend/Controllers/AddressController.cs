@@ -6,7 +6,7 @@ using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace E_commerce.Controllers {
+namespace Ecommerce.Controllers {
 	[ApiController]
 	[Route("[controller]")]
 	public class AddressController : ControllerBase {

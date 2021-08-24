@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "E_commerce": {
+    "Ecommerce": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

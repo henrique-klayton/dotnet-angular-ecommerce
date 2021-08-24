@@ -13,7 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
-namespace E_commerce {
+namespace Ecommerce {
 	public class Startup {
 		public Startup(IConfiguration configuration) {
 			Configuration = configuration;
@@ -30,7 +30,7 @@ namespace E_commerce {
 				ServerVersion.Parse("10.6.4-mariadb")
 			));
 			services.AddSwaggerGen(c => {
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "E_commerce", Version = "v1" });
+				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ecommerce", Version = "v1" });
 			});
 		}
 
@@ -39,7 +39,7 @@ namespace E_commerce {
 			if (env.IsDevelopment()) {
 				app.UseDeveloperExceptionPage();
 				app.UseSwagger();
-				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "E_commerce v1"));
+				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ecommerce v1"));
 			}
 
 			app.UseHttpsRedirection();

@@ -3,11 +3,11 @@ using Ecommerce.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace E_commerce {
+namespace Ecommerce {
 	public partial class EcommerceDbContext : DbContext {
-		public EcommerceDbContext() {}
+		public EcommerceDbContext() { }
 
-		public EcommerceDbContext(DbContextOptions<EcommerceDbContext> options) : base(options) {}
+		public EcommerceDbContext(DbContextOptions<EcommerceDbContext> options) : base(options) { }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder) {
 			modelBuilder.HasCharSet("utf8mb4")

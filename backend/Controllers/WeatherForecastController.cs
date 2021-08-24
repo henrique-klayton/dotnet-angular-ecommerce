@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using E_commerce.Models;
+using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace E_commerce.Controllers {
+namespace Ecommerce.Controllers {
 	[ApiController]
 	[Route("[controller]")]
 	public class WeatherForecastController : ControllerBase {

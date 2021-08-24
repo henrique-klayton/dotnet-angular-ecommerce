@@ -1,6 +1,6 @@
 using System;
 
-namespace E_commerce.Models {
+namespace Ecommerce.Models {
 	public class WeatherForecast {
 
 		public DateTime Date { get; set; }
