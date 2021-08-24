@@ -65,11 +65,10 @@ namespace Ecommerce.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PasswordSalt = table.Column<string>(type: "longtext", nullable: false, collation: "utf8mb4_general_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Phone = table.Column<string>(type: "longtext", nullable: false, collation: "utf8mb4_general_ci")
+                    Phone = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_general_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     BirthDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Role = table.Column<string>(type: "longtext", nullable: false, collation: "utf8mb4_general_ci")
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Role = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
                 },
@@ -88,7 +87,7 @@ namespace Ecommerce.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false, collation: "utf8mb4_general_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "longtext", nullable: false, collation: "utf8mb4_general_ci")
+                    Description = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_general_ci")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CostPrice = table.Column<double>(type: "double", nullable: false),
                     SalePrice = table.Column<double>(type: "double", nullable: false),
