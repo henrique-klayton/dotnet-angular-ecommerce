@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
 namespace Ecommerce.Models {
 	public class User {
@@ -9,17 +10,16 @@ namespace Ecommerce.Models {
 		[Required]
 		public string Name { get; set; }
 		[EmailAddress]
+		[Required]
 		public string Email { get; set; }
 		[Required]
 		public string PasswordHash { get; set; }
 		[Required]
 		public string PasswordSalt { get; set; }
-		[Required]
 		public string Phone { get; set; }
-		[Required]
 		public DateTime BirthDate { get; set; }
 		[Required]
-		public string Role { get; set; }
+		public int Role { get; set; }
 
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public DateTime Created { get; set; }
