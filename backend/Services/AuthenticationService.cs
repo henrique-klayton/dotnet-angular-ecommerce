@@ -36,7 +36,9 @@ namespace Ecommerce.Services {
 			var user = _dbContext.Users.SingleOrDefault(u => u.Email == model.Email);
 			if (user == null) return null;
 
-			var token = GenerateJwtToken(user);
+			if (!_passwordService.ValidPassword(user.PasswordHash, user.PasswordSalt, model.Password))
+				return null;
+
 			return new AuthenticateResponse {
 				User = new UserDTO(user),
 				Token = token,
