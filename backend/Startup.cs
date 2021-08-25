@@ -44,11 +44,22 @@ namespace Ecommerce {
 				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 				options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 			}).AddJwtBearer(options => {
+				var key = Encoding.ASCII.GetBytes(Configuration["JWTSecret"]);
+
 				options.SaveToken = true;
+
+				options.TokenValidationParameters = new TokenValidationParameters {
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(key),
+					ValidateIssuer = false,
+					ValidateAudience = false,
+					ValidateLifetime = true,
+				};
 			});
 
 			services.AddSwaggerGen(c => {
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ecommerce", Version = "v1" });
+
 				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
 					Name = "Authorization",
 					Type = SecuritySchemeType.ApiKey,
@@ -57,6 +68,7 @@ namespace Ecommerce {
 					In = ParameterLocation.Header,
 					Description = "Enter your JWT Token below.",
 				});
+
 				c.AddSecurityRequirement(new OpenApiSecurityRequirement {{
 					new OpenApiSecurityScheme {
 						Reference = new OpenApiReference {
