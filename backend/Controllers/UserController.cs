@@ -21,6 +21,13 @@ namespace Ecommerce.Controllers {
 
 		[HttpGet]
 		public IEnumerable<UserDTO> Get() => _dbContext.Users.Select(u => new UserDTO(u)).ToList();
+
+		[HttpPost]
+		public IActionResult Put(int Id) {
+			var user = _dbContext.Users.SingleOrDefault(u => u.Id == Id);
+			// _dbContext.Users.Add(user);
+			// _dbContext.SaveChanges();
+			return Ok();
 		}
 
 		[HttpPost("Login")]
