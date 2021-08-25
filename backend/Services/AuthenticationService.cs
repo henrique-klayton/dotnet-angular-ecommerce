@@ -1,15 +1,6 @@
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using Ecommerce.Models;
-using Microsoft.Extensions.Configuration;
 using Ecommerce.Models.Authentication;
-using Microsoft.AspNetCore.Identity;
 
 namespace Ecommerce.Services {
 	public interface IUserService {
