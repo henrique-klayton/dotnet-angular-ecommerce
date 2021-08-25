@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using Ecommerce.Models;
+using Ecommerce.Models.Authentication;
 using Ecommerce.Services;
 using Microsoft.AspNetCore.Authorization;
-using Ecommerce.Models.Authentication;
-using System.Collections.Generic;
-using Ecommerce.Models;
-using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers {
 	[ApiController]
