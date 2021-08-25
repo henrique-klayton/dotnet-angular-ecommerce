@@ -80,8 +80,9 @@ namespace Ecommerce {
 				}});
 			});
 
-			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IPasswordService, PasswordService>();
+			services.AddScoped<ITokenService, TokenService>();
+			services.AddScoped<IUserService, UserService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

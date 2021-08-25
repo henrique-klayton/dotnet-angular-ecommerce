@@ -18,18 +18,18 @@ namespace Ecommerce.Services {
 	}
 
 	public class UserService : IUserService {
-		private readonly IConfiguration _config;
 		private readonly EcommerceDbContext _dbContext;
 		private readonly IPasswordService _passwordService;
+		private readonly ITokenService _tokenService;
 
 		public UserService(
-			IConfiguration config,
 			EcommerceDbContext dbContext,
-			IPasswordService passwordService
+			IPasswordService passwordService,
+			ITokenService tokenService
 		) {
-			_config = config;
 			_dbContext = dbContext;
 			_passwordService = passwordService;
+			_tokenService = tokenService;
 		}
 
 		public AuthenticateResponse Authenticate(AuthenticateRequest model) {
@@ -39,6 +39,7 @@ namespace Ecommerce.Services {
 			if (!_passwordService.ValidPassword(user.PasswordHash, user.PasswordSalt, model.Password))
 				return null;
 
+			var token = _tokenService.GenerateJwtToken(user);
 			return new AuthenticateResponse {
 				User = new UserDTO(user),
 				Token = token,
@@ -48,7 +49,7 @@ namespace Ecommerce.Services {
 		public RegisterResponse Register(RegisterRequest model) {
 			_passwordService.HashedPassword(model.Password, out var passwordHash, out var passwordSalt);
 
-			//TODO Verificar se email existe
+			//TODO Verificar se email já está cadastrado
 
 			_dbContext.Users.Add(new User {
 				Name = model.Name,
@@ -60,27 +61,6 @@ namespace Ecommerce.Services {
 			_dbContext.SaveChanges();
 
 			return new RegisterResponse { Message = "Usuário cadastrado com sucesso!" };
-		}
-
-		private string GenerateJwtToken(User user) {
-			var tokenHandler = new JwtSecurityTokenHandler();
-			var key = Encoding.ASCII.GetBytes(_config.GetValue<string>("JWTSecret"));
-
-			var tokenDescriptor = new SecurityTokenDescriptor {
-				Subject = new ClaimsIdentity(new[] {
-					new Claim("Id", user.Id.ToString(), ClaimValueTypes.Integer),
-					new Claim(ClaimTypes.Name, user.Name),
-					new Claim(ClaimTypes.Email, user.Email),
-				}),
-				SigningCredentials = new SigningCredentials(
-					new SymmetricSecurityKey(key),
-					SecurityAlgorithms.HmacSha256Signature
-				),
-				Expires = DateTime.UtcNow.AddDays(7),
-			};
-
-			var token = tokenHandler.CreateToken(tokenDescriptor);
-			return tokenHandler.WriteToken(token);
 		}
 	}
 }
