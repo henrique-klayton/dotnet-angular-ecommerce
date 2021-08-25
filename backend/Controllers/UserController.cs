@@ -20,9 +20,7 @@ namespace Ecommerce.Controllers {
 		}
 
 		[HttpGet]
-		[AllowAnonymous]
-		public IEnumerable<User> Get() {
-			return _dbContext.Users.ToList();
+		public IEnumerable<UserDTO> Get() => _dbContext.Users.Select(u => new UserDTO(u)).ToList();
 		}
 
 		[HttpPost("Login")]
@@ -32,7 +30,6 @@ namespace Ecommerce.Controllers {
 
 			if (response == null)
 				return BadRequest(new { message = "Email e/ou Senha inválida!" });
-
 			return Ok(response);
 		}
 
@@ -40,7 +37,6 @@ namespace Ecommerce.Controllers {
 		[AllowAnonymous]
 		public ActionResult<RegisterResponse> Register(RegisterRequest model) {
 			var response = _userService.Register(model);
-
 			return Ok(response);
 		}
 	}

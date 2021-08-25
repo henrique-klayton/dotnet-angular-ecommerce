@@ -38,8 +38,8 @@ namespace Ecommerce.Services {
 
 			var token = GenerateJwtToken(user);
 			return new AuthenticateResponse {
-				User = user,
-				Token = token
+				User = new UserDTO(user),
+				Token = token,
 			};
 		}
 
