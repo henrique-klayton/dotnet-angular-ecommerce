@@ -44,7 +44,7 @@ namespace Ecommerce.Services {
 		}
 
 		public RegisterResponse Register(RegisterRequest model) {
-			_passwordService.HashPassword(model.Password, out var passwordHash, out var passwordSalt);
+			_passwordService.HashedPassword(model.Password, out var passwordHash, out var passwordSalt);
 
 			//TODO Verificar se email existe
 
