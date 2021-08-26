@@ -30,9 +30,9 @@ namespace Ecommerce.Controllers {
 			return Ok();
 		}
 
-		[HttpPost("Login")]
+		[HttpPost("[action]")]
 		[AllowAnonymous]
-		public IActionResult Login(AuthenticateRequest model) {
+		public IActionResult Authenticate(AuthenticateRequest model) {
 			var response = _userService.Authenticate(model);
 
 			if (response == null)
@@ -40,7 +40,7 @@ namespace Ecommerce.Controllers {
 			return Ok(response);
 		}
 
-		[HttpPost("Register")]
+		[HttpPost("[action]")]
 		[AllowAnonymous]
 		public ActionResult<RegisterResponse> Register(RegisterRequest model) {
 			var response = _userService.Register(model);
