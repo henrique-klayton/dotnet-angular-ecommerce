@@ -4,6 +4,7 @@ using Ecommerce.Models;
 using Ecommerce.Models.Authentication;
 using Ecommerce.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers {
@@ -22,12 +23,12 @@ namespace Ecommerce.Controllers {
 		[HttpGet]
 		public IEnumerable<UserDTO> Get() => _dbContext.Users.Select(u => new UserDTO(u)).ToList();
 
-		[HttpPost]
-		public IActionResult Put(int Id) {
-			var user = _dbContext.Users.SingleOrDefault(u => u.Id == Id);
+		[HttpPatch]
+		public IActionResult Patch(JsonPatchDocument<UserDTO> model) {
+			// var user = _dbContext.Users.SingleOrDefault(u => u.Id == model.Id);
 			// _dbContext.Users.Add(user);
 			// _dbContext.SaveChanges();
-			return Ok();
+			return Ok(model);
 		}
 
 		[HttpPost("[action]")]
