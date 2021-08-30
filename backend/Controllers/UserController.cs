@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ecommerce.Models;
@@ -23,9 +24,18 @@ namespace Ecommerce.Controllers {
 		[HttpGet]
 		public IEnumerable<UserDTO> Get() => _dbContext.Users.Select(u => new UserDTO(u)).ToList();
 
-		[HttpPatch]
-		public IActionResult Patch(JsonPatchDocument<UserDTO> model) {
-			// var user = _dbContext.Users.SingleOrDefault(u => u.Id == model.Id);
+		[HttpPatch("{id:int}")]
+		public IActionResult Patch(int id, JsonPatchDocument<User> model) {
+			var user = _dbContext.Users.SingleOrDefault(u => u.Id == id);
+			if (user == null) return NotFound();
+
+			// TODO Validade if model is not changing certain fields
+			model.ApplyTo(user, ModelState);
+			if (!ModelState.IsValid) return BadRequest(ModelState);
+
+			_dbContext.Update(user);
+			Console.WriteLine(user.Email);
+
 			// _dbContext.Users.Add(user);
 			// _dbContext.SaveChanges();
 			return Ok(model);

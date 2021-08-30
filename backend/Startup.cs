@@ -1,13 +1,17 @@
 using System;
+using System.Linq;
 using System.Text;
 using Ecommerce.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -20,7 +24,10 @@ namespace Ecommerce {
 		}
 
 		public void ConfigureServices(IServiceCollection services) {
-			services.AddControllers();
+			services
+				.AddControllers(options => {
+					options.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
+				}).AddNewtonsoftJson();
 
 			services.AddDbContext<EcommerceDbContext>(options => options.UseMySql(
 				Configuration.GetConnectionString("DefaultConnection"),
@@ -86,8 +93,7 @@ namespace Ecommerce {
 			app.UseCors(config => config
 					.AllowAnyOrigin()
 					.AllowAnyMethod()
-					.AllowAnyHeader()
-			);
+					.AllowAnyHeader());
 
 			app.UseAuthentication();
 			app.UseAuthorization();
@@ -95,6 +101,20 @@ namespace Ecommerce {
 			app.UseEndpoints(endpoints => {
 				endpoints.MapControllers();
 			});
+		}
+
+		private static NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter() {
+			return new ServiceCollection()
+					.AddLogging()
+					.AddMvc()
+					.AddNewtonsoftJson()
+					.Services
+					.BuildServiceProvider()
+					.GetRequiredService<IOptions<MvcOptions>>()
+					.Value
+					.InputFormatters
+					.OfType<NewtonsoftJsonPatchInputFormatter>()
+					.First();
 		}
 	}
 }
