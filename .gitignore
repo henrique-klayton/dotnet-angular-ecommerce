@@ -470,6 +470,6 @@ $RECYCLE.BIN/
 # JetBrains Rider
 *.sln.iml
 
-##
-## Visual Studio Code
-##
+# .NET Configuration files
+appsettings.json
+appsettings.Development.json
