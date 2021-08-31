@@ -14,11 +14,18 @@ namespace Ecommerce.Controllers {
 	[Route("[controller]")]
 	public class UserController : ControllerBase {
 		private readonly EcommerceDbContext _dbContext;
+		private readonly IJsonPatchService _patchService;
 		private readonly IUserService _userService;
 
-		public UserController(EcommerceDbContext dbContext, IUserService userService) {
+
+		public UserController(
+			EcommerceDbContext dbContext,
+			IJsonPatchService patchService,
+			IUserService userService
+		) {
 			_dbContext = dbContext;
 			_userService = userService;
+			_patchService = patchService;
 		}
 
 		[HttpGet]
@@ -29,8 +36,9 @@ namespace Ecommerce.Controllers {
 			var user = _dbContext.Users.SingleOrDefault(u => u.Id == id);
 			if (user == null) return NotFound();
 
-			// TODO Validade if model is not changing certain fields
+			// TODO Validate if model is not changing certain fields
 			model.ApplyTo(user, ModelState);
+			_patchService.PatchEntity(model.Operations, new []{"Id"});
 			if (!ModelState.IsValid) return BadRequest(ModelState);
 
 			_dbContext.Update(user);
