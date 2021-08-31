@@ -17,7 +17,8 @@
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
                 "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+                "pattern": "\\bNow listening on:\\s+https://\\S+:([0-9]+)",
+                "uriFormat": "https://localhost:%s/swagger"
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
@@ -30,6 +31,15 @@
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach"
-        }
+        },
+        {
+            "type": "DotNetAutoAttach",
+            "request": "launch",
+            "name": ".NET Core Watch",
+            "args": [],
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
     ]
 }
