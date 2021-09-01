@@ -75,7 +75,6 @@ namespace Ecommerce {
 				}});
 			});
 
-			services.AddScoped<IJsonPatchService, JsonPatchService>();
 			services.AddScoped<IPasswordService, PasswordService>();
 			services.AddScoped<ITokenService, TokenService>();
 			services.AddScoped<IUserService, UserService>();
