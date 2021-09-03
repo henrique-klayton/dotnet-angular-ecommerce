@@ -34,14 +34,11 @@ namespace Ecommerce.Controllers {
 			var user = _dbContext.Users.SingleOrDefault(u => u.Id == id);
 			if (user == null) return NotFound();
 
-			model.PatchEntity(user, ModelState, new []{"Id"});
+			model.PatchEntity(user, ModelState, new []{nameof(user.Id)});
 			if (!ModelState.IsValid) return BadRequest(ModelState);
 
-			_dbContext.Update(user);
-			Console.WriteLine(user.Email);
-
-			// _dbContext.Users.Add(user);
-			// _dbContext.SaveChanges();
+			_dbContext.Users.Update(user);
+			_dbContext.SaveChanges();
 			return Ok(model);
 		}
 

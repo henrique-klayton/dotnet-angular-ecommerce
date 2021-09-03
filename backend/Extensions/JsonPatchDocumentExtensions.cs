@@ -12,41 +12,43 @@ namespace Ecommerce.Extensions {
 			this JsonPatchDocument<T> patch,
 			T entity,
 			ModelStateDictionary modelState,
-			IEnumerable<string> immutableProperties
+			IEnumerable<string> immutableProperties,
+			bool mutableId = false
 		) where T : class {
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 			if (patch == null) throw new ArgumentNullException(nameof(patch));
 			if (modelState == null) throw new ArgumentNullException(nameof(modelState));
 
+			if (mutableId && immutableProperties == null)
+				immutableProperties = new [] { "Id" };
+
 			if (immutableProperties != null || immutableProperties.Any())
-				ValidateOperations(patch.Operations, modelState, immutableProperties);
+				ValidateImmutability(patch.Operations, modelState, immutableProperties);
+			if (modelState.ErrorCount != 0) return;
+
 			patch.ApplyTo(entity, modelState);
 		}
 
-		private static void ValidateOperations<M>(
+		private static void ValidateImmutability<M>(
 			List<Operation<M>> operations,
 			ModelStateDictionary modelState,
 			IEnumerable<string> immutableProperties
 		) where M : class {
 			operations.ForEach(op => {
-				var key = string.Empty;
+				string key;
 				switch (op.op) {
 					case "add":
 					case "remove":
 					case "replace":
 						key = op.path.Substring(1);
-						if (immutableProperties.Any(prop => key.Equals(prop.ToLower())))
-							modelState.TryAddModelError(key, $"Cannot {op.op} immutable path {op.path}");
 						break;
 					case "move":
 						key = op.from.Substring(1);
-						if (immutableProperties.Any(prop => key.Equals(prop.ToLower())))
-							modelState.TryAddModelError(key, $"Cannot move immutable path {op.path}");
 						break;
 					default:
-						break;
+						return;
 				}
-				if (!string.IsNullOrEmpty(key) && immutableProperties.Any(p => key.Equals(p.ToLower())))
+				if (immutableProperties.Any(p => key.Equals(p.ToLower())))
 					modelState.TryAddModelError(key, $"Cannot {op.op} immutable path {op.path}");
 			});
 		}
