@@ -3,14 +3,16 @@ using System;
 using Ecommerce;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ecommerce.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    partial class EcommerceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210906135028_PostalCode_PrimaryKey")]
+    partial class PostalCode_PrimaryKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,8 +24,8 @@ namespace Ecommerce.Migrations
             modelBuilder.Entity("Ecommerce.Models.Address", b =>
                 {
                     b.Property<string>("PostalCode")
-                        .HasMaxLength(9)
-                        .HasColumnType("char(9)")
+                        .HasMaxLength(8)
+                        .HasColumnType("char(8)")
                         .HasColumnName("Id");
 
                     b.Property<string>("City")
