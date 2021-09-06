@@ -20,7 +20,7 @@ namespace Ecommerce.Extensions {
 			if (modelState == null) throw new ArgumentNullException(nameof(modelState));
 
 			if (mutableId && immutableProperties == null)
-				immutableProperties = new [] { "Id" };
+				immutableProperties = new[] { "Id" };
 
 			if (immutableProperties != null || immutableProperties.Any())
 				ValidateImmutability(patch.Operations, modelState, immutableProperties);
