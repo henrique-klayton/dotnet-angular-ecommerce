@@ -1,10 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Ecommerce.Controllers {
@@ -26,9 +25,32 @@ namespace Ecommerce.Controllers {
 			return _dbContext.Addresses.ToList();
 		}
 
+		[HttpGet("{cep}")]
+		public ActionResult<Address> GetById(string cep) {
+			var address = _dbContext.Addresses.SingleOrDefault(a => a.PostalCode == cep);
+			if (address == null) return NotFound();
+
+			return Ok(address);
+		}
+
 		[HttpPost]
 		public IActionResult Post(Address address) {
 			_dbContext.Addresses.Add(address);
+
+			try {
+				_dbContext.SaveChanges();
+			} catch (DbUpdateException err) {
+				if (err.InnerException != null) return BadRequest(err.InnerException.Message);
+			}
+			return Ok();
+		}
+
+		[HttpDelete("{cep}")]
+		public IActionResult Delete(string cep) {
+			var address = _dbContext.Addresses.SingleOrDefault(a => a.PostalCode == cep);
+			if (address == null) return NotFound($"Endereço com CEP {cep} não encontrado!");
+
+			_dbContext.Remove(address);
 			_dbContext.SaveChanges();
 			return Ok();
 		}
