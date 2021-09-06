@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ecommerce.Extensions;
@@ -34,7 +33,7 @@ namespace Ecommerce.Controllers {
 			var user = _dbContext.Users.SingleOrDefault(u => u.Id == id);
 			if (user == null) return NotFound();
 
-			model.PatchEntity(user, ModelState, new []{nameof(user.Id)});
+			model.PatchEntity(user, ModelState, new[] { nameof(user.Id) });
 			if (!ModelState.IsValid) return BadRequest(ModelState);
 
 			_dbContext.Users.Update(user);
@@ -48,13 +47,16 @@ namespace Ecommerce.Controllers {
 			var response = _userService.Authenticate(model);
 
 			if (response == null)
-				return BadRequest(new { message = "Email e/ou Senha inválida!" });
+				return BadRequest(new { Error = "Email e/ou Senha inválida!" });
 			return Ok(response);
 		}
 
 		[HttpPost("[action]")]
 		[AllowAnonymous]
 		public ActionResult<RegisterResponse> Register(RegisterRequest model) {
+			if (_dbContext.Users.SingleOrDefault(u => u.Email == model.Email) != null)
+				return BadRequest(new { Error = "Email já cadastrado!" });
+
 			var response = _userService.Register(model);
 			return Ok(response);
 		}

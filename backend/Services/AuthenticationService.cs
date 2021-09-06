@@ -40,8 +40,6 @@ namespace Ecommerce.Services {
 		public RegisterResponse Register(RegisterRequest model) {
 			_passwordService.HashedPassword(model.Password, out var passwordHash, out var passwordSalt);
 
-			//TODO Verificar se email já está cadastrado
-
 			_dbContext.Users.Add(new User {
 				Name = model.Name,
 				Email = model.Email,
