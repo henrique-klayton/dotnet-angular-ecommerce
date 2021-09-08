@@ -31,6 +31,7 @@ namespace Ecommerce.Controllers {
 		[HttpPatch("{id:int}")]
 		public IActionResult Patch(int id, JsonPatchDocument<User> model) {
 			var user = _dbContext.Users.SingleOrDefault(u => u.Id == id);
+			// TODO Mensagem de usuário não encontrado
 			if (user == null) return NotFound();
 
 			model.PatchEntity(user, ModelState, new[] { nameof(user.Id) });
@@ -39,6 +40,15 @@ namespace Ecommerce.Controllers {
 			_dbContext.Users.Update(user);
 			_dbContext.SaveChanges();
 			return Ok(model);
+		}
+
+		[HttpGet("{id}")]
+		public ActionResult<Address> GetById(int id) {
+			var user = _dbContext.Users.SingleOrDefault(u => u.Id == id);
+			// TODO Mensagem de usuário não encontrado
+			if (user == null) return NotFound();
+
+			return Ok(user);
 		}
 
 		[HttpPost("[action]")]
