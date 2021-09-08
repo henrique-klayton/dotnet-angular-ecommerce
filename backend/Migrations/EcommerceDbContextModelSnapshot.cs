@@ -22,8 +22,8 @@ namespace Ecommerce.Migrations
             modelBuilder.Entity("Ecommerce.Models.Address", b =>
                 {
                     b.Property<string>("PostalCode")
-                        .HasMaxLength(9)
-                        .HasColumnType("char(9)")
+                        .HasMaxLength(8)
+                        .HasColumnType("char(8)")
                         .HasColumnName("Id");
 
                     b.Property<string>("City")
