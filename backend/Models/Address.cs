@@ -5,7 +5,7 @@ namespace Ecommerce.Models {
 	public class Address {
 		[Key]
 		[Column("Id", TypeName = "char")]
-		[StringLength(9, MinimumLength = 9)]
+		[StringLength(8, MinimumLength = 8)]
 		public string PostalCode { get; set; }
 		[Required]
 		public string Street { get; set; }
@@ -28,7 +28,7 @@ namespace Ecommerce.Models {
 	}
 
 	public class AddressDTO {
-		[StringLength(9, MinimumLength = 9)]
+		[StringLength(8, MinimumLength = 8)]
 		[Required]
 		public string Cep { get; set; }
 		[Required]

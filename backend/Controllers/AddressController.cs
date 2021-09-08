@@ -3,7 +3,6 @@ using System.Linq;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Ecommerce.Controllers {
@@ -37,13 +36,8 @@ namespace Ecommerce.Controllers {
 		public IActionResult Post(AddressDTO address) {
 			_dbContext.Addresses.Add(Address.FromDTO(address));
 
-			try {
-				_dbContext.SaveChanges();
-			} catch (DbUpdateException err) {
-				if (err.InnerException != null) return BadRequest($"Inner Excpetion: {err.InnerException.Message}");
-				return BadRequest(err.Message);
-			}
-			return Ok();
+			_dbContext.SaveChanges();
+			return StatusCode(201);
 		}
 
 		[HttpDelete("{cep}")]
