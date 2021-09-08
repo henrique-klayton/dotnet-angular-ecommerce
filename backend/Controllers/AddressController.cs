@@ -40,7 +40,8 @@ namespace Ecommerce.Controllers {
 			try {
 				_dbContext.SaveChanges();
 			} catch (DbUpdateException err) {
-				if (err.InnerException != null) return BadRequest(err.InnerException.Message);
+				if (err.InnerException != null) return BadRequest($"Inner Excpetion: {err.InnerException.Message}");
+				return BadRequest(err.Message);
 			}
 			return Ok();
 		}

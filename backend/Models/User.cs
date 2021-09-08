@@ -33,6 +33,7 @@ namespace Ecommerce.Models {
 		public DateTime Created { get; set; }
 		public int Role { get; set; }
 
+		// TODO Trocar construtor por classe estática
 		public UserDTO(User user) {
 			Name = user.Name;
 			Email = user.Email;
