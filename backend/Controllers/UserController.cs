@@ -28,11 +28,18 @@ namespace Ecommerce.Controllers {
 		[HttpGet]
 		public IEnumerable<UserDTO> Get() => _dbContext.Users.Select(u => new UserDTO(u)).ToList();
 
+		[HttpGet("{id}")]
+		public ActionResult<Address> GetById(int id) {
+			var user = _dbContext.Users.SingleOrDefault(u => u.Id == id);
+			if (user == null) return NotFound($"Usuário com id {id} não foi encontrado!");
+
+			return Ok(user);
+		}
+
 		[HttpPatch("{id:int}")]
 		public IActionResult Patch(int id, JsonPatchDocument<User> model) {
 			var user = _dbContext.Users.SingleOrDefault(u => u.Id == id);
-			// TODO Mensagem de usuário não encontrado
-			if (user == null) return NotFound();
+			if (user == null) return NotFound($"Usuário com id {id} não foi encontrado!");
 
 			model.PatchEntity(user, ModelState, new[] { nameof(user.Id) });
 			if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -42,14 +49,13 @@ namespace Ecommerce.Controllers {
 			return Ok(model);
 		}
 
-		[HttpGet("{id}")]
-		public ActionResult<Address> GetById(int id) {
-			var user = _dbContext.Users.SingleOrDefault(u => u.Id == id);
-			// TODO Mensagem de usuário não encontrado
-			if (user == null) return NotFound();
+		// [HttpPost]
+		// public IActionResult Post(UserDTO user) {
+		// 	_dbContext.Users.Add(Models.User.FromDTO(user));
 
-			return Ok(user);
-		}
+		// 	_dbContext.SaveChanges();
+		// 	return StatusCode(201);
+		// }
 
 		[HttpPost("[action]")]
 		[AllowAnonymous]
