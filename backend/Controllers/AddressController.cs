@@ -34,8 +34,8 @@ namespace Ecommerce.Controllers {
 		}
 
 		[HttpPost]
-		public IActionResult Post(Address address) {
-			_dbContext.Addresses.Add(address);
+		public IActionResult Post(AddressDTO address) {
+			_dbContext.Addresses.Add(Address.FromDTO(address));
 
 			try {
 				_dbContext.SaveChanges();
