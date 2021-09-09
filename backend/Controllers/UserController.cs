@@ -16,7 +16,6 @@ namespace Ecommerce.Controllers {
 		private readonly EcommerceDbContext _dbContext;
 		private readonly IUserService _userService;
 
-
 		public UserController(
 			EcommerceDbContext dbContext,
 			IUserService userService
@@ -26,7 +25,7 @@ namespace Ecommerce.Controllers {
 		}
 
 		[HttpGet]
-		public IEnumerable<UserDTO> Get() => _dbContext.Users.Cast<UserDTO>().ToList();
+		public IEnumerable<UserDTO> Get() => _dbContext.Users.Cast<UserDTO>();
 
 		[HttpGet("{id}")]
 		public ActionResult<UserDTO> GetById(int id) {

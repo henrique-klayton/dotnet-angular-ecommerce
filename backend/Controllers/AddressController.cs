@@ -3,7 +3,6 @@ using System.Linq;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Ecommerce.Controllers {
 	[ApiController]
@@ -17,7 +16,7 @@ namespace Ecommerce.Controllers {
 		}
 
 		[HttpGet]
-		public IEnumerable<AddressDTO> Get() => _dbContext.Addresses.ToList().Cast<AddressDTO>();
+		public IEnumerable<AddressDTO> Get() => _dbContext.Addresses.Cast<AddressDTO>();
 
 		[HttpGet("{cep}")]
 		public ActionResult<AddressDTO> GetById(string cep) {
