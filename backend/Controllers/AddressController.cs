@@ -43,8 +43,9 @@ namespace Ecommerce.Controllers {
 			var address = _dbContext.Addresses.SingleOrDefault(a => a.PostalCode == cep);
 			if (address == null) return NotFound($"Endereço com CEP {cep} não encontrado!");
 
-			_dbContext.Remove(address);
+			_dbContext.Addresses.Remove(address);
 			_dbContext.SaveChanges();
+
 			return Ok();
 		}
 	}
