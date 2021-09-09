@@ -10,33 +10,31 @@ namespace Ecommerce.Controllers {
 	[Authorize]
 	[Route("[controller]")]
 	public class AddressController : ControllerBase {
-
-		private readonly ILogger<AddressController> _logger;
 		private readonly EcommerceDbContext _dbContext;
 
-		public AddressController(ILogger<AddressController> logger, EcommerceDbContext dbContext) {
-			_logger = logger;
+		public AddressController(EcommerceDbContext dbContext) {
 			_dbContext = dbContext;
 		}
 
 		[HttpGet]
-		public IEnumerable<Address> Get() {
-			return _dbContext.Addresses.ToList();
-		}
+		public IEnumerable<AddressDTO> Get() => _dbContext.Addresses.ToList().Cast<AddressDTO>();
 
 		[HttpGet("{cep}")]
-		public ActionResult<Address> GetById(string cep) {
+		public ActionResult<AddressDTO> GetById(string cep) {
 			var address = _dbContext.Addresses.SingleOrDefault(a => a.PostalCode == cep);
-			if (address == null) return NotFound();
 
+			if (address == null) return NotFound();
 			return Ok(address);
 		}
 
 		[HttpPost]
-		public IActionResult Post(AddressDTO address) {
-			_dbContext.Addresses.Add(Address.FromDTO(address));
+		public IActionResult Post(AddressDTO model) {
+			if (_dbContext.Addresses.SingleOrDefault(a => a.PostalCode == model.Cep) != null)
+				return BadRequest($"Endereço com CEP {model.Cep} já cadastrado!");
 
+			_dbContext.Addresses.Add(model);
 			_dbContext.SaveChanges();
+
 			return StatusCode(201);
 		}
 

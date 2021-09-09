@@ -32,7 +32,7 @@ namespace Ecommerce.Services {
 
 			var token = _tokenService.GenerateJwtToken(user);
 			return new AuthenticateResponse {
-				User = new UserDTO(user),
+				User = user,
 				Token = token,
 			};
 		}

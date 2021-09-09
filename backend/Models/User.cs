@@ -23,6 +23,15 @@ namespace Ecommerce.Models {
 
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public DateTime Created { get; set; }
+
+		public static implicit operator UserDTO(User user) => new() {
+			Name = user.Name,
+			Email = user.Email,
+			Phone = user.Phone,
+			BirthDate = user.BirthDate,
+			Created = user.Created,
+			Role = user.Role,
+		};
 	}
 
 	public class UserDTO {
@@ -32,15 +41,5 @@ namespace Ecommerce.Models {
 		public DateTime BirthDate { get; set; }
 		public DateTime Created { get; set; }
 		public int Role { get; set; }
-
-		// TODO Trocar construtor por classe estática
-		public UserDTO(User user) {
-			Name = user.Name;
-			Email = user.Email;
-			Phone = user.Phone;
-			BirthDate = user.BirthDate;
-			Created = user.Created;
-			Role = user.Role;
-		}
 	}
 }

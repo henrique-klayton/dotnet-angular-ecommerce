@@ -26,13 +26,13 @@ namespace Ecommerce.Controllers {
 		}
 
 		[HttpGet]
-		public IEnumerable<UserDTO> Get() => _dbContext.Users.Select(u => new UserDTO(u)).ToList();
+		public IEnumerable<UserDTO> Get() => _dbContext.Users.Cast<UserDTO>().ToList();
 
 		[HttpGet("{id}")]
-		public ActionResult<Address> GetById(int id) {
+		public ActionResult<UserDTO> GetById(int id) {
 			var user = _dbContext.Users.SingleOrDefault(u => u.Id == id);
-			if (user == null) return NotFound($"Usuário com id {id} não foi encontrado!");
 
+			if (user == null) return NotFound($"Usuário com id {id} não foi encontrado!");
 			return Ok(user);
 		}
 
@@ -49,21 +49,12 @@ namespace Ecommerce.Controllers {
 			return Ok(model);
 		}
 
-		// [HttpPost]
-		// public IActionResult Post(UserDTO user) {
-		// 	_dbContext.Users.Add(Models.User.FromDTO(user));
-
-		// 	_dbContext.SaveChanges();
-		// 	return StatusCode(201);
-		// }
-
 		[HttpPost("[action]")]
 		[AllowAnonymous]
 		public IActionResult Authenticate(AuthenticateRequest model) {
 			var response = _userService.Authenticate(model);
 
-			if (response == null)
-				return BadRequest(new { Error = "Email e/ou Senha inválida!" });
+			if (response == null) return BadRequest(new { Error = "Email e/ou Senha inválida!" });
 			return Ok(response);
 		}
 
