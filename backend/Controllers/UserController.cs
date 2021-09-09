@@ -67,5 +67,16 @@ namespace Ecommerce.Controllers {
 			var response = _userService.Register(model);
 			return Ok(response);
 		}
+
+		[HttpDelete("{id}")]
+		public IActionResult Delete(int id) {
+			var user = _dbContext.Users.SingleOrDefault(u => u.Id == id);
+			if (user == null) return NotFound($"Usuário com id {id} não encontrado!");
+
+			_dbContext.Users.Remove(user);
+			_dbContext.SaveChanges();
+
+			return Ok();
+		}
 	}
 }
