@@ -77,6 +77,7 @@ namespace Ecommerce {
 
 			services.AddScoped<IPasswordService, PasswordService>();
 			services.AddScoped<ITokenService, TokenService>();
+			services.AddScoped<IUpdateService, UpdateService>();
 			services.AddScoped<IUserService, UserService>();
 		}
 

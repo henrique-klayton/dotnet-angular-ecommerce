@@ -35,19 +35,6 @@ namespace Ecommerce.Controllers {
 			return Ok(user);
 		}
 
-		[HttpPatch("{id:int}")]
-		public IActionResult Patch(int id, JsonPatchDocument<User> model) {
-			var user = _dbContext.Users.SingleOrDefault(u => u.Id == id);
-			if (user == null) return NotFound($"Usuário com id {id} não foi encontrado!");
-
-			model.PatchEntity(user, ModelState, new[] { nameof(user.Id) });
-			if (!ModelState.IsValid) return BadRequest(ModelState);
-
-			_dbContext.Users.Update(user);
-			_dbContext.SaveChanges();
-			return Ok(model);
-		}
-
 		[HttpPost("[action]")]
 		[AllowAnonymous]
 		public IActionResult Authenticate(AuthenticateRequest model) {
@@ -65,6 +52,19 @@ namespace Ecommerce.Controllers {
 
 			var response = _userService.Register(model);
 			return Ok(response);
+		}
+
+		[HttpPatch("{id:int}")]
+		public IActionResult Patch(int id, JsonPatchDocument<User> model) {
+			var user = _dbContext.Users.SingleOrDefault(u => u.Id == id);
+			if (user == null) return NotFound($"Usuário com id {id} não foi encontrado!");
+
+			model.PatchEntity(user, ModelState, new[] { nameof(user.Id) });
+			if (!ModelState.IsValid) return BadRequest(ModelState);
+
+			_dbContext.Users.Update(user);
+			_dbContext.SaveChanges();
+			return Ok(model);
 		}
 
 		[HttpDelete("{id}")]

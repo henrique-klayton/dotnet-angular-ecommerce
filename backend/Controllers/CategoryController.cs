@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Ecommerce.Models;
+using Ecommerce.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace Ecommerce.Controllers {
@@ -9,15 +10,17 @@ namespace Ecommerce.Controllers {
 	[Route("[controller]")]
 	public class CategoryController : ControllerBase {
 		private readonly EcommerceDbContext _dbContext;
+		private readonly IUpdateService _up;
 
-		public CategoryController(EcommerceDbContext dbContext) {
+		public CategoryController(EcommerceDbContext dbContext, IUpdateService up) {
 			_dbContext = dbContext;
+			_up = up;
 		}
 
 		[HttpGet]
 		public IEnumerable<CategoryDTO> Get() => _dbContext.Categories.Cast<CategoryDTO>();
 
-		[HttpGet("{id}")]
+		[HttpGet("{id:int}")]
 		public ActionResult<CategoryDTO> GetById(int id) {
 			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == id);
 
@@ -33,19 +36,18 @@ namespace Ecommerce.Controllers {
 			return StatusCode(201);
 		}
 
-		[HttpPut("{id}")]
+		[HttpPut("{id:int}")]
 		public IActionResult Put(int id, CategoryDTO model) {
 			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == id);
 			if (category == null) return NotFound($"Categoria com id {id} não encontrada!");
 
-			category.Update(model);
-			_dbContext.Categories.Update(category);
+			_up.Update(new Category { });
 			_dbContext.SaveChanges();
 
 			return Ok();
 		}
 
-		[HttpDelete("{id}")]
+		[HttpDelete("{id:int}")]
 		public IActionResult Delete(int id) {
 			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == id);
 			if (category == null) return NotFound($"Categoria com id {id} não encontrada!");

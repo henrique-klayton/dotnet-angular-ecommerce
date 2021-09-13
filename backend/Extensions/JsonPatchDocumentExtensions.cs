@@ -40,10 +40,10 @@ namespace Ecommerce.Extensions {
 					case "add":
 					case "remove":
 					case "replace":
-						key = op.path.Substring(1);
+						key = op.path[1..];
 						break;
 					case "move":
-						key = op.from.Substring(1);
+						key = op.from[1..];
 						break;
 					default:
 						return;

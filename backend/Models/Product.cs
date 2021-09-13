@@ -18,7 +18,43 @@ namespace Ecommerce.Models {
 		[Required]
 		public bool Status { get; set; }
 
+		[ForeignKey("Category")]
+		public int CategoryId { get; set; }
+
 		[Required]
 		public Category Category { get; set; }
+
+		public static implicit operator ProductDTO(Product product) {
+			return new() {
+				Name = product.Name,
+				CostPrice = product.CostPrice,
+				SalePrice = product.SalePrice,
+				StockAmount = product.StockAmount,
+				Status = product.Status,
+				Category = product.Category,
+				CategoryId = product.CategoryId,
+			};
+		}
+	}
+
+	public class ProductDTO {
+		public string Name { get; set; }
+		public double CostPrice { get; set; }
+		public double SalePrice { get; set; }
+		public int StockAmount { get; set; }
+		public bool Status { get; set; }
+		public Category Category { get; set; }
+
+		[ForeignKey("Category")]
+		public int CategoryId { get; set; }
+
+		public static implicit operator Product(ProductDTO product) => new() {
+			Name = product.Name,
+			CostPrice = product.CostPrice,
+			SalePrice = product.SalePrice,
+			StockAmount = product.StockAmount,
+			Status = product.Status,
+			CategoryId = product.CategoryId,
+		};
 	}
 }
