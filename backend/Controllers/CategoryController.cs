@@ -2,17 +2,19 @@ using System.Collections.Generic;
 using System.Linq;
 using Ecommerce.Models;
 using Ecommerce.Services;
+using Ecommerce.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace Ecommerce.Controllers {
 	[ApiController]
 	[Authorize]
 	[Route("[controller]")]
-	public class CategoryController : ControllerBase {
+	public class CategoryController : BaseController {
 		private readonly EcommerceDbContext _dbContext;
 		private readonly IUpdateService _up;
 
-		public CategoryController(EcommerceDbContext dbContext, IUpdateService up) {
+		public CategoryController(EcommerceDbContext dbContext, IUpdateService up)
+			: base("Categoria", Gender.F) {
 			_dbContext = dbContext;
 			_up = up;
 		}
@@ -24,7 +26,7 @@ namespace Ecommerce.Controllers {
 		public ActionResult<CategoryDTO> GetById(int id) {
 			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == id);
 
-			if (category == null) return NotFound($"Categoria com id {id} não encontrada!");
+			if (category == null) return EntityNotFound(id);
 			return Ok(category);
 		}
 
@@ -50,7 +52,7 @@ namespace Ecommerce.Controllers {
 		[HttpDelete("{id:int}")]
 		public IActionResult Delete(int id) {
 			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == id);
-			if (category == null) return NotFound($"Categoria com id {id} não encontrada!");
+			if (category == null) return EntityNotFound(id);
 
 			_dbContext.Categories.Remove(category);
 			_dbContext.SaveChanges();

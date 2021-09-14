@@ -10,10 +10,10 @@ namespace Ecommerce.Controllers {
 	[ApiController]
 	[Authorize]
 	[Route("[controller]")]
-	public class ProductController : ControllerBase {
+	public class ProductController : BaseController {
 		private readonly EcommerceDbContext _dbContext;
 
-		public ProductController(EcommerceDbContext dbContext) {
+		public ProductController(EcommerceDbContext dbContext) : base("Produto") {
 			_dbContext = dbContext;
 		}
 
@@ -29,12 +29,13 @@ namespace Ecommerce.Controllers {
 				.Include(p => p.Category)
 				.SingleOrDefault(p => p.Id == id);
 
-			if (product == null) return NotFound($"Id Not Found Message!");
+			if (product == null) return EntityNotFound(id);
 			return Ok(ProductDTO.FromProduct(product));
 		}
 
 		// [HttpPost]
 		// public IActionResult Post(ProductDTO model) {
+		// 	// TODO Return 400 if id already exists
 		// 	Console.WriteLine(model.Name);
 		// 	_dbContext.Products.Add(model);
 		// 	_dbContext.SaveChanges();
@@ -45,7 +46,7 @@ namespace Ecommerce.Controllers {
 		[HttpDelete("{id}")]
 		public IActionResult Delete(int id) {
 			var product = _dbContext.Products.SingleOrDefault(p => p.Id == id);
-			if (product == null) return NotFound($"Id Not Found Message!");
+			if (product == null) return EntityNotFound(id);
 
 			_dbContext.Products.Remove(product);
 			_dbContext.SaveChanges();

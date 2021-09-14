@@ -8,10 +8,10 @@ namespace Ecommerce.Controllers {
 	[ApiController]
 	[Authorize]
 	[Route("[controller]")]
-	public class AddressController : ControllerBase {
+	public class AddressController : BaseController {
 		private readonly EcommerceDbContext _dbContext;
 
-		public AddressController(EcommerceDbContext dbContext) {
+		public AddressController(EcommerceDbContext dbContext) : base("Endereço") {
 			_dbContext = dbContext;
 		}
 
@@ -22,14 +22,14 @@ namespace Ecommerce.Controllers {
 		public ActionResult<AddressDTO> GetById(string cep) {
 			var address = _dbContext.Addresses.SingleOrDefault(a => a.PostalCode == cep);
 
-			if (address == null) return NotFound();
+			if (address == null) return EntityNotFound(cep);
 			return Ok(address);
 		}
 
 		[HttpPost]
 		public IActionResult Post(AddressDTO model) {
 			if (_dbContext.Addresses.SingleOrDefault(a => a.PostalCode == model.Cep) != null)
-				return BadRequest($"Endereço com CEP {model.Cep} já cadastrado!");
+				return IdAlreadyExists(model.Cep);
 
 			_dbContext.Addresses.Add(model);
 			_dbContext.SaveChanges();
@@ -40,7 +40,7 @@ namespace Ecommerce.Controllers {
 		[HttpDelete("{cep}")]
 		public IActionResult Delete(string cep) {
 			var address = _dbContext.Addresses.SingleOrDefault(a => a.PostalCode == cep);
-			if (address == null) return NotFound($"Endereço com CEP {cep} não encontrado!");
+			if (address == null) return EntityNotFound(cep);
 
 			_dbContext.Addresses.Remove(address);
 			_dbContext.SaveChanges();
