@@ -38,16 +38,17 @@ namespace Ecommerce.Controllers {
 			return StatusCode(201);
 		}
 
-		[HttpPut("{id:int}")]
-		public IActionResult Put(int id, CategoryDTO model) {
-			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == id);
-			if (category == null) return NotFound($"Categoria com id {id} não encontrada!");
+		// TODO Adicionar produtos na categoria
+		// [HttpPatch("{id:int}")]
+		// public IActionResult Patch(int id, CategoryDTO model) {
+		// 	var category = _dbContext.Categories.SingleOrDefault(c => c.Id == id);
+		// 	if (category == null) return NotFound($"Categoria com id {id} não encontrada!");
 
-			_up.Update(new Category { });
-			_dbContext.SaveChanges();
+		// 	_up.Update(new Category { });
+		// 	_dbContext.SaveChanges();
 
-			return Ok();
-		}
+		// 	return Ok();
+		// }
 
 		[HttpDelete("{id:int}")]
 		public IActionResult Delete(int id) {
