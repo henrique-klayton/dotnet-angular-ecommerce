@@ -54,6 +54,7 @@ namespace Ecommerce {
 
 			services.AddSwaggerGen(c => {
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ecommerce", Version = "v1" });
+				c.EnableAnnotations();
 
 				c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
 					Name = "Authorization",
@@ -74,6 +75,7 @@ namespace Ecommerce {
 					Array.Empty<string>()
 				}});
 			});
+			services.AddSwaggerGenNewtonsoftSupport();
 
 			services.AddScoped<IPasswordService, PasswordService>();
 			services.AddScoped<ITokenService, TokenService>();
