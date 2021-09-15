@@ -5,6 +5,8 @@ using Ecommerce.Services;
 using Ecommerce.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 namespace Ecommerce.Controllers {
 	[ApiController]
 	[Authorize]
@@ -20,23 +22,39 @@ namespace Ecommerce.Controllers {
 		}
 
 		[HttpGet]
-		public IEnumerable<CategoryDTO> Get() => _dbContext.Categories.Cast<CategoryDTO>();
+		public IEnumerable<CategoryDTO> Get() => _dbContext.Categories
+			.Select(c => CategoryDTO.FromCategory(c));
 
 		[HttpGet("{id:int}")]
 		public ActionResult<CategoryDTO> GetById(int id) {
 			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == id);
 
 			if (category == null) return EntityNotFound(id);
-			return Ok(category);
+			return Ok(CategoryDTO.FromCategory(category));
 		}
 
-		[HttpPost]
-		public IActionResult Post(CategoryDTO model) {
-			_dbContext.Categories.Add(new Category { Name = model.Name });
-			_dbContext.SaveChanges();
+		[HttpGet("Products")]
+		public IEnumerable<CategoryDTO> GetWithProducts() => _dbContext.Categories
+			.Include(c => c.Products)
+			.Select(c => CategoryDTO.FromCategory(c));
 
-			return StatusCode(201);
+		[HttpGet("{id:int}/Products")]
+		public ActionResult<CategoryDTO> GetByIdWithProducts(int id) {
+			var category = _dbContext.Categories
+				.Include(c => c.Products)
+				.SingleOrDefault(c => c.Id == id);
+
+			if (category == null) return EntityNotFound(id);
+			return Ok(CategoryDTO.FromCategory(category));
 		}
+
+		// [HttpPost]
+		// public IActionResult Post(CategoryDTO model) {
+		// 	_dbContext.Categories.Add(new Category { Name = model.Name });
+		// 	_dbContext.SaveChanges();
+
+		// 	return StatusCode(201);
+		// }
 
 		// TODO Adicionar produtos na categoria
 		// [HttpPatch("{id:int}")]
