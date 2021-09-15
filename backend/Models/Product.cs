@@ -1,6 +1,6 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace Ecommerce.Models {
 	public class Product {
@@ -22,6 +22,16 @@ namespace Ecommerce.Models {
 
 		[Required]
 		public Category Category { get; set; }
+
+		public static Product FromDTO(ProductDTO product, Category category) => new() {
+			Name = product.Name,
+			CostPrice = product.CostPrice,
+			SalePrice = product.SalePrice,
+			StockAmount = product.StockAmount,
+			Status = product.Status,
+			CategoryId = product.CategoryId,
+			Category = category,
+		};
 	}
 
 	public class ProductDTO {
@@ -33,16 +43,8 @@ namespace Ecommerce.Models {
 		public string Category { get; set; }
 
 		[ForeignKey("Category")]
+		[JsonIgnore]
 		public int CategoryId { get; set; }
-
-		public static implicit operator Product(ProductDTO product) => new() {
-			Name = product.Name,
-			CostPrice = product.CostPrice,
-			SalePrice = product.SalePrice,
-			StockAmount = product.StockAmount,
-			Status = product.Status,
-			CategoryId = product.CategoryId,
-		};
 
 		public static ProductDTO FromProduct(Product product) => new() {
 			Name = product.Name,
