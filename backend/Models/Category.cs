@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace Ecommerce.Models {
 	public class Category {
@@ -8,20 +10,22 @@ namespace Ecommerce.Models {
 		[Required]
 		public string Name { get; set; }
 
-		public ICollection<Product> Products { get; set; }
-
-		public static implicit operator CategoryDTO(Category category) => new() {
-			Name = category.Name,
-		};
-
-		public void Update(CategoryDTO model) {
-			// TODO Validate and throw errors
-			Name = model.Name;
-		}
+		public virtual ICollection<Product> Products { get; set; }
 	}
 
 	public class CategoryDTO {
+		[JsonIgnore]
+		public int? Id { get; private set; }
 		[Required]
 		public string Name { get; set; }
+
+		[JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
+		public IEnumerable<ProductDTO> Products { get; set; }
+
+		public static CategoryDTO FromCategory(Category category) => new() {
+			Id = category.Id,
+			Name = category.Name,
+			Products = category.Products?.Select(p => ProductDTO.FromProduct(p)),
+		};
 	}
 }
