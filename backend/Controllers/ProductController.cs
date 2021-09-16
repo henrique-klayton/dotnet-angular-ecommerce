@@ -35,29 +35,32 @@ namespace Ecommerce.Controllers {
 			return Ok(ProductDTO.FromProduct(product));
 		}
 
-		// [HttpPost]
-		// public IActionResult Post(ProductDTO model) {
-		// 	// TODO Return 400 if id already exists
-		// 	Console.WriteLine(model.Name);
+		[HttpPost]
+		public IActionResult Post(ProductDTO model) {
+			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == model.CategoryId);
+			if (category == null) return CategoryNotFound(model.CategoryId);
+
+			Console.WriteLine(category.Name);
+
+			_dbContext.Products.Add(Product.FromDTO(model, category));
+			// _dbContext.SaveChanges();
+
+			return EntityCreated();
+		}
+
+		// [HttpPatch("{id:int}")]
+		// public IActionResult Patch(int id, JsonPatchDocument<ProductDTO> model) {
+		// 	Console.WriteLine(model.);
 		// 	_dbContext.Products.Add(model);
 		// 	_dbContext.SaveChanges();
 
-		// 	return StatusCode(201);
-		// }
-
-		// [HttpPatch("{id:int}")]
-		// public IActionResult Patch(int id, JsonPatchDocument<>) {
-		// 	// Console.WriteLine(model.Name);
-		// 	// _dbContext.Products.Add(model);
-		// 	// _dbContext.SaveChanges();
-
-		// 	return StatusCode(201);
+		// 	return Ok();
 		// }
 
 		[HttpPatch("{id:int}/[action]/{categoryId:int}")]
 		public IActionResult Category(int id, int categoryId) {
 			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == categoryId);
-			if (category == null) return EntityNotFound(categoryId, "Categoria", Gender.F);
+			if (category == null) return CategoryNotFound(categoryId);
 
 			var product = _dbContext.Products
 				.Include(p => p.Category)
@@ -83,5 +86,11 @@ namespace Ecommerce.Controllers {
 
 			return Ok();
 		}
+
+		private NotFoundObjectResult CategoryNotFound(int categoryId) => EntityNotFound(
+			categoryId,
+			"Categoria",
+			Gender.F
+		);
 	}
 }

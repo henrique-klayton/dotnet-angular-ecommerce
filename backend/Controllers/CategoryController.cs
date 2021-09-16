@@ -45,22 +45,28 @@ namespace Ecommerce.Controllers {
 			return CategoryProductsDTO.FromCategory(category);
 		}
 
-		// [HttpPost]
-		// public IActionResult Post(CategoryDTO model) {
-		// 	_dbContext.Categories.Add(new Category { Name = model.Name });
-		// 	_dbContext.SaveChanges();
+		[HttpPost]
+		public IActionResult Post(CategoryProductsDTO model) {
+			var category = _dbContext.Categories.SingleOrDefault(c => c.Name == model.Name);
+			if (category != null) return PropertyAlreadyExists(new Dictionary<string, string>() {
+				{ "Name", model.Name }
+			});
 
-		// 	return StatusCode(201);
-		// }
+			_dbContext.Categories.Add(model);
+			_dbContext.SaveChanges();
 
-		// TODO Adicionar produtos na categoria
+			return EntityCreated();
+		}
+
+		// TODO Adicionar/remover produtos da categoria
 		// [HttpPatch("{id:int}")]
-		// public IActionResult Patch(int id, CategoryDTO model) {
+		// public IActionResult PatchProducts(int id, CategoryDTO model) {
 		// 	var category = _dbContext.Categories.SingleOrDefault(c => c.Id == id);
-		// 	if (category == null) return NotFound($"Categoria com id {id} não encontrada!");
+		// 	if (category == null) return EntityNotFound(id);
 
-		// 	_up.Update(new Category { });
-		// 	_dbContext.SaveChanges();
+		// 	// TODO Usar JsonPatchDocument
+		// 	// _up.Update(new Category { });
+		// 	// _dbContext.SaveChanges();
 
 		// 	return Ok();
 		// }
