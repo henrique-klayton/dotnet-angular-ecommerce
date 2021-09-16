@@ -59,7 +59,7 @@ namespace Ecommerce.Controllers {
 			var user = _dbContext.Users.SingleOrDefault(u => u.Id == id);
 			if (user == null) return NotFound($"Usuário com id {id} não foi encontrado!");
 
-			model.PatchEntity(user, ModelState, new[] { nameof(user.Id) });
+			model.ApplyToEntity(user, ModelState, new[] { nameof(user.Id) });
 			if (!ModelState.IsValid) return BadRequest(ModelState);
 
 			_dbContext.Users.Update(user);
