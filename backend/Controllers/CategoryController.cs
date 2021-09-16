@@ -13,12 +13,9 @@ namespace Ecommerce.Controllers {
 	[Route("[controller]")]
 	public class CategoryController : BaseController {
 		private readonly EcommerceDbContext _dbContext;
-		private readonly IUpdateService _up;
 
-		public CategoryController(EcommerceDbContext dbContext, IUpdateService up)
-			: base("Categoria", Gender.F) {
+		public CategoryController(EcommerceDbContext dbContext) : base("Categoria", Gender.F) {
 			_dbContext = dbContext;
-			_up = up;
 		}
 
 		[HttpGet]
@@ -30,22 +27,22 @@ namespace Ecommerce.Controllers {
 			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == id);
 
 			if (category == null) return EntityNotFound(id);
-			return Ok(CategoryDTO.FromCategory(category));
+			return CategoryDTO.FromCategory(category);
 		}
 
 		[HttpGet("Products")]
-		public IEnumerable<CategoryDTO> GetWithProducts() => _dbContext.Categories
+		public IEnumerable<CategoryProductsDTO> GetWithProducts() => _dbContext.Categories
 			.Include(c => c.Products)
-			.Select(c => CategoryDTO.FromCategory(c));
+			.Select(c => CategoryProductsDTO.FromCategory(c));
 
 		[HttpGet("{id:int}/Products")]
-		public ActionResult<CategoryDTO> GetByIdWithProducts(int id) {
+		public ActionResult<CategoryProductsDTO> GetByIdWithProducts(int id) {
 			var category = _dbContext.Categories
 				.Include(c => c.Products)
 				.SingleOrDefault(c => c.Id == id);
 
 			if (category == null) return EntityNotFound(id);
-			return Ok(CategoryDTO.FromCategory(category));
+			return CategoryProductsDTO.FromCategory(category);
 		}
 
 		// [HttpPost]
