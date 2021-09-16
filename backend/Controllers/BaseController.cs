@@ -40,22 +40,22 @@ namespace Ecommerce.Controllers {
 			GetOptionalArgs(objName, objGender, out var name, out var gender);
 
 			return BadRequest(new {
-				message = $"{name} já está cadastrad{gender}!",
+				message = $"{name} já foi cadastrad{gender}!",
 				id
 			});
 		}
 
 		[NonAction]
 		public BadRequestObjectResult PropertyAlreadyExists(
-			IEnumerable<string> propertiesName,
+			IDictionary<string, string> properties,
 			string objName = null,
 			Gender objGender = Gender.N
 		) {
 			GetOptionalArgs(objName, objGender, out var name, out var gender);
 
 			return BadRequest(new {
-				message = $"{name} já está cadastrad{gender}!",
-				properties = propertiesName
+				message = $"{name} já foi cadastrad{gender}!",
+				properties
 			});
 		}
 
