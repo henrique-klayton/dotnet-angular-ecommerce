@@ -13,6 +13,11 @@ namespace Ecommerce.Controllers {
 		}
 
 		[NonAction]
+		public ObjectResult EntityCreated(object response = null) {
+			return new(response) { StatusCode = 201 };
+		}
+
+		[NonAction]
 		public NotFoundObjectResult EntityNotFound(
 			dynamic id,
 			string objName = null,
