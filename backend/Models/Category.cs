@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace Ecommerce.Models {
 	public class Category {
 		[Key]
-		public int Id { get; set; }
+		public int? Id { get; set; }
 		[Required]
 		public string Name { get; set; }
 
@@ -14,8 +14,7 @@ namespace Ecommerce.Models {
 	}
 
 	public class CategoryDTO {
-		[JsonIgnore]
-		public int? Id { get; private set; }
+		public int? Id { get; protected set; }
 		[Required]
 		public string Name { get; set; }
 
