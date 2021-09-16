@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Ecommerce.Extensions {
 	public static class JsonPatchDocumentExtensions {
-		public static void PatchEntity<T>(
+		public static void ApplyToEntity<T>(
 			this JsonPatchDocument<T> patch,
 			T entity,
 			ModelStateDictionary modelState,
