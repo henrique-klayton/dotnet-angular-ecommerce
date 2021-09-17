@@ -46,13 +46,13 @@ namespace Ecommerce.Controllers {
 		}
 
 		[HttpPost]
-		public IActionResult Post(CategoryProductsDTO model) {
+		public IActionResult Post(CategoryDTO model) {
 			var category = _dbContext.Categories.SingleOrDefault(c => c.Name == model.Name);
 			if (category != null) return PropertyAlreadyExists(new Dictionary<string, string>() {
 				{ "Name", model.Name }
 			});
 
-			_dbContext.Categories.Add(model);
+			_dbContext.Categories.Add(new Category { Name = model.Name });
 			_dbContext.SaveChanges();
 
 			return EntityCreated();
