@@ -40,10 +40,14 @@ namespace Ecommerce.Controllers {
 			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == model.CategoryId);
 			if (category == null) return CategoryNotFound(model.CategoryId);
 
-			Console.WriteLine(category.Name);
+			if (_dbContext.Products.SingleOrDefault(p => p.Name == model.Name) != null) {
+				return PropertyAlreadyExists(new Dictionary<string, string>() {
+				{ "Name", model.Name }
+				});
+			}
 
 			_dbContext.Products.Add(Product.FromDTO(model, category));
-			// _dbContext.SaveChanges();
+			_dbContext.SaveChanges();
 
 			return EntityCreated();
 		}
