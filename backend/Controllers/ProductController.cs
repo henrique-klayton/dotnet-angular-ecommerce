@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ecommerce.Models;
 using Ecommerce.Utils;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -46,20 +44,25 @@ namespace Ecommerce.Controllers {
 				});
 			}
 
-			_dbContext.Products.Add(Product.FromDTO(model, category));
+			_dbContext.Products.Add(Product.FromDto(model, category));
 			_dbContext.SaveChanges();
 
 			return EntityCreated();
 		}
 
-		// [HttpPatch("{id:int}")]
-		// public IActionResult Patch(int id, JsonPatchDocument<ProductDTO> model) {
-		// 	Console.WriteLine(model.);
-		// 	_dbContext.Products.Add(model);
-		// 	_dbContext.SaveChanges();
+		[HttpPut("{id:int}")]
+		public IActionResult Put(int id, ProductUpdateDTO model) {
+			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == model.CategoryId);
+			if (category == null) return CategoryNotFound(model.CategoryId);
 
-		// 	return Ok();
-		// }
+			var product = _dbContext.Products.SingleOrDefault(p => p.Id == id);
+			if (product == null) return EntityNotFound(id);
+
+			product.Update(model, category);
+			_dbContext.SaveChanges();
+
+			return Ok();
+		}
 
 		[HttpPatch("{id:int}/[action]/{categoryId:int}")]
 		public IActionResult Category(int id, int categoryId) {
