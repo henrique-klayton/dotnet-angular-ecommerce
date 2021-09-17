@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace Ecommerce.Models {
@@ -37,6 +36,6 @@ namespace Ecommerce.Models {
 
 	public class CategoryPatchDTO {
 		public string Name { get; set; }
-		public IEnumerable<int> Products { get; set; }
+		public IEnumerable<int?> Products { get; set; }
 	}
 }
