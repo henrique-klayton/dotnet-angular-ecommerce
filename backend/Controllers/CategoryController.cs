@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Ecommerce.Models;
-using Ecommerce.Services;
 using Ecommerce.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -58,18 +57,23 @@ namespace Ecommerce.Controllers {
 			return EntityCreated();
 		}
 
-		// TODO Adicionar/remover produtos da categoria
-		// [HttpPatch("{id:int}")]
-		// public IActionResult PatchProducts(int id, CategoryDTO model) {
-		// 	var category = _dbContext.Categories.SingleOrDefault(c => c.Id == id);
-		// 	if (category == null) return EntityNotFound(id);
+		// TODO Remover produtos da categoria
+		[HttpPatch("{id:int}")]
+		public IActionResult Patch(int id, CategoryPatchDTO model) {
+			var category = _dbContext.Categories
+				.Include(c => c.Products)
+				.SingleOrDefault(c => c.Id == id);
+			if (category == null) return EntityNotFound(id);
 
-		// 	// TODO Usar JsonPatchDocument
-		// 	// _up.Update(new Category { });
-		// 	// _dbContext.SaveChanges();
+			if (model.Name != null) category.Name = model.Name;
+			if (model.Products != null) category.Products = category.Products.Concat(
+				_dbContext.Products.Where(p => model.Products.Contains(p.Id))
+			).ToList();
 
-		// 	return Ok();
-		// }
+			_dbContext.SaveChanges();
+
+			return Ok();
+		}
 
 		[HttpDelete("{id:int}")]
 		public IActionResult Delete(int id) {
