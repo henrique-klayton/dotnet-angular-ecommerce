@@ -29,12 +29,12 @@ namespace Ecommerce.Controllers {
 			return CategoryDTO.FromCategory(category);
 		}
 
-		[HttpGet("Products")]
+		[HttpGet("IncludeProducts")]
 		public IEnumerable<CategoryProductsDTO> GetWithProducts() => _dbContext.Categories
 			.Include(c => c.Products)
 			.Select(c => CategoryProductsDTO.FromCategory(c));
 
-		[HttpGet("{id:int}/Products")]
+		[HttpGet("{id:int}/IncludeProducts")]
 		public ActionResult<CategoryProductsDTO> GetByIdWithProducts(int id) {
 			var category = _dbContext.Categories
 				.Include(c => c.Products)
