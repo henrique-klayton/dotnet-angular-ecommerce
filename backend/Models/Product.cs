@@ -25,6 +25,7 @@ namespace Ecommerce.Models {
 
 		public static Product FromDTO(ProductDTO product, Category category) => new() {
 			Name = product.Name,
+			Description = product.Description,
 			CostPrice = product.CostPrice,
 			SalePrice = product.SalePrice,
 			StockAmount = product.StockAmount,
@@ -35,19 +36,29 @@ namespace Ecommerce.Models {
 	}
 
 	public class ProductDTO {
+		public int? Id { get; private set; }
+		[Required]
 		public string Name { get; set; }
-		public double CostPrice { get; set; }
-		public double SalePrice { get; set; }
-		public int StockAmount { get; set; }
-		public bool Status { get; set; }
+		public string Description { get; set; }
+		[JsonRequired]
 		public string Category { get; set; }
+		[JsonRequired]
+		public double CostPrice { get; set; }
+		[JsonRequired]
+		public double SalePrice { get; set; }
+		[JsonRequired]
+		public int StockAmount { get; set; }
+		[JsonRequired]
+		public bool Status { get; set; }
 
 		[ForeignKey("Category")]
-		[JsonIgnore]
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public int CategoryId { get; set; }
 
 		public static ProductDTO FromProduct(Product product) => new() {
+			Id = product.Id,
 			Name = product.Name,
+			Description = product.Description,
 			CostPrice = product.CostPrice,
 			SalePrice = product.SalePrice,
 			StockAmount = product.StockAmount,
