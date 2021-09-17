@@ -12,17 +12,17 @@ namespace Ecommerce.Extensions {
 			this JsonPatchDocument<T> patch,
 			T entity,
 			ModelStateDictionary modelState,
-			IEnumerable<string> immutableProperties,
-			bool mutableId = false
+			IEnumerable<string> immutableProperties = null,
+			bool immutableId = true
 		) where T : class {
 			if (entity == null) throw new ArgumentNullException(nameof(entity));
 			if (patch == null) throw new ArgumentNullException(nameof(patch));
 			if (modelState == null) throw new ArgumentNullException(nameof(modelState));
 
-			if (mutableId && immutableProperties == null)
+			if (immutableId && immutableProperties == null)
 				immutableProperties = new[] { "Id" };
 
-			if (immutableProperties != null || immutableProperties.Any())
+			if (immutableProperties != null && immutableProperties.Any())
 				ValidateImmutability(patch.Operations, modelState, immutableProperties);
 			if (modelState.ErrorCount != 0) return;
 
