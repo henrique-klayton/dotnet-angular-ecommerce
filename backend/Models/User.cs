@@ -34,6 +34,8 @@ namespace Ecommerce.Models {
 	}
 
 	public class UserDTO {
+		
+		public int? Id { get; private set; }
 		public string Name { get; set; }
 		public string Email { get; set; }
 		public string Phone { get; set; }

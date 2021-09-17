@@ -36,9 +36,11 @@ namespace Ecommerce.Models {
 	}
 
 	public class ProductDTO {
+		public int? Id { get; private set; }
 		[Required]
 		public string Name { get; set; }
 		public string Description { get; set; }
+		[JsonRequired]
 		public string Category { get; set; }
 		[JsonRequired]
 		public double CostPrice { get; set; }
@@ -54,6 +56,7 @@ namespace Ecommerce.Models {
 		public int CategoryId { get; set; }
 
 		public static ProductDTO FromProduct(Product product) => new() {
+			Id = product.Id,
 			Name = product.Name,
 			Description = product.Description,
 			CostPrice = product.CostPrice,
