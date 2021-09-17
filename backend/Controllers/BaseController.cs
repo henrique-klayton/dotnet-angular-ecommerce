@@ -12,8 +12,7 @@ namespace Ecommerce.Controllers {
 			_objGender = objGender;
 		}
 
-		[NonAction]
-		public NotFoundObjectResult EntityNotFound(
+		protected NotFoundObjectResult EntityNotFound(
 			dynamic id,
 			string objName = null,
 			Gender objGender = Gender.N
@@ -26,8 +25,7 @@ namespace Ecommerce.Controllers {
 			});
 		}
 
-		[NonAction]
-		public BadRequestObjectResult IdAlreadyExists(
+		protected BadRequestObjectResult IdAlreadyExists(
 			dynamic id,
 			string objName = null,
 			Gender objGender = Gender.N
@@ -40,8 +38,7 @@ namespace Ecommerce.Controllers {
 			});
 		}
 
-		[NonAction]
-		public BadRequestObjectResult PropertyAlreadyExists(
+		protected BadRequestObjectResult PropertyAlreadyExists(
 			IEnumerable<string> propertiesName,
 			string objName = null,
 			Gender objGender = Gender.N
