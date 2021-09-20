@@ -1,11 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ecommerce.Models {
-	public class User {
-		[Key]
-		public int Id { get; set; }
+	public class User : TimestampedEntity {
 		[Required]
 		public string Name { get; set; }
 		[EmailAddress]
@@ -20,9 +17,6 @@ namespace Ecommerce.Models {
 		[Required]
 		public int Role { get; set; }
 
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public DateTime Created { get; set; }
-
 		public static implicit operator UserDTO(User user) => new() {
 			Name = user.Name,
 			Email = user.Email,
@@ -34,7 +28,6 @@ namespace Ecommerce.Models {
 	}
 
 	public class UserDTO {
-		
 		public int? Id { get; private set; }
 		public string Name { get; set; }
 		public string Email { get; set; }

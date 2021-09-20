@@ -4,9 +4,7 @@ using System.Linq;
 using Newtonsoft.Json;
 
 namespace Ecommerce.Models {
-	public class Category {
-		[Key]
-		public int? Id { get; set; }
+	public class Category : BaseEntity {
 		[Required]
 		public string Name { get; set; }
 

@@ -3,9 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
 namespace Ecommerce.Models {
-	public class Product {
-		[Key]
-		public int? Id { get; set; }
+	public class Product : BaseEntity {
 		[ForeignKey("Category")]
 		public int CategoryId { get; set; }
 		[Required]
