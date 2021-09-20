@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace Ecommerce.Models {
 	public class Category {
 		[Key]
-		public int Id { get; set; }
+		public int? Id { get; set; }
 		[Required]
 		public string Name { get; set; }
 
@@ -14,18 +14,28 @@ namespace Ecommerce.Models {
 	}
 
 	public class CategoryDTO {
-		[JsonIgnore]
-		public int? Id { get; private set; }
+		public int? Id { get; protected set; }
 		[Required]
 		public string Name { get; set; }
-
-		[JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
-		public IEnumerable<ProductDTO> Products { get; set; }
 
 		public static CategoryDTO FromCategory(Category category) => new() {
 			Id = category.Id,
 			Name = category.Name,
-			Products = category.Products?.Select(p => ProductDTO.FromProduct(p)),
 		};
+	}
+
+	public class CategoryProductsDTO : CategoryDTO {
+		public IEnumerable<ProductDTO> Products { get; set; }
+
+		public static new CategoryProductsDTO FromCategory(Category category) => new() {
+			Id = category.Id,
+			Name = category.Name,
+			Products = category.Products.Select(p => ProductDTO.FromProduct(p)),
+		};
+	}
+
+	public class CategoryPatchDTO {
+		public string Name { get; set; }
+		public IEnumerable<int?> Products { get; set; }
 	}
 }

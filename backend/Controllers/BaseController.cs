@@ -12,6 +12,10 @@ namespace Ecommerce.Controllers {
 			_objGender = objGender;
 		}
 
+		protected ObjectResult EntityCreated(object response = null) {
+			return new(response) { StatusCode = 201 };
+		}
+
 		protected NotFoundObjectResult EntityNotFound(
 			dynamic id,
 			string objName = null,
@@ -33,21 +37,21 @@ namespace Ecommerce.Controllers {
 			GetOptionalArgs(objName, objGender, out var name, out var gender);
 
 			return BadRequest(new {
-				message = $"{name} já está cadastrad{gender}!",
+				message = $"{name} já foi cadastrad{gender}!",
 				id
 			});
 		}
 
 		protected BadRequestObjectResult PropertyAlreadyExists(
-			IEnumerable<string> propertiesName,
+			IDictionary<string, string> properties,
 			string objName = null,
 			Gender objGender = Gender.N
 		) {
 			GetOptionalArgs(objName, objGender, out var name, out var gender);
 
 			return BadRequest(new {
-				message = $"{name} já está cadastrad{gender}!",
-				properties = propertiesName
+				message = $"{name} já foi cadastrad{gender}!",
+				properties
 			});
 		}
 

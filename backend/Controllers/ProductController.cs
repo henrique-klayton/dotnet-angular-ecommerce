@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ecommerce.Models;
@@ -35,15 +34,55 @@ namespace Ecommerce.Controllers {
 			return Ok(ProductDTO.FromProduct(product));
 		}
 
-		// [HttpPost]
-		// public IActionResult Post(ProductDTO model) {
-		// 	// TODO Return 400 if id already exists
-		// 	Console.WriteLine(model.Name);
-		// 	_dbContext.Products.Add(model);
-		// 	_dbContext.SaveChanges();
+		[HttpPost]
+		public IActionResult Post(ProductDTO model) {
+			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == model.CategoryId);
+			if (category == null) return CategoryNotFound(model.CategoryId);
 
-		// 	return StatusCode(201);
-		// }
+			if (_dbContext.Products.SingleOrDefault(p => p.Name == model.Name) != null) {
+				return PropertyAlreadyExists(new Dictionary<string, string>() {
+				{ "Name", model.Name }
+				});
+			}
+
+			_dbContext.Products.Add(Product.FromDto(model, category));
+			_dbContext.SaveChanges();
+
+			return EntityCreated();
+		}
+
+		[HttpPut("{id:int}")]
+		public IActionResult Put(int id, ProductUpdateDTO model) {
+			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == model.CategoryId);
+			if (category == null) return CategoryNotFound(model.CategoryId);
+
+			var product = _dbContext.Products.SingleOrDefault(p => p.Id == id);
+			if (product == null) return EntityNotFound(id);
+
+			product.Update(model, category);
+			_dbContext.SaveChanges();
+
+			return Ok();
+		}
+
+		[HttpPatch("{id:int}/[action]/{categoryId:int}")]
+		public IActionResult Category(int id, int categoryId) {
+			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == categoryId);
+			if (category == null) return CategoryNotFound(categoryId);
+
+			var product = _dbContext.Products
+				.Include(p => p.Category)
+				.SingleOrDefault(p => p.Id == id);
+			if (product == null) return EntityNotFound(id);
+
+			product.CategoryId = categoryId;
+			product.Category = category;
+
+			_dbContext.Products.Update(product);
+			_dbContext.SaveChanges();
+
+			return Ok();
+		}
 
 		// [HttpPatch("{id:int}")]
 		// public IActionResult Patch(int id, JsonPatchDocument<>) {
@@ -83,5 +122,11 @@ namespace Ecommerce.Controllers {
 
 			return Ok();
 		}
+
+		private NotFoundObjectResult CategoryNotFound(int categoryId) => EntityNotFound(
+			categoryId,
+			"Categoria",
+			Gender.F
+		);
 	}
 }

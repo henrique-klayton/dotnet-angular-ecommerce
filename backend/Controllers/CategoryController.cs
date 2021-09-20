@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Ecommerce.Models;
-using Ecommerce.Services;
 using Ecommerce.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +12,9 @@ namespace Ecommerce.Controllers {
 	[Route("[controller]")]
 	public class CategoryController : BaseController {
 		private readonly EcommerceDbContext _dbContext;
-		private readonly IUpdateService _up;
 
-		public CategoryController(EcommerceDbContext dbContext, IUpdateService up)
-			: base("Categoria", Gender.F) {
+		public CategoryController(EcommerceDbContext dbContext) : base("Categoria", Gender.F) {
 			_dbContext = dbContext;
-			_up = up;
 		}
 
 		[HttpGet]
@@ -30,43 +26,54 @@ namespace Ecommerce.Controllers {
 			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == id);
 
 			if (category == null) return EntityNotFound(id);
-			return Ok(CategoryDTO.FromCategory(category));
+			return CategoryDTO.FromCategory(category);
 		}
 
-		[HttpGet("Products")]
-		public IEnumerable<CategoryDTO> GetWithProducts() => _dbContext.Categories
+		[HttpGet("IncludeProducts")]
+		public IEnumerable<CategoryProductsDTO> GetWithProducts() => _dbContext.Categories
 			.Include(c => c.Products)
-			.Select(c => CategoryDTO.FromCategory(c));
+			.Select(c => CategoryProductsDTO.FromCategory(c));
 
-		[HttpGet("{id:int}/Products")]
-		public ActionResult<CategoryDTO> GetByIdWithProducts(int id) {
+		[HttpGet("{id:int}/IncludeProducts")]
+		public ActionResult<CategoryProductsDTO> GetByIdWithProducts(int id) {
 			var category = _dbContext.Categories
 				.Include(c => c.Products)
 				.SingleOrDefault(c => c.Id == id);
 
 			if (category == null) return EntityNotFound(id);
-			return Ok(CategoryDTO.FromCategory(category));
+			return CategoryProductsDTO.FromCategory(category);
 		}
 
-		// [HttpPost]
-		// public IActionResult Post(CategoryDTO model) {
-		// 	_dbContext.Categories.Add(new Category { Name = model.Name });
-		// 	_dbContext.SaveChanges();
+		[HttpPost]
+		public IActionResult Post(CategoryDTO model) {
+			var category = _dbContext.Categories.SingleOrDefault(c => c.Name == model.Name);
+			if (category != null) return PropertyAlreadyExists(new Dictionary<string, string>() {
+				{ "Name", model.Name }
+			});
 
-		// 	return StatusCode(201);
-		// }
+			_dbContext.Categories.Add(new Category { Name = model.Name });
+			_dbContext.SaveChanges();
 
-		// TODO Adicionar produtos na categoria
-		// [HttpPatch("{id:int}")]
-		// public IActionResult Patch(int id, CategoryDTO model) {
-		// 	var category = _dbContext.Categories.SingleOrDefault(c => c.Id == id);
-		// 	if (category == null) return NotFound($"Categoria com id {id} não encontrada!");
+			return EntityCreated();
+		}
 
-		// 	_up.Update(new Category { });
-		// 	_dbContext.SaveChanges();
+		// TODO Remover produtos da categoria
+		[HttpPatch("{id:int}")]
+		public IActionResult Patch(int id, CategoryPatchDTO model) {
+			var category = _dbContext.Categories
+				.Include(c => c.Products)
+				.SingleOrDefault(c => c.Id == id);
+			if (category == null) return EntityNotFound(id);
 
-		// 	return Ok();
-		// }
+			if (model.Name != null) category.Name = model.Name;
+			if (model.Products != null) category.Products = category.Products.Concat(
+				_dbContext.Products.Where(p => model.Products.Contains(p.Id))
+			).ToList();
+
+			_dbContext.SaveChanges();
+
+			return Ok();
+		}
 
 		[HttpDelete("{id:int}")]
 		public IActionResult Delete(int id) {
