@@ -40,12 +40,13 @@ namespace Ecommerce.Services {
 		public RegisterResponse Register(RegisterRequest model) {
 			_passwordService.HashedPassword(model.Password, out var passwordHash, out var passwordSalt);
 
+			// FIXME Cadastrar roles no banco
 			_dbContext.Users.Add(new User {
 				Name = model.Name,
 				Email = model.Email,
 				PasswordHash = passwordHash,
 				PasswordSalt = passwordSalt,
-				Role = 0,
+				RoleId = 0,
 			});
 			_dbContext.SaveChanges();
 
