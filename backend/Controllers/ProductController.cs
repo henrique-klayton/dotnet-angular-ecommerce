@@ -68,34 +68,6 @@ namespace Ecommerce.Controllers {
 		[HttpPatch("{id:int}/[action]/{categoryId:int}")]
 		public IActionResult Category(int id, int categoryId) {
 			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == categoryId);
-			if (category == null) return CategoryNotFound(categoryId);
-
-			var product = _dbContext.Products
-				.Include(p => p.Category)
-				.SingleOrDefault(p => p.Id == id);
-			if (product == null) return EntityNotFound(id);
-
-			product.CategoryId = categoryId;
-			product.Category = category;
-
-			_dbContext.Products.Update(product);
-			_dbContext.SaveChanges();
-
-			return Ok();
-		}
-
-		// [HttpPatch("{id:int}")]
-		// public IActionResult Patch(int id, JsonPatchDocument<>) {
-		// 	// Console.WriteLine(model.Name);
-		// 	// _dbContext.Products.Add(model);
-		// 	// _dbContext.SaveChanges();
-
-		// 	return StatusCode(201);
-		// }
-
-		[HttpPatch("{id:int}/[action]/{categoryId:int}")]
-		public IActionResult Category(int id, int categoryId) {
-			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == categoryId);
 			if (category == null) return EntityNotFound(categoryId, "Categoria", Gender.F);
 
 			var product = _dbContext.Products
