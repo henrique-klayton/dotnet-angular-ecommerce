@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ecommerce.Models {
 	public class Branch : TimestampedEntity {
@@ -9,13 +8,17 @@ namespace Ecommerce.Models {
 		public string Phone { get; set; }
 		// public DateTime BirthDate { get; set; }
 
-		public static implicit operator BranchDTO(Branch branch) => new() {
-			Id = branch.Id,
-			Name = branch.Name,
-			Phone = branch.Phone,
-			// BirthDate = branch.BirthDate,
-			Created = branch.Created,
-		};
+		public Branch(int? id, DateTime? created, string name, string phone) : base(id, created) {
+			Name = name;
+			Phone = phone;
+		}
+
+		public static Branch FromDto(BranchDTO branch) => new(
+			branch.Id,
+			branch.Created,
+			branch.Phone,
+			branch.Name
+		);
 	}
 
 	public class BranchDTO {
@@ -23,14 +26,21 @@ namespace Ecommerce.Models {
 		public string Name { get; set; }
 		public string Phone { get; set; }
 		// public DateTime BirthDate { get; set; }
-		public DateTime Created { get; set; }
+		public DateTime? Created { get; set; }
 
-		public static implicit operator Branch(BranchDTO branch) => new() {
-			Id = branch.Id,
-			Name = branch.Name,
-			Phone = branch.Phone,
-			// BirthDate = branch.BirthDate,
-			Created = branch.Created,
-		};
+		public BranchDTO(int? id, string name, string phone, DateTime? created) {
+			Id = id;
+			Name = name;
+			Phone = phone;
+			Created = created;
+		}
+
+		public static BranchDTO FromBranch(Branch branch) => new(
+			branch.Id,
+			branch.Name,
+			branch.Phone,
+			// branch.BirthDate,
+			branch.Created
+		);
 	}
 }
