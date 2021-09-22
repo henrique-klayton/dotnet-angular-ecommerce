@@ -16,13 +16,21 @@ namespace Ecommerce.Models {
 		[Required]
 		public string State { get; set; }
 
-		public static implicit operator AddressDTO(Address address) => new() {
-			Cep = address.PostalCode,
-			Logradouro = address.Street,
-			Bairro = address.District,
-			Localidade = address.City,
-			Uf = address.State,
-		};
+		public Address(string postalCode, string street, string district, string city, string state) {
+			PostalCode = postalCode;
+			Street = street;
+			District = district;
+			City = city;
+			State = state;
+		}
+
+		public static implicit operator AddressDTO(Address address) => new(
+			address.PostalCode,
+			address.Street,
+			address.District,
+			address.City,
+			address.State
+		);
 	}
 
 	public class AddressDTO {
@@ -38,12 +46,20 @@ namespace Ecommerce.Models {
 		[Required]
 		public string Uf { get; set; }
 
-		public static implicit operator Address(AddressDTO address) => new() {
-			PostalCode = address.Cep,
-			Street = address.Logradouro,
-			District = address.Bairro,
-			City = address.Localidade,
-			State = address.Uf,
-		};
+		public AddressDTO(string cep, string logradouro, string bairro, string localidade, string uf) {
+			Cep = cep;
+			Logradouro = logradouro;
+			Bairro = bairro;
+			Localidade = localidade;
+			Uf = uf;
+		}
+
+		public static implicit operator Address(AddressDTO address) => new(
+			address.Cep,
+			address.Logradouro,
+			address.Bairro,
+			address.Localidade,
+			address.Uf
+		);
 	}
 }

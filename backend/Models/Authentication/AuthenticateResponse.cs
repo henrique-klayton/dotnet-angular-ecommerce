@@ -3,9 +3,12 @@ using Ecommerce.Services;
 
 namespace Ecommerce.Models.Authentication {
 	public class AuthenticateResponse {
-		[Required]
 		public UserDTO User { get; set; }
-		[Required]
 		public string Token { get; set; }
+
+		public AuthenticateResponse(UserDTO user, string token) {
+			User = user;
+			Token = token;
+		}
 	}
 }

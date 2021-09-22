@@ -18,9 +18,9 @@ namespace Ecommerce {
 
 		partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-		public DbSet<Address> Addresses { get; set; }
-		public DbSet<Category> Categories { get; set; }
-		public DbSet<Product> Products { get; set; }
-		public DbSet<User> Users { get; set; }
+		public DbSet<Address> Addresses { get; set; } = null!;
+		public DbSet<Category> Categories { get; set; } = null!;
+		public DbSet<Product> Products { get; set; } = null!;
+		public DbSet<User> Users { get; set; } = null!;
 	}
 }

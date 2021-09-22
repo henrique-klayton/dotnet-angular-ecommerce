@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
@@ -6,20 +5,55 @@ namespace Ecommerce.Models {
 	public class Product : BaseEntity {
 		[ForeignKey("Category")]
 		public int CategoryId { get; set; }
-		[Required]
 		public string Name { get; set; }
-		public string Description { get; set; }
-		[Required]
+		public string? Description { get; set; }
 		public double CostPrice { get; set; }
-		[Required]
 		public double SalePrice { get; set; }
-		[Required]
 		public int StockAmount { get; set; }
-		[Required]
 		public bool Status { get; set; }
 
-		[Required]
 		public Category Category { get; set; }
+
+		public Product(
+			int? id,
+			string name,
+			string? description,
+			double costPrice,
+			double salePrice,
+			int stockAmount,
+			bool status,
+			int categoryId
+		) : base(id) {
+			Name = name;
+			Description = description;
+			CostPrice = costPrice;
+			SalePrice = salePrice;
+			StockAmount = stockAmount;
+			Status = status;
+			Category = null!;
+			CategoryId = categoryId;
+		}
+
+		public Product(
+			int? id,
+			string name,
+			string? description,
+			double costPrice,
+			double salePrice,
+			int stockAmount,
+			bool status,
+			int categoryId,
+			Category category
+		) : base(id) {
+			Name = name;
+			Description = description;
+			CostPrice = costPrice;
+			SalePrice = salePrice;
+			StockAmount = stockAmount;
+			Status = status;
+			CategoryId = categoryId;
+			Category = category;
+		}
 
 		public void Update(ProductUpdateDTO product, Category category) {
 			Name = product.Name;
@@ -33,24 +67,24 @@ namespace Ecommerce.Models {
 		}
 
 		public static Product FromDto(ProductUpdateDTO product, Category category, int? id = null) {
-			return new() {
-				Id = id,
-				Name = product.Name,
-				Description = product.Description,
-				CostPrice = product.CostPrice,
-				SalePrice = product.SalePrice,
-				StockAmount = product.StockAmount,
-				Status = product.Status,
-				CategoryId = product.CategoryId,
-				Category = category,
-			};
+			return new(
+				id,
+				product.Name,
+				product.Description,
+				product.CostPrice,
+				product.SalePrice,
+				product.StockAmount,
+				product.Status,
+				product.CategoryId,
+				category
+			);
 		}
 	}
 
 	public class ProductUpdateDTO {
-		[Required]
+		[JsonRequired]
 		public string Name { get; set; }
-		public string Description { get; set; }
+		public string? Description { get; set; }
 		[JsonRequired]
 		public double CostPrice { get; set; }
 		[JsonRequired]
@@ -63,32 +97,64 @@ namespace Ecommerce.Models {
 		[JsonRequired]
 		public int CategoryId { get; set; }
 
-		public static ProductUpdateDTO FromProduct(Product product) => new() {
-			Name = product.Name,
-			Description = product.Description,
-			CostPrice = product.CostPrice,
-			SalePrice = product.SalePrice,
-			StockAmount = product.StockAmount,
-			Status = product.Status,
-			CategoryId = product.CategoryId,
-		};
+		public ProductUpdateDTO(
+			string name,
+			string? description,
+			double costPrice,
+			double salePrice,
+			int stockAmount,
+			bool status,
+			int categoryId
+		) {
+			Name = name;
+			Description = description;
+			CostPrice = costPrice;
+			SalePrice = salePrice;
+			StockAmount = stockAmount;
+			Status = status;
+			CategoryId = categoryId;
+		}
+
+		public static ProductUpdateDTO FromProduct(Product product) => new(
+			product.Name,
+			product.Description,
+			product.CostPrice,
+			product.SalePrice,
+			product.StockAmount,
+			product.Status,
+			product.CategoryId
+		);
 	}
 
 	public class ProductDTO : ProductUpdateDTO {
-		public int? Id { get; private set; }
-		[JsonRequired]
-		public string Category { get; set; }
+		public ProductDTO(
+			int? id,
+			string name,
+			string? description,
+			double costPrice,
+			double salePrice,
+			int stockAmount,
+			bool status,
+			string? category,
+			int categoryId
+		) : base(name, description, costPrice, salePrice, stockAmount, status, categoryId) {
+			Id = id;
+			Category = category;
+		}
 
-		public new static ProductDTO FromProduct(Product product) => new() {
-			Id = product.Id,
-			Name = product.Name,
-			Description = product.Description,
-			CostPrice = product.CostPrice,
-			SalePrice = product.SalePrice,
-			StockAmount = product.StockAmount,
-			Status = product.Status,
-			Category = product.Category.Name,
-			CategoryId = product.CategoryId,
-		};
+		public int? Id { get; private set; }
+		public string? Category { get; set; }
+
+		public new static ProductDTO FromProduct(Product product) => new(
+			product.Id,
+			product.Name,
+			product.Description,
+			product.CostPrice,
+			product.SalePrice,
+			product.StockAmount,
+			product.Status,
+			product.Category.Name,
+			product.CategoryId
+		);
 	}
 }

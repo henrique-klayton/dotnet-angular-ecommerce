@@ -12,7 +12,7 @@ namespace Ecommerce.Extensions {
 			this JsonPatchDocument<T> patch,
 			T entity,
 			ModelStateDictionary modelState,
-			IEnumerable<string> immutableProperties = null,
+			IEnumerable<string>? immutableProperties = null,
 			bool immutableId = true
 		) where T : class {
 			if (entity == null) throw new ArgumentNullException(nameof(entity));

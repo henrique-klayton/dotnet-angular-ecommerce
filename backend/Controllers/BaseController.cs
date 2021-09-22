@@ -12,13 +12,13 @@ namespace Ecommerce.Controllers {
 			_objGender = objGender;
 		}
 
-		protected ObjectResult EntityCreated(object response = null) {
+		protected ObjectResult EntityCreated(object? response = null) {
 			return new(response) { StatusCode = 201 };
 		}
 
 		protected NotFoundObjectResult EntityNotFound(
 			dynamic id,
-			string objName = null,
+			string? objName = null,
 			Gender objGender = Gender.N
 		) {
 			GetOptionalArgs(objName, objGender, out var name, out var gender);
@@ -31,7 +31,7 @@ namespace Ecommerce.Controllers {
 
 		protected BadRequestObjectResult IdAlreadyExists(
 			dynamic id,
-			string objName = null,
+			string? objName = null,
 			Gender objGender = Gender.N
 		) {
 			GetOptionalArgs(objName, objGender, out var name, out var gender);
@@ -44,7 +44,7 @@ namespace Ecommerce.Controllers {
 
 		protected BadRequestObjectResult PropertyAlreadyExists(
 			IDictionary<string, string> properties,
-			string objName = null,
+			string? objName = null,
 			Gender objGender = Gender.N
 		) {
 			GetOptionalArgs(objName, objGender, out var name, out var gender);
@@ -56,7 +56,7 @@ namespace Ecommerce.Controllers {
 		}
 
 		private void GetOptionalArgs(
-			string objName,
+			string? objName,
 			Gender objGender,
 			out string name,
 			out char gender

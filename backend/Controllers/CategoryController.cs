@@ -51,7 +51,7 @@ namespace Ecommerce.Controllers {
 				{ "Name", model.Name }
 			});
 
-			_dbContext.Categories.Add(new Category { Name = model.Name });
+			_dbContext.Categories.Add(new Category(null, model.Name));
 			_dbContext.SaveChanges();
 
 			return EntityCreated();

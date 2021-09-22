@@ -6,6 +6,7 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
     <UserSecretsId>c65c9be5-93f8-4fa2-9571-1fe723c780a3</UserSecretsId>
+		<Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

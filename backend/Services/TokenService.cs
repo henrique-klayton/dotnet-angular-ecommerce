@@ -23,7 +23,7 @@ namespace Ecommerce.Services {
 
 			var tokenDescriptor = new SecurityTokenDescriptor {
 				Subject = new ClaimsIdentity(new[] {
-					new Claim("id", user.Id.ToString(), ClaimValueTypes.Integer),
+					new Claim("id", user.Id.ToString()!, ClaimValueTypes.Integer),
 					new Claim(ClaimTypes.Name, user.Name),
 					new Claim(ClaimTypes.Email, user.Email),
 				}),

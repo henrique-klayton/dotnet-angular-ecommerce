@@ -4,7 +4,7 @@ using Ecommerce.Models.Authentication;
 
 namespace Ecommerce.Services {
 	public interface IUserService {
-		AuthenticateResponse Authenticate(AuthenticateRequest model);
+		AuthenticateResponse? Authenticate(AuthenticateRequest model);
 		RegisterResponse Register(RegisterRequest model);
 	}
 
@@ -23,7 +23,7 @@ namespace Ecommerce.Services {
 			_tokenService = tokenService;
 		}
 
-		public AuthenticateResponse Authenticate(AuthenticateRequest model) {
+		public AuthenticateResponse? Authenticate(AuthenticateRequest model) {
 			var user = _dbContext.Users.SingleOrDefault(u => u.Email == model.Email);
 			if (user == null) return null;
 
@@ -31,26 +31,26 @@ namespace Ecommerce.Services {
 				return null;
 
 			var token = _tokenService.GenerateJwtToken(user);
-			return new AuthenticateResponse {
-				User = user,
-				Token = token,
-			};
+			return new AuthenticateResponse(
+				UserDTO.FromUser(user),
+				token
+			);
 		}
 
 		public RegisterResponse Register(RegisterRequest model) {
 			_passwordService.HashedPassword(model.Password, out var passwordHash, out var passwordSalt);
 
 			// FIXME Cadastrar roles no banco
-			_dbContext.Users.Add(new User {
-				Name = model.Name,
-				Email = model.Email,
-				PasswordHash = passwordHash,
-				PasswordSalt = passwordSalt,
-				RoleId = 0,
-			});
+			_dbContext.Users.Add(new User(
+				model.Name,
+				model.Email,
+				passwordHash,
+				passwordSalt,
+				role: 0
+			));
 			_dbContext.SaveChanges();
 
-			return new RegisterResponse { Message = "Usuário cadastrado com sucesso!" };
+			return new RegisterResponse("Usuário cadastrado com sucesso!");
 		}
 	}
 }

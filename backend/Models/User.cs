@@ -1,49 +1,90 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ecommerce.Models {
 	public class User : TimestampedEntity {
-		[ForeignKey("Role")]
-		public int RoleId { get; set; }
-		[Required]
 		public string Name { get; set; }
 		[EmailAddress]
-		[Required]
 		public string Email { get; set; }
-		[Required]
 		public string PasswordHash { get; set; }
-		[Required]
 		public string PasswordSalt { get; set; }
-		public string Phone { get; set; }
-		public DateTime BirthDate { get; set; }
+		public string? Phone { get; set; }
+		public DateTime? BirthDate { get; set; }
 
-		public static implicit operator UserDTO(User user) => new() {
-			Name = user.Name,
-			Email = user.Email,
-			Phone = user.Phone,
-			BirthDate = user.BirthDate,
-			Created = user.Created,
-			Role = user.RoleId,
-		};
+		public int Role { get; set; }
+
+		public User(
+			string name,
+			string email,
+			string passwordHash,
+			string passwordSalt,
+			int role,
+			int? id = null,
+			string? phone = null,
+			DateTime? birthDate = null,
+			DateTime? created = null
+		) : base(id, created) {
+			Role = role;
+			Name = name;
+			Email = email;
+			PasswordHash = passwordHash;
+			PasswordSalt = passwordSalt;
+			Phone = phone;
+			BirthDate = birthDate;
+		}
+
+		public static User FromDto(
+			UserDTO user,
+			string passwordHash,
+			string passwordSalt
+		) => new(
+			user.Name,
+			user.Email,
+			passwordHash,
+			passwordSalt,
+			user.Role,
+			user.Id,
+			user.Phone,
+			user.BirthDate,
+			user.Created
+		);
 	}
 
 	public class UserDTO {
 		public int? Id { get; private set; }
 		public string Name { get; set; }
 		public string Email { get; set; }
-		public string Phone { get; set; }
-		public DateTime BirthDate { get; set; }
-		public DateTime Created { get; set; }
+		public string? Phone { get; set; }
+		public DateTime? BirthDate { get; set; }
+		public DateTime? Created { get; set; }
 		public int Role { get; set; }
 
-		public static implicit operator User(UserDTO user) => new() {
-			Name = user.Name,
-			Email = user.Email,
-			Phone = user.Phone,
-			BirthDate = user.BirthDate,
-			Created = user.Created,
-			RoleId = user.Role,
-		};
+		public UserDTO(
+			string name,
+			string email,
+			int role,
+			int? id,
+			string? phone,
+			DateTime? birthDate,
+			DateTime? created
+		) {
+			Id = id;
+			Name = name;
+			Email = email;
+			Phone = phone;
+			BirthDate = birthDate;
+			Created = created;
+			Role = role;
+		}
+
+		public static UserDTO FromUser(User user) => new(
+			user.Name,
+			user.Email,
+			user.Role,
+			user.Id,
+			user.Phone,
+			user.BirthDate,
+			user.Created
+		);
 	}
 }

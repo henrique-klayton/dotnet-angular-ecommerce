@@ -25,7 +25,7 @@ namespace Ecommerce.Controllers {
 		}
 
 		[HttpGet]
-		public IEnumerable<UserDTO> Get() => _dbContext.Users.Cast<UserDTO>();
+		public IEnumerable<UserDTO> Get() => _dbContext.Users.Select(u => UserDTO.FromUser(u));
 
 		[HttpGet("{id}")]
 		public ActionResult<UserDTO> GetById(int id) {
