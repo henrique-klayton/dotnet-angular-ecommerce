@@ -40,7 +40,7 @@ namespace Ecommerce.Controllers {
 
 		[HttpPost("[action]")]
 		[AllowAnonymous]
-		public IActionResult Authenticate(AuthenticateRequest model) {
+		public ActionResult<AuthenticateResponse> Authenticate(AuthenticateRequest model) {
 			var response = _userService.Authenticate(model);
 
 			if (response == null) return BadRequest(new { Error = "Email e/ou Senha inválida!" });
