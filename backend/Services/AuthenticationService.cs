@@ -32,7 +32,7 @@ namespace Ecommerce.Services {
 
 			var token = _tokenService.GenerateJwtToken(user);
 			return new AuthenticateResponse(
-				UserDTO.FromUser(user),
+				UserDTO.FromUser(user, user.Role.Name),
 				token
 			);
 		}
@@ -46,7 +46,8 @@ namespace Ecommerce.Services {
 				model.Email,
 				passwordHash,
 				passwordSalt,
-				role: 0
+				roleId: 0,
+				_dbContext.Roles.Single(r => r.Id == 0)
 			));
 			_dbContext.SaveChanges();
 

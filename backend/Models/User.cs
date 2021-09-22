@@ -1,8 +1,11 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ecommerce.Models {
 	public class User : TimestampedEntity {
+		[ForeignKey("Role")]
+		public int RoleId { get; set; }
 		public string Name { get; set; }
 		[EmailAddress]
 		public string Email { get; set; }
@@ -11,38 +14,63 @@ namespace Ecommerce.Models {
 		public string? Phone { get; set; }
 		public DateTime? BirthDate { get; set; }
 
-		public int Role { get; set; }
+		public Role Role { get; set; }
 
 		public User(
 			string name,
 			string email,
 			string passwordHash,
 			string passwordSalt,
-			int role,
+			int roleId,
 			int? id = null,
 			string? phone = null,
 			DateTime? birthDate = null,
 			DateTime? created = null
 		) : base(id, created) {
-			Role = role;
+			RoleId = roleId;
 			Name = name;
 			Email = email;
 			PasswordHash = passwordHash;
 			PasswordSalt = passwordSalt;
 			Phone = phone;
 			BirthDate = birthDate;
+			Role = null!;
+		}
+
+		public User(
+			string name,
+			string email,
+			string passwordHash,
+			string passwordSalt,
+			int roleId,
+			Role role,
+			int? id = null,
+			string? phone = null,
+			DateTime? birthDate = null,
+			DateTime? created = null
+		) : base(id, created) {
+			RoleId = roleId;
+			Name = name;
+			Email = email;
+			PasswordHash = passwordHash;
+			PasswordSalt = passwordSalt;
+			Phone = phone;
+			BirthDate = birthDate;
+			Role = role;
 		}
 
 		public static User FromDto(
 			UserDTO user,
 			string passwordHash,
-			string passwordSalt
+			string passwordSalt,
+			Role role
 		) => new(
 			user.Name,
 			user.Email,
 			passwordHash,
 			passwordSalt,
-			user.Role,
+			user.RoleId,
+			role,
 			user.Id,
 			user.Phone,
 			user.BirthDate,
@@ -57,12 +85,14 @@ namespace Ecommerce.Models {
 		public string? Phone { get; set; }
 		public DateTime? BirthDate { get; set; }
 		public DateTime? Created { get; set; }
-		public int Role { get; set; }
+		public int RoleId { get; set; }
+		public string Role { get; set; }
 
 		public UserDTO(
 			string name,
 			string email,
-			int role,
+			int roleId,
+			string role,
 			int? id,
 			string? phone,
 			DateTime? birthDate,
@@ -74,13 +104,15 @@ namespace Ecommerce.Models {
 			Phone = phone;
 			BirthDate = birthDate;
 			Created = created;
+			RoleId = roleId;
 			Role = role;
 		}
 
-		public static UserDTO FromUser(User user) => new(
+		public static UserDTO FromUser(User user, string roleName) => new(
 			user.Name,
 			user.Email,
-			user.Role,
+			user.RoleId,
+			roleName,
 			user.Id,
 			user.Phone,
 			user.BirthDate,

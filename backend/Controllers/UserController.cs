@@ -7,6 +7,7 @@ using Ecommerce.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Controllers {
 	[ApiController]
@@ -25,7 +26,9 @@ namespace Ecommerce.Controllers {
 		}
 
 		[HttpGet]
-		public IEnumerable<UserDTO> Get() => _dbContext.Users.Select(u => UserDTO.FromUser(u));
+		public IEnumerable<UserDTO> Get() => _dbContext.Users
+			.Include(u => u.Role)
+			.Select(u => UserDTO.FromUser(u, u.Role.Name));
 
 		[HttpGet("{id}")]
 		public ActionResult<UserDTO> GetById(int id) {
