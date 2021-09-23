@@ -18,7 +18,11 @@ namespace Ecommerce.Models {
 			Users = users;
 		}
 
-		public static implicit operator RoleDTO(Role user) => new(user.Id, user.Name);
+		public static Role FromDto(RoleDTO role, ICollection<User> users) => new(
+			role.Id,
+			role.Name,
+			users
+		);
 	}
 
 	public class RoleDTO {
