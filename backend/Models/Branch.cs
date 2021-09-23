@@ -1,45 +1,88 @@
 using System;
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace Ecommerce.Models {
 	public class Branch : TimestampedEntity {
-		[Required]
+		[ForeignKey("Address")]
+		public int AddressId { get; set; }
 		public string Name { get; set; }
 		public string Phone { get; set; }
-		// public DateTime BirthDate { get; set; }
 
-		public Branch(int? id, DateTime? created, string name, string phone) : base(id, created) {
+		public Address Address { get; set; }
+
+		public Branch(
+			string name,
+			string phone,
+			int addressId,
+			int? id,
+			DateTime? created
+		) : base(id, created) {
 			Name = name;
 			Phone = phone;
+			Address = null!;
+			AddressId = addressId;
 		}
 
-		public static Branch FromDto(BranchDTO branch) => new(
-			branch.Id,
-			branch.Created,
+		public Branch(
+			string name,
+			string phone,
+			int addressId,
+			Address address,
+			int? id,
+			DateTime? created
+		) : base(id, created) {
+			Name = name;
+			Phone = phone;
+			Address = address;
+			AddressId = addressId;
+		}
+
+		public static Branch FromDto(BranchDTO branch, Address address) => new(
+			branch.Name,
 			branch.Phone,
-			branch.Name
+			branch.AddressId,
+			address,
+			branch.Id,
+			branch.Created
 		);
 	}
 
 	public class BranchDTO {
 		public int? Id { get; private set; }
+		[JsonRequired]
+		public int AddressId { get; set; }
+		[JsonRequired]
 		public string Name { get; set; }
+		[JsonRequired]
 		public string Phone { get; set; }
-		// public DateTime BirthDate { get; set; }
+		[JsonRequired]
+		public AddressDTO Address { get; set; }
+
 		public DateTime? Created { get; set; }
 
-		public BranchDTO(int? id, string name, string phone, DateTime? created) {
+		public BranchDTO(
+			string name,
+			string phone,
+			int addressId,
+			AddressDTO address,
+			int? id,
+			DateTime? created
+		) {
 			Id = id;
+			AddressId = addressId;
 			Name = name;
 			Phone = phone;
+			Address = address;
 			Created = created;
 		}
 
 		public static BranchDTO FromBranch(Branch branch) => new(
-			branch.Id,
 			branch.Name,
 			branch.Phone,
-			// branch.BirthDate,
+			branch.AddressId,
+			branch.Address,
+			branch.Id,
 			branch.Created
 		);
 	}
