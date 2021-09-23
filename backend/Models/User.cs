@@ -23,9 +23,9 @@ namespace Ecommerce.Models {
 			string passwordSalt,
 			int roleId,
 			int? id = null,
+			DateTime? created = null,
 			string? phone = null,
-			DateTime? birthDate = null,
-			DateTime? created = null
+			DateTime? birthDate = null
 		) : base(id, created) {
 			RoleId = roleId;
 			Name = name;
@@ -45,9 +45,9 @@ namespace Ecommerce.Models {
 			int roleId,
 			Role role,
 			int? id = null,
+			DateTime? created = null,
 			string? phone = null,
-			DateTime? birthDate = null,
-			DateTime? created = null
+			DateTime? birthDate = null
 		) : base(id, created) {
 			RoleId = roleId;
 			Name = name;
@@ -72,9 +72,9 @@ namespace Ecommerce.Models {
 			user.RoleId,
 			role,
 			user.Id,
+			user.Created,
 			user.Phone,
-			user.BirthDate,
-			user.Created
+			user.BirthDate
 		);
 	}
 
@@ -94,9 +94,9 @@ namespace Ecommerce.Models {
 			int roleId,
 			string role,
 			int? id,
+			DateTime? created,
 			string? phone,
-			DateTime? birthDate,
-			DateTime? created
+			DateTime? birthDate
 		) {
 			Id = id;
 			Name = name;
@@ -114,9 +114,9 @@ namespace Ecommerce.Models {
 			user.RoleId,
 			roleName,
 			user.Id,
+			user.Created,
 			user.Phone,
-			user.BirthDate,
-			user.Created
+			user.BirthDate
 		);
 	}
 }

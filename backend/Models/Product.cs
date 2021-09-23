@@ -15,14 +15,14 @@ namespace Ecommerce.Models {
 		public Category Category { get; set; }
 
 		public Product(
-			int? id,
 			string name,
-			string? description,
 			double costPrice,
 			double salePrice,
 			int stockAmount,
 			bool status,
-			int categoryId
+			int categoryId,
+			int? id = null,
+			string? description = null
 		) : base(id) {
 			Name = name;
 			Description = description;
@@ -35,15 +35,15 @@ namespace Ecommerce.Models {
 		}
 
 		public Product(
-			int? id,
 			string name,
-			string? description,
 			double costPrice,
 			double salePrice,
 			int stockAmount,
 			bool status,
 			int categoryId,
-			Category category
+			Category category,
+			int? id = null,
+			string? description = null
 		) : base(id) {
 			Name = name;
 			Description = description;
@@ -68,15 +68,15 @@ namespace Ecommerce.Models {
 
 		public static Product FromDto(ProductUpdateDTO product, Category category, int? id = null) {
 			return new(
-				id,
 				product.Name,
-				product.Description,
 				product.CostPrice,
 				product.SalePrice,
 				product.StockAmount,
 				product.Status,
 				product.CategoryId,
-				category
+				category,
+				id,
+				product.Description
 			);
 		}
 	}
@@ -99,12 +99,12 @@ namespace Ecommerce.Models {
 
 		public ProductUpdateDTO(
 			string name,
-			string? description,
 			double costPrice,
 			double salePrice,
 			int stockAmount,
 			bool status,
-			int categoryId
+			int categoryId,
+			string? description = null
 		) {
 			Name = name;
 			Description = description;
@@ -117,12 +117,12 @@ namespace Ecommerce.Models {
 
 		public static ProductUpdateDTO FromProduct(Product product) => new(
 			product.Name,
-			product.Description,
 			product.CostPrice,
 			product.SalePrice,
 			product.StockAmount,
 			product.Status,
-			product.CategoryId
+			product.CategoryId,
+			product.Description
 		);
 	}
 
@@ -130,31 +130,31 @@ namespace Ecommerce.Models {
 		public ProductDTO(
 			int? id,
 			string name,
-			string? description,
 			double costPrice,
 			double salePrice,
 			int stockAmount,
 			bool status,
-			string? category,
-			int categoryId
-		) : base(name, description, costPrice, salePrice, stockAmount, status, categoryId) {
+			int categoryId,
+			string category,
+			string? description = null
+		) : base(name, costPrice, salePrice, stockAmount, status, categoryId, description) {
 			Id = id;
 			Category = category;
 		}
 
 		public int? Id { get; private set; }
-		public string? Category { get; set; }
+		public string Category { get; set; }
 
 		public new static ProductDTO FromProduct(Product product) => new(
 			product.Id,
 			product.Name,
-			product.Description,
 			product.CostPrice,
 			product.SalePrice,
 			product.StockAmount,
 			product.Status,
+			product.CategoryId,
 			product.Category.Name,
-			product.CategoryId
+			product.Description
 		);
 	}
 }
