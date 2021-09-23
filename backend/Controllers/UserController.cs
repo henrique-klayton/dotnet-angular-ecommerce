@@ -13,14 +13,14 @@ namespace Ecommerce.Controllers {
 	[ApiController]
 	[Authorize]
 	[Route("[controller]")]
-	public class UserController : ControllerBase {
+	public class UserController : BaseController {
 		private readonly EcommerceDbContext _dbContext;
 		private readonly IUserService _userService;
 
 		public UserController(
 			EcommerceDbContext dbContext,
 			IUserService userService
-		) {
+		) : base("Usuário") {
 			_dbContext = dbContext;
 			_userService = userService;
 		}
