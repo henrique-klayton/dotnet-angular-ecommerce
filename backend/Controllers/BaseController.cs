@@ -3,7 +3,8 @@ using Ecommerce.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Controllers {
-	public class BaseController : ControllerBase {
+	[ApiController]
+	public abstract class BaseController : ControllerBase {
 		private readonly string _objName;
 		private readonly Gender _objGender;
 

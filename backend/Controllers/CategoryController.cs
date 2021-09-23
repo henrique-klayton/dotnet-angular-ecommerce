@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Controllers {
-	[ApiController]
 	[Authorize]
 	[Route("[controller]")]
 	public class CategoryController : BaseController {

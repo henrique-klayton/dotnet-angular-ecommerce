@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Controllers {
-	[ApiController]
 	[Authorize]
 	[Route("[controller]")]
 	public class ProductController : BaseController {
@@ -64,8 +63,8 @@ namespace Ecommerce.Controllers {
 			return Ok();
 		}
 
-		[HttpPatch("{id:int}/[action]/{categoryId:int}")]
-		public IActionResult Category(int id, int categoryId) {
+		[HttpPatch("{id:int}/Category/{categoryId:int}")]
+		public IActionResult ChangeCategory(int id, int categoryId) {
 			var category = _dbContext.Categories.SingleOrDefault(c => c.Id == categoryId);
 			if (category == null) return EntityNotFound(categoryId, "Categoria", Gender.F);
 
