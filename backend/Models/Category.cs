@@ -21,6 +21,7 @@ namespace Ecommerce.Models {
 	}
 
 	public class CategoryDTO {
+		[JsonProperty(Required = Required.DisallowNull)]
 		public int? Id { get; protected set; }
 		[JsonRequired]
 		public string Name { get; set; }

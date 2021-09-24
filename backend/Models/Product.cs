@@ -142,6 +142,7 @@ namespace Ecommerce.Models {
 			Category = category;
 		}
 
+		[JsonProperty(Required = Required.DisallowNull)]
 		public int? Id { get; private set; }
 		public string Category { get; set; }
 

@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace Ecommerce.Models {
 	public class User : TimestampedEntity {
@@ -79,6 +80,7 @@ namespace Ecommerce.Models {
 	}
 
 	public class UserDTO {
+		[JsonProperty(Required = Required.DisallowNull)]
 		public int? Id { get; private set; }
 		public string Name { get; set; }
 		public string Email { get; set; }

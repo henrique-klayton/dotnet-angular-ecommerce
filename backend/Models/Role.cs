@@ -26,6 +26,7 @@ namespace Ecommerce.Models {
 	}
 
 	public class RoleDTO {
+		[JsonProperty(Required = Required.DisallowNull)]
 		public int? Id { get; protected set; }
 		[JsonRequired]
 		public string Name { get; set; }
