@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
-import { map, skip, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { AlertService } from 'src/app/shared/service/alert.service';
 import { FormValidationService } from 'src/app/shared/service/form.service';
 import { PRODUCT_CATEGORIES } from 'src/app/utils/constants';
@@ -50,10 +50,10 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 		}
 
 		this.form.get('imageInput').valueChanges
-			.pipe(takeUntil(this._onDestroy))
-			.subscribe(value => {
-				if (value?.files)
-					this._readImage(value.files[0]);
+			.pipe(takeUntil(this._onDestroy), filter(v => v != null))
+			.subscribe(file => {
+				if (!file.type.startsWith('image/')) this._alert.baseAlert('Imagem inválida!');
+				this._readImage(file);
 			});
 	}
 

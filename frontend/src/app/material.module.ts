@@ -52,7 +52,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatChipsModule } from '@angular/material/chips';
 import { NgxMaskModule } from 'ngx-mask';
-import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 
 const materialComponents = [
 	MatProgressSpinnerModule,
@@ -96,7 +96,7 @@ const materialComponents = [
 	MatBadgeModule,
 	MatChipsModule,
 	NgxMaskModule.forRoot(),
-	MaterialFileInputModule
+	NgxMatFileInputModule
 ];
 
 @NgModule({
