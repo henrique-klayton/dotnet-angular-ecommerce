@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Newtonsoft.Json;
 
@@ -9,12 +8,12 @@ namespace Ecommerce.Models {
 
 		public virtual ICollection<Product> Products { get; set; }
 
-		public Category(int? id, string name) : base(id) {
+		public Category(string name, int? id = null) : base(id) {
 			Name = name;
 			Products = null!;
 		}
 
-		public Category(int? id, string name, ICollection<Product> products) : base(id) {
+		public Category(string name, ICollection<Product> products, int? id = null) : base(id) {
 			Name = name;
 			Products = products;
 		}
@@ -26,32 +25,33 @@ namespace Ecommerce.Models {
 		[JsonRequired]
 		public string Name { get; set; }
 
-		public CategoryDTO(int? id, string name) {
+		public CategoryDTO(string name, int? id = null) {
 			Id = id;
 			Name = name;
 		}
 
-		public static CategoryDTO FromCategory(Category category) => new(category.Id, category.Name);
+		public static CategoryDTO FromCategory(Category category) => new(category.Name, category.Id);
 	}
 
 	public class CategoryProductsDTO : CategoryDTO {
 		public IEnumerable<ProductDTO> Products { get; set; }
 
-		public CategoryProductsDTO(int? id, string name, IEnumerable<ProductDTO> products)
-		: base(id, name) {
+		public CategoryProductsDTO(string name, IEnumerable<ProductDTO> products, int? id = null)
+		: base(name, id) {
 			Products = products;
 		}
 
 		public static new CategoryProductsDTO FromCategory(Category category) => new(
-			category.Id,
 			category.Name,
-			category.Products.Select(p => ProductDTO.FromProduct(p))
+			category.Products.Select(p => ProductDTO.FromProduct(p)),
+			category.Id
 		);
 	}
 
 	public class CategoryPatchDTO {
 		[JsonRequired]
 		public string Name { get; set; }
+
 		public IEnumerable<int?> Products { get; set; }
 
 		public CategoryPatchDTO(string name, IEnumerable<int?> products) {

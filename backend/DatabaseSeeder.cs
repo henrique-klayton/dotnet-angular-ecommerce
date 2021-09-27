@@ -31,17 +31,17 @@ namespace Ecommerce {
 
 			Console.WriteLine("Seeding Database!");
 			context.Categories.AddRange(new List<Category> {
-				new(1, "test"),
-				new(2, "Alimentos"),
-				new(3, "XYZ"),
-				new(4, "Itens"),
-				new(5, "Empty"),
+				new("test"),
+				new("Alimentos"),
+				new("XYZ"),
+				new("Itens"),
+				new("Empty"),
 			});
 
 			context.Roles.AddRange(new List<Role> {
-				new(1, "Admin"),
-				new(2, "Vendedor"),
-				new(3, "Teste"),
+				new("Admin"),
+				new("Vendedor"),
+				new("Teste"),
 			});
 
 			context.Addresses.AddRange(new List<Address> {
@@ -53,16 +53,16 @@ namespace Ecommerce {
 			});
 
 			context.Products.AddRange(new List<Product> {
-				new("ABC", 3.8, 8.8, 800, false, 1, 1, null),
-				new("Comida", 1.2, 2.8, 220, false, 2, 2, null),
-				new("Caro", 244.6, 340.99, 112, false, 3, 3, null),
-				new("Teste", 4.6, 12.2, 618, false, 4, 4, null),
-				new("Belo Teste", 175, 240, 46, false, 3, 5, null),
+				new("ABC", 3.8, 8.8, 800, false, 1),
+				new("Comida", 1.2, 2.8, 220, false, 2),
+				new("Caro", 244.6, 340.99, 112, false, 3),
+				new("Teste", 4.6, 12.2, 618, false, 4),
+				new("Belo Teste", 175, 240, 46, false, 3),
 			});
 
 			passwordService.HashedPassword("string", out var hash, out var salt);
 			context.Users.AddRange(new List<User> {
-				new("string", "string", hash, salt, 1, 1),
+				new("string", "string", hash, salt, 1),
 			});
 
 			Console.WriteLine("Saving Changes!");

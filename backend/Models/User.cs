@@ -21,10 +21,10 @@ namespace Ecommerce.Models {
 			string passwordHash,
 			string passwordSalt,
 			int roleId,
-			int? id = null,
-			DateTime? created = null,
 			string? phone = null,
-			DateTime? birthDate = null
+			DateTime? birthDate = null,
+			int? id = null,
+			DateTime? created = null
 		) : base(id, created) {
 			RoleId = roleId;
 			Name = name;
@@ -43,10 +43,10 @@ namespace Ecommerce.Models {
 			string passwordSalt,
 			int roleId,
 			Role role,
-			int? id = null,
-			DateTime? created = null,
 			string? phone = null,
-			DateTime? birthDate = null
+			DateTime? birthDate = null,
+			int? id = null,
+			DateTime? created = null
 		) : base(id, created) {
 			RoleId = roleId;
 			Name = name;
@@ -70,10 +70,10 @@ namespace Ecommerce.Models {
 			passwordSalt,
 			user.RoleId,
 			role,
-			user.Id,
-			user.Created,
 			user.Phone,
-			user.BirthDate
+			user.BirthDate,
+			user.Id,
+			user.Created
 		);
 	}
 
@@ -93,10 +93,10 @@ namespace Ecommerce.Models {
 			string email,
 			int roleId,
 			string role,
-			int? id,
-			DateTime? created,
 			string? phone,
-			DateTime? birthDate
+			DateTime? birthDate,
+			int? id,
+			DateTime? created
 		) {
 			Id = id;
 			Name = name;
@@ -113,10 +113,10 @@ namespace Ecommerce.Models {
 			user.Email,
 			user.RoleId,
 			roleName,
-			user.Id,
-			user.Created,
 			user.Phone,
-			user.BirthDate
+			user.BirthDate,
+			user.Id,
+			user.Created
 		);
 	}
 }
