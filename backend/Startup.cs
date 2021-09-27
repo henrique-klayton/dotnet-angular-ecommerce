@@ -83,11 +83,17 @@ namespace Ecommerce {
 			services.AddScoped<IUserService, UserService>();
 		}
 
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+		public void Configure(
+			IApplicationBuilder app,
+			IWebHostEnvironment env,
+			EcommerceDbContext dbContext,
+			IPasswordService passwordService
+		) {
 			if (env.IsDevelopment()) {
 				app.UseDeveloperExceptionPage();
 				app.UseSwagger();
 				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ecommerce v1"));
+				DatabaseSeeder.Seed(dbContext, passwordService, Configuration);
 			}
 
 			app.UseHttpsRedirection();
