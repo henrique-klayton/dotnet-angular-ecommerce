@@ -1,7 +1,5 @@
-﻿using System;
-using Ecommerce.Models;
+﻿using Ecommerce.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Ecommerce {
 	public partial class EcommerceDbContext : DbContext {

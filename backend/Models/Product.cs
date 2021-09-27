@@ -1,10 +1,7 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
 namespace Ecommerce.Models {
 	public class Product : BaseEntity {
-		[ForeignKey("Category")]
-		public int CategoryId { get; set; }
 		public string Name { get; set; }
 		public string? Description { get; set; }
 		public double CostPrice { get; set; }
@@ -12,6 +9,7 @@ namespace Ecommerce.Models {
 		public int StockAmount { get; set; }
 		public bool Status { get; set; }
 
+		public int CategoryId { get; set; }
 		public Category Category { get; set; }
 
 		public Product(

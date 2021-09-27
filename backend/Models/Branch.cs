@@ -1,14 +1,12 @@
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
 namespace Ecommerce.Models {
 	public class Branch : TimestampedEntity {
-		[ForeignKey("Address")]
-		public int AddressId { get; set; }
 		public string Name { get; set; }
 		public string Phone { get; set; }
 
+		public int AddressId { get; set; }
 		public Address Address { get; set; }
 
 		public Branch(

@@ -1,12 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
 namespace Ecommerce.Models {
 	public class User : TimestampedEntity {
-		[ForeignKey("Role")]
-		public int RoleId { get; set; }
 		public string Name { get; set; }
 		[EmailAddress]
 		public string Email { get; set; }
@@ -15,6 +12,7 @@ namespace Ecommerce.Models {
 		public string? Phone { get; set; }
 		public DateTime? BirthDate { get; set; }
 
+		public int RoleId { get; set; }
 		public Role Role { get; set; }
 
 		public User(
