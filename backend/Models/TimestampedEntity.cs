@@ -7,7 +7,7 @@ namespace Ecommerce.Models {
 	public abstract class TimestampedEntity : BaseEntity {
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		[Required]
-		public DateTime? Created { get; set; }
+		public DateTime? Created { get; private set; }
 
 		protected TimestampedEntity(int? id, DateTime? created) : base(id) {
 			Created = created;
