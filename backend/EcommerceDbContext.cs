@@ -21,5 +21,6 @@ namespace Ecommerce {
 		public DbSet<Product> Products { get; set; } = null!;
 		public DbSet<User> Users { get; set; } = null!;
 		public DbSet<Role> Roles { get; set; } = null!;
+		public DbSet<Transaction> Transactions { get; set; } = null!;
 	}
 }
