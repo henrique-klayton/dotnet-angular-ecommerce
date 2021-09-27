@@ -3,6 +3,8 @@ using System.Linq;
 using Ecommerce.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 namespace Ecommerce.Controllers {
 	[Authorize]
 	[Route("[controller]")]
@@ -24,6 +26,24 @@ namespace Ecommerce.Controllers {
 			if (includeUsers) _dbContext.Entry(role).Collection(r => r.Users).Load();
 
 			return Ok(role);
+		}
+
+		// TODO Remover usuários
+		[HttpPatch("{id:int}")]
+		public IActionResult Patch(int id, RolePatchDTO model) {
+			var role = _dbContext.Roles
+				.Include(c => c.Users)
+				.SingleOrDefault(c => c.Id == id);
+			if (role == null) return EntityNotFound(id);
+
+			if (model.Name != null) role.Name = model.Name;
+			if (model.Users != null) role.Users = role.Users.Concat(
+				_dbContext.Users.Where(p => model.Users.Contains(p.Id))
+			).ToList();
+
+			_dbContext.SaveChanges();
+
+			return Ok();
 		}
 
 		[HttpPost]
