@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Models;
 using Microsoft.EntityFrameworkCore;
 
+#nullable disable
 namespace Ecommerce {
 	public partial class EcommerceDbContext : DbContext {
 		public EcommerceDbContext() { }
@@ -16,11 +17,11 @@ namespace Ecommerce {
 
 		partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-		public DbSet<Address> Addresses { get; set; } = null!;
-		public DbSet<Category> Categories { get; set; } = null!;
-		public DbSet<Product> Products { get; set; } = null!;
-		public DbSet<User> Users { get; set; } = null!;
-		public DbSet<Role> Roles { get; set; } = null!;
-		public DbSet<Transaction> Transactions { get; set; } = null!;
+		public DbSet<Address> Addresses { get; set; }
+		public DbSet<Category> Categories { get; set; }
+		public DbSet<Product> Products { get; set; }
+		public DbSet<User> Users { get; set; }
+		public DbSet<Role> Roles { get; set; }
+		public DbSet<Transaction> Transactions { get; set; }
 	}
 }
