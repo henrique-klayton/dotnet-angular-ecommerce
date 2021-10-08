@@ -1,6 +1,7 @@
 using System.Linq;
 using Ecommerce.Models;
 using Ecommerce.Models.Authentication;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Services {
 	public interface IUserService {
@@ -24,7 +25,7 @@ namespace Ecommerce.Services {
 		}
 
 		public AuthenticateResponse? Authenticate(AuthenticateRequest model) {
-			var user = _dbContext.Users.SingleOrDefault(u => u.Email == model.Email);
+			var user = _dbContext.Users.Include(u => u.Role).SingleOrDefault(u => u.Email == model.Email);
 			if (user == null) return null;
 
 			if (!_passwordService.ValidPassword(user.PasswordHash, user.PasswordSalt, model.Password))
