@@ -96,7 +96,7 @@ namespace Ecommerce {
 				DatabaseSeeder.Seed(dbContext, passwordService, Configuration);
 			}
 
-			app.UseHttpsRedirection();
+			// app.UseHttpsRedirection();
 
 			app.UseRouting();
 			app.UseCors(config => config
