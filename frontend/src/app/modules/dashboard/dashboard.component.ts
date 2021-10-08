@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 		categories.forEach(category => categorizedProducts[category.name] = []);
 		products.forEach(product => {
 			const key = categories[product.category].name;
-			categorizedProducts[key].push({ name: product.name, value: product.amount });
+			categorizedProducts[key].push({ name: product.name, value: product.stockAmount });
 		});
 		return categorizedProducts;
 	}

@@ -36,18 +36,15 @@ const routes: Routes = [
 			},
 			{
 				path: 'endereco',
-				loadChildren: () =>
-					import('./modules/address/address.module').then(m => m.AddressModule)
+				loadChildren: () => import('./modules/address/address.module').then(m => m.AddressModule)
 			},
 			{
 				path: 'produtos',
-				loadChildren: () =>
-					import('./modules/product/product.module').then(m => m.ProductModule)
+				loadChildren: () => import('./modules/product/product.module').then(m => m.ProductModule)
 			},
 			{
 				path: 'vendas',
-				loadChildren: () =>
-					import('./modules/sales/sales.module').then(m => m.SalesModule)
+				loadChildren: () => import('./modules/sales/sales.module').then(m => m.SalesModule)
 			},
 			// {
 			// 	path: 'carrinho',

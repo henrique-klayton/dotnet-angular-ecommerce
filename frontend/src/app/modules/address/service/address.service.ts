@@ -1,16 +1,14 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AlertType } from 'src/app/shared/enums';
 import { ISetOptions } from 'src/app/shared/interfaces';
 import { BaseService } from 'src/app/shared/service/base.service';
 import { AddressFormModel } from '../form/model/address.form.model';
-import { AddressModel } from '../model/address.model';
 
 @Injectable()
 export class AddressService extends BaseService {
-	private _collection = 'Address';
+	private _baseRoute = 'Address';
 	private _setOptions: ISetOptions = { useAlert: AlertType.STATUS, objName: 'Endereço' };
-	constructor(private _http: HttpClient) {
+	constructor() {
 		super();
 	}
 
@@ -30,14 +28,11 @@ export class AddressService extends BaseService {
 		}
 	}
 
-	fetchData = () =>
-		this.getData<AddressFormModel>(this._collection, { idField: 'cep'});
+	fetchData = () => this.get<AddressFormModel>(this._baseRoute);
 
-	fetchAddressById = (cep: string) =>
-		this.getById<AddressFormModel>(cep, this._collection, { idField: 'cep' })
+	fetchAddressById = (cep: string) => this.getById<AddressFormModel>(this._baseRoute, cep)
 
-	insertAddress = (obj: AddressFormModel) =>
-		this.create(obj, AddressModel, this._collection, this._setOptions, obj.cep);
+	insertAddress = (obj: AddressFormModel) => this.post(this._baseRoute, obj);
 
-	deleteAddress = (cep: string) => this.delete(cep, this._collection, this._setOptions);
+	deleteAddress = (cep: string) => this.delete(this._baseRoute, cep);
 }

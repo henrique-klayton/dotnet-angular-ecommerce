@@ -25,10 +25,10 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 		'name',
 		'category',
 		'description',
-		'cost_price',
-		'sale_price',
-		'amount',
-		'active',
+		'costPrice',
+		'salePrice',
+		'stockAmount',
+		'status',
 		'actions',
 	];
 	public categories = PRODUCT_CATEGORIES;
@@ -71,7 +71,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 			.subscribe((res) => (this.dataSource.data = res));
 	}
 
-	public deleteProduct(id: string) {
+	public deleteProduct(id: number) {
 		this._productService.deleteProduct(id);
 	}
 
@@ -102,7 +102,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 			return false;
 		if (!isNullOrWhitespace(filter.category) && data.category !== filter.category)
 			return false;
-		if (!isNullOrWhitespace(filter.active) && data.active !== filter.active)
+		if (!isNullOrWhitespace(filter.status) && data.status !== filter.status)
 			return false;
 		return true;
 	}

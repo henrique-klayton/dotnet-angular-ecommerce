@@ -33,7 +33,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 		private _productService: ProductService,
 		private _sanitizer: DomSanitizer,
 		private _alert: AlertService,
-		@Inject(MAT_DIALOG_DATA) public data?: string
+		@Inject(MAT_DIALOG_DATA) public data?: number
 	) {}
 
 	ngOnInit(): void {
@@ -42,8 +42,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 			this._productService
 				.fetchProductById(this.data)
 				.pipe(takeUntil(this._onDestroy), map(p => {
-					p.cost_price = formatNumber(p.cost_price as number, 'pt-BR', '1.2-2');
-					p.sale_price = formatNumber(p.sale_price as number, 'pt-BR', '1.2-2');
+					p.costPrice = formatNumber(p.costPrice as number, 'pt-BR', '1.2-2');
+					p.salePrice = formatNumber(p.salePrice as number, 'pt-BR', '1.2-2');
 					return p;
 				}))
 				.subscribe((p) => this.form.patchValue(p));

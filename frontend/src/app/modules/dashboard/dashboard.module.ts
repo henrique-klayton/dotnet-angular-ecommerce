@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { MaterialModule } from 'src/app/material.module';
@@ -22,7 +21,6 @@ import { DashboardService } from './service/dashboard.service';
 	],
 	imports: [
 		CommonModule,
-		HttpClientModule,
 		MaterialModule,
 		DashboardRoutingModule,
 		NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),

@@ -31,9 +31,9 @@ export class SalesComponent implements OnInit, OnDestroy {
 		this._productService.fetchData()
 			.pipe(takeUntil(this._onDestroy))
 			.subscribe((res) => {
-				res.forEach(() => this.forms.push(
-					new FormGroup({ amount: new FormControl(undefined, Validators.min(1)) })
-				));
+				res.forEach(() => this.forms.push(new FormGroup({
+					amount: new FormControl(undefined, Validators.min(1))
+				})));
 				this.products = res;
 			});
 	}
@@ -47,11 +47,10 @@ export class SalesComponent implements OnInit, OnDestroy {
 
 	addToCart(product: ProductFormModel, formIndex: number): void {
 		const amount = +this.getForm(formIndex).get('amount').value;
-		let cart: CartProductModel[] =
-			JSON.parse(localStorage.getItem('cart_products')) ?? [];
+		let cart: CartProductModel[] = JSON.parse(localStorage.getItem('cart_products')) ?? [];
 		let item = cart.find(v => v.id === product.id);
 
-		if (isNullOrUndefined(item) && this._hasEnoughStock(product.amount, amount)) {
+		if (isNullOrUndefined(item) && this._hasEnoughStock(product.stockAmount, amount)) {
 			cart.push(CartProductModel.fromProduct(product, amount));
 			localStorage.setItem('cart_products', JSON.stringify(cart));
 			this._alert.baseAlert('Produto adicionado ao carrinho!');
@@ -59,9 +58,9 @@ export class SalesComponent implements OnInit, OnDestroy {
 		}
 
 		const newAmount = item.amount + amount;
-		if (this._hasEnoughStock(product.amount, newAmount, item.amount)) {
+		if (this._hasEnoughStock(product.stockAmount, newAmount, item.amount)) {
 			item.amount = newAmount;
-			item.price += amount * (product.sale_price as number);
+			item.price += amount * (product.salePrice as number);
 			localStorage.setItem('cart_products', JSON.stringify(cart));
 			this._alert.baseAlert('Produto adicionado ao carrinho!');
 			return this.getForm(formIndex).reset();

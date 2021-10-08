@@ -1,7 +1,7 @@
 import { ProductFormModel } from '../../product/form/model/product.form.model';
 
 export class CartProductModel {
-	id: string = undefined;
+	id: number = undefined;
 	name: string = undefined;
 	unit_price: number = undefined;
 	amount: number = undefined;
@@ -17,8 +17,8 @@ export class CartProductModel {
 	): CartProductModel => new CartProductModel({
 		id: product.id,
 		name: product.name,
-		unit_price: product.sale_price as number,
+		unit_price: product.salePrice as number,
 		amount,
-		price: product.sale_price as number * amount,
+		price: product.salePrice as number * amount,
 	});
 }

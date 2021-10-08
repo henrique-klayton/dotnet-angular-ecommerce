@@ -32,6 +32,6 @@ export class DashboardService extends BaseService {
 	numSales = () => this._sale.fetchData().pipe(map(sales => sales.length));
 	numAddress = () => this._address.fetchData().pipe(map(address => address.length));
 	totalProductsStock = () => this._product.fetchData().pipe(
-		map(products => products.reduce((total, product) => total + product.amount, 0))
+		map(products => products.reduce((total, product) => total + product.stockAmount, 0))
 	);
 }

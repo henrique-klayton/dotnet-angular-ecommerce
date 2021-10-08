@@ -17,8 +17,8 @@ export class CartService extends BaseService {
 		super();
 	}
 
-	async executeSale(items: CartProductModel[]): Promise<void> {
-		let products: ProductFormModel[] = await this._productService.fetchDataOnce();
+	async executeSale(items: CartProductModel[]) {
+		let products: ProductFormModel[] = await this._productService.fetchData().toPromise();
 		let promises = await Promise.allSettled(
 			products.map((product) => this._updateProduct(product, items))
 		);
@@ -27,19 +27,19 @@ export class CartService extends BaseService {
 				return res.reason;
 		}).filter(res => !isNullOrWhitespace(res));
 
-		if(errors.length > 0) throw errors;
+		if (errors.length > 0) throw errors;
 		return this._saleService.insertSale({ products: items, created: new Date() });
 	}
 
 	private _updateProduct(
 		product: ProductFormModel,
 		items: CartProductModel[]
-	): Promise<void> {
+	) {
 		let item = items.find((v) => product.id === v.id);
 		if (isNullOrWhitespace(item))
 			return;
 
-		product.amount -= item.amount;
+		product.stockAmount -= item.amount;
 		return this._productService.updateProduct(product.id, product, AlertType.NONE)
 			.catch((err) => Promise.reject({ error: err, product: product }));
 	}

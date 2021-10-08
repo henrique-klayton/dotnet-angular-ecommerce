@@ -52,7 +52,7 @@
 		<div class="col-4">
 			<mat-form-field>
 				<mat-label>Qtd. em Estoque</mat-label>
-				<input matInput formControlName="amount" mask="separator" thousandSeparator="."
+				<input matInput formControlName="stockAmount" mask="separator" thousandSeparator="."
 					[errorStateMatcher]="_formValidation" required>
 				<mat-error *ngIf="form.touched && form.invalid">
 					Informe a Qtd. em Estoque
@@ -62,7 +62,7 @@
 		<div class="col-4">
 			<mat-form-field>
 				<mat-label>Preço de Custo</mat-label>
-				<input matInput formControlName="cost_price" prefix="R$ " mask="separator.2" thousandSeparator="."
+				<input matInput formControlName="costPrice" prefix="R$ " mask="separator.2" thousandSeparator="."
 					[errorStateMatcher]="_formValidation" required>
 				<mat-error *ngIf="form.touched && form.invalid">
 					Informe o Preço de Custo
@@ -72,7 +72,7 @@
 		<div class="col-4">
 			<mat-form-field>
 				<mat-label>Preço de Venda</mat-label>
-				<input matInput formControlName="sale_price" prefix="R$ " mask="separator.2" thousandSeparator="."
+				<input matInput formControlName="salePrice" prefix="R$ " mask="separator.2" thousandSeparator="."
 					[errorStateMatcher]="_formValidation" required>
 				<mat-error *ngIf="form.touched && form.invalid">
 					Informe o Preço de Venda
@@ -87,7 +87,7 @@
 		</mat-form-field>
 	</div>
 	<div class="row">
-		<mat-slide-toggle #status formControlName="active" required>
+		<mat-slide-toggle #status formControlName="status" required>
 			<ng-container *ngIf="status.checked; else elseTemplate">
 				<span class="text-success">Ativo</span>
 			</ng-container>

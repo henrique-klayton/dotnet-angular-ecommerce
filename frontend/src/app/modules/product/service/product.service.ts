@@ -8,29 +8,26 @@ import { ProductModel } from '../model/product.model';
 
 @Injectable()
 export class ProductService extends BaseService {
-	private _collection = 'Products';
+	private _baseRoute = 'Product';
 	private _setOptions: ISetOptions = { useAlert: AlertType.STATUS, objName: 'Produto' }
 	constructor() {
 		super();
 	}
 
-	fetchData = () => this.getData<ProductFormModel>(this._collection);
-	fetchDataOnce = () => this.getDataOnce<ProductFormModel>(this._collection);
-	fetchProductById = (id: string) => this.getById<ProductModel>(id, this._collection);
+	fetchData = () => this.get<ProductFormModel>(this._baseRoute);
+	fetchProductById = (id: number) => this.getById<ProductModel>(this._baseRoute, id);
 
-	insertOrUpdateProduct = (obj: ProductModel, id?: string) =>
+	insertOrUpdateProduct = (obj: ProductModel, id?: number) =>
 		id ? this.updateProduct(id, obj) : this.insertProduct(obj);
 
-	insertProduct = (obj: ProductModel): Promise<void> =>
-		this.create(obj, ProductModel, this._collection, this._setOptions);
+	insertProduct = (obj: ProductModel) => this.post(this._baseRoute, obj);
 
-	updateProduct(id: string, obj: ProductModel, useAlert?: AlertType): Promise<void> {
+	updateProduct(id: number, obj: ProductModel, useAlert?: AlertType) {
 		let setOptions = this._setOptions;
 		if (!isNullOrWhitespace(useAlert))
 			setOptions.useAlert = useAlert;
-		return this.update(id, obj, ProductModel, this._collection, setOptions);
+		return this.put(this._baseRoute, id, obj);
 	}
 
-	deleteProduct = (id: string): Promise<void> =>
-		this.delete(id, this._collection, this._setOptions);
+	deleteProduct = (id: number) => this.delete(this._baseRoute, id);
 }
