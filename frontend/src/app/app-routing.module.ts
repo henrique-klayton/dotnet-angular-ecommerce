@@ -1,24 +1,14 @@
 import { NgModule } from '@angular/core';
-import {
-	AngularFireAuthGuard,
-	redirectLoggedInTo,
-	redirectUnauthorizedTo
-} from '@angular/fire/auth-guard';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
+import { AuthGuard } from './guard/auth.guard';
 import { LayoutComponent } from './layout/layout.component';
-
-const redirectUnauthorizedUsers = () => redirectUnauthorizedTo(['login']);
-const redirectLoggedUsers = () => redirectLoggedInTo(['home']);
 
 const routes: Routes = [
 	{
 		path: '',
 		component: LayoutComponent,
-		canActivate: [AngularFireAuthGuard],
-		data: {
-			authGuardPipe: redirectUnauthorizedUsers
-		},
+		canActivate: [AuthGuard],
 		children: [
 			{
 				path: '',
@@ -56,9 +46,6 @@ const routes: Routes = [
 	{
 		path: 'login',
 		component: AuthComponent,
-		data: {
-			authGuardPipe: redirectLoggedUsers
-		},
 	},
 ];
 

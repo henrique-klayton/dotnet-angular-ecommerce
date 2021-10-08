@@ -1,21 +1,38 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { BaseService } from 'src/app/shared/service/base.service';
+import { AuthResponseModel } from '../model/auth-response.model';
 
 @Injectable({
 	providedIn: 'root',
 })
-export class AuthService {
-	constructor(private _fireAuth: AngularFireAuth) {}
+export class AuthService extends BaseService {
+	constructor(
+		private _jwtService: JwtHelperService,
+		private _router: Router,
+	) {
+		super();
+	}
 
-	public login = (email: string, password: string) => this._fireAuth.setPersistence('session')
-		.then(() => this._fireAuth.signInWithEmailAndPassword(email, password));
+	public async login(email: string, password: string): Promise<void> {
+		let response = await this.post<AuthResponseModel>('User/Authenticate', { email, password });
+		return this.saveToken(response.token);
+	}
 
-	public logout = () => this._fireAuth.signOut();
+	public logout(): void {
+		this.removeToken();
+		this._router.navigateByUrl('login');
+	};
 
 	public register = (email: string, password: string) =>
-		this._fireAuth.createUserWithEmailAndPassword(email, password);
+		this.post('Auth/Register', { email, password });
 
-	public isLogged = () => false;
+	public isLogged = () => !this._jwtService.isTokenExpired();
+
+	public saveToken = (token: string) => localStorage.setItem('access_token', token);
+
+	public removeToken = () => localStorage.removeItem('access_token');
 
 	// public async updateUserEmail(email: string) {
 	// 	let user = await this._fireAuth.currentUser;

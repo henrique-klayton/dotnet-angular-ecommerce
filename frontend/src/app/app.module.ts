@@ -18,6 +18,9 @@ import { AuthComponent } from './auth/auth.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppInjector } from './shared/service/injector.service';
 import { AlertService } from './shared/service/alert.service';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtModule } from '@auth0/angular-jwt';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 registerLocaleData(pt);
 
@@ -34,6 +37,13 @@ registerLocaleData(pt);
 		BrowserModule,
 		AppRoutingModule,
 		BrowserAnimationsModule,
+		JwtModule.forRoot({
+			config: {
+				tokenGetter: () => localStorage.getItem('access_token'),
+				allowedDomains: ['localhost:5000', 'localhost:5001']
+			}
+		}),
+		HttpClientModule,
 		FormsModule,
 		ReactiveFormsModule,
 		AngularFireModule.initializeApp(firebaseConfig),
@@ -41,8 +51,10 @@ registerLocaleData(pt);
 		MaterialModule
 	],
 	providers: [
+		HttpClient,
 		AlertService,
-		{ provide: LOCALE_ID, useValue: 'pt-BR' }
+		{ provide: LOCALE_ID, useValue: 'pt-BR' },
+		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 	],
 	bootstrap: [AppComponent],
 })
