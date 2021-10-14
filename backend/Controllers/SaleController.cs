@@ -16,16 +16,14 @@ namespace Ecommerce.Controllers {
 		}
 
 		[HttpGet]
-		public IEnumerable<SaleDTO> Get() => _dbContext.Sales
-			.Cast<SaleDTO>()
-			.ToList();
+		public IEnumerable<SaleDTO> Get() => _dbContext.Sales.Select(s => SaleDTO.FromEntity(s));
 
 		[HttpGet("{id}")]
 		public ActionResult<SaleDTO> GetById(int id) {
 			var sale = _dbContext.Sales.SingleOrDefault(s => s.Id == id);
 			if (sale == null) return EntityNotFound(id);
 
-			return Ok(sale);
+			return Ok(SaleDTO.FromEntity(sale));
 		}
 
 		[HttpPost]
