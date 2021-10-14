@@ -52,7 +52,7 @@ export class AddressComponent implements OnInit, AfterViewInit, OnDestroy {
 	openDialog(id?: string): void {
 		this.dialog.open(AddressFormComponent, {
 			width: '600px',
-			data: { id: id, table: this.dataSource.data },
+			data: { id: id, tableData: this.dataSource.data },
 		});
 	}
 
