@@ -7,9 +7,12 @@ import { AddressService } from '../../address/service/address.service';
 import { ProductFormModel } from '../../product/form/model/product.form.model';
 import { ProductService } from '../../product/service/product.service';
 import { SaleService } from '../../sales/service/sale.service';
+import { TotalsModel } from '../model/totals-model';
 
 @Injectable()
 export class DashboardService extends BaseService {
+	private _baseRoute = 'Dashboard';
+
 	constructor(
 		private _address: AddressService,
 		private _product: ProductService,
@@ -17,6 +20,8 @@ export class DashboardService extends BaseService {
 	) {
 		super();
 	}
+
+	fetchTotals = () => this.get<TotalsModel>(`${this._baseRoute}/Totals`);
 
 	fetchSales = (): Observable<number[]> => this._sale.fetchData().pipe(
 		map(sales => {
@@ -29,9 +34,4 @@ export class DashboardService extends BaseService {
 		})
 	);
 	fetchProducts = (): Observable<ProductFormModel[]> => this._product.fetchData();
-	numSales = () => this._sale.fetchData().pipe(map(sales => sales.length));
-	numAddress = () => this._address.fetchData().pipe(map(address => address.length));
-	totalProductsStock = () => this._product.fetchData().pipe(
-		map(products => products.reduce((total, product) => total + product.stockAmount, 0))
-	);
 }

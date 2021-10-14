@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PRODUCT_CATEGORIES } from 'src/app/utils/constants';
 import { ProductFormModel } from '../product/form/model/product.form.model';
+import { TotalsModel } from './model/totals-model';
 import { DashboardService } from './service/dashboard.service';
 import { CategorizedProducts, CategoryCard } from './utils/interfaces';
 
@@ -13,9 +14,7 @@ import { CategorizedProducts, CategoryCard } from './utils/interfaces';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 	public categoryCards: CategoryCard[] = [];
-	public numSales: number = 0;
-	public numBranches: number = 0;
-	public totalStock: number = 0;
+	public totals = new TotalsModel();
 	public categoryEvent = new Subject<string>();
 	public productsEvent = new Subject<CategorizedProducts>();
 	private _onDestroy = new Subject<void>();
@@ -36,13 +35,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	}
 
 	private _subscribeAll() {
-		this._service.numSales()
-			.pipe(takeUntil(this._onDestroy))
-			.subscribe(res => this.numSales = res);
+		this._service.fetchTotals().subscribe(totals => this.totals = totals);
+		// this._service.numSales()
+		// 	.pipe(takeUntil(this._onDestroy))
+		// 	.subscribe(res => this.numSales = res);
 
-		this._service.numAddress()
-			.pipe(takeUntil(this._onDestroy))
-			.subscribe(res => this.numBranches = res);
+		// this._service.numAddress()
+		// 	.pipe(takeUntil(this._onDestroy))
+		// 	.subscribe(res => this.numBranches = res);
 
 		this._service.fetchProducts()
 			.pipe(takeUntil(this._onDestroy))
@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 		});
 	}
 	private _getTotalStock() {
-		this.totalStock = Object.values(this.categoryCards)
+		this.totals.numProductsStock = Object.values(this.categoryCards)
 			.reduce((amount, card) => amount + card.stockAmount, 0);
 	}
 	private _setNewActiveCard() {
