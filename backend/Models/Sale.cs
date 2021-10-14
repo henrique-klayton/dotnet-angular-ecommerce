@@ -30,7 +30,8 @@ namespace Ecommerce.Models {
 		) => new(
 			sale.TotalPrice,
 			items,
-			sale.Id
+			sale.Id,
+			sale.Created
 		);
 	}
 
@@ -49,15 +50,16 @@ namespace Ecommerce.Models {
 			DateTime? created = null
 		) {
 			Id = id;
-			TotalPrice = totalPrice;
 			Created = created;
+			TotalPrice = totalPrice;
 			Items = items;
 		}
 
 		public static SaleDTO FromEntity(Sale sale) => new(
 			sale.TotalPrice,
 			sale.Items.Select(i => SaleItemDTO.FromEntity(i)),
-			sale.Id
+			sale.Id,
+			sale.Created
 		);
 	}
 }
