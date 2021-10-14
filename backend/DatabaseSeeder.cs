@@ -17,7 +17,7 @@ namespace Ecommerce {
 				Console.WriteLine("Unable to Connect to Database!");
 				return;
 			}
-			var clear = config["SeedDatabase"];
+			var clear = config["SeedDatabase"]?.ToLower();
 			if (clear != null && clear.Equals("false")) return;
 
 			Console.WriteLine("Clearing Database!");
@@ -53,16 +53,21 @@ namespace Ecommerce {
 			});
 
 			context.Products.AddRange(new List<Product> {
-				new("ABC", 3.8, 8.8, 800, false, 1),
-				new("Comida", 1.2, 2.8, 220, false, 2),
-				new("Caro", 244.6, 340.99, 112, false, 3),
-				new("Teste", 4.6, 12.2, 618, false, 4),
-				new("Belo Teste", 175, 240, 46, false, 3),
+				new("ABC", 3.8, 8.8, 800, false, "", 1),
+				new("Comida", 1.2, 2.8, 220, false, "", 2),
+				new("Caro", 244.6, 340.99, 112, false, "", 3),
+				new("Teste", 4.6, 12.2, 618, false, "", 4),
+				new("Belo Teste", 175, 240, 46, false, "", 3),
 			});
 
 			passwordService.HashedPassword("string", out var hash, out var salt);
 			context.Users.AddRange(new List<User> {
 				new("string", "string", hash, salt, 1),
+			});
+
+			passwordService.HashedPassword("123456", out hash, out salt);
+			context.Users.AddRange(new List<User> {
+				new("Teste", "teste@teste.com", hash, salt, 1),
 			});
 
 			Console.WriteLine("Saving Changes!");
