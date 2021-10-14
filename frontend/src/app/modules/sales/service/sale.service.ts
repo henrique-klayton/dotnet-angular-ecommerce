@@ -12,7 +12,7 @@ export class SaleService extends BaseService {
 		super();
 	}
 
-	fetchData = () => this.get<SaleModel>(this._baseRoute);
+	fetchData = () => this.getAll<SaleModel>(this._baseRoute);
 	fetchSaleById = (id: string) => this.getById<SaleModel>(this._baseRoute, id);
 	insertSale = (obj: SaleModel) => this.post(this._baseRoute, obj);
 	deleteSale = (id: string) => this.delete(this._baseRoute, id);

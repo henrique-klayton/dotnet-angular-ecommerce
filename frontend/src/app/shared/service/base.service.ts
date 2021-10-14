@@ -20,15 +20,21 @@ export abstract class BaseService {
 
 	protected get<T>(
 		url: string,
+	): Observable<T> {
+		return this._http.get<T>(`${environment.baseUrl}/${url}`);
+	}
+
+	protected getAll<T>(
+		url: string,
 	): Observable<T[]> {
-		return this._http.get<T[]>(`${environment.baseUrl}/${url}`);
+		return this.get<T[]>(url);
 	}
 
 	protected getById<T>(
 		url: string,
 		id: string | number,
 	): Observable<T> {
-		return this._http.get<T>(`${environment.baseUrl}/${url}/${id}`);
+		return this.get<T>(`${url}/${id}`);
 	}
 
 	protected post<T>(

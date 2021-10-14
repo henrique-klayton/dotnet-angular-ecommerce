@@ -14,7 +14,7 @@ export class UserService extends BaseService {
 		super();
 	}
 
-	fetchData = () => this.get<UserModel>(this._baseRoute);
+	fetchData = () => this.getAll<UserModel>(this._baseRoute);
 
 	fetchUserById = (id: string) => this.getById<UserModel>(this._baseRoute, id);
 

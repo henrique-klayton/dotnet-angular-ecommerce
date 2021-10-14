@@ -14,7 +14,7 @@ export class ProductService extends BaseService {
 		super();
 	}
 
-	fetchData = () => this.get<ProductFormModel>(this._baseRoute);
+	fetchData = () => this.getAll<ProductFormModel>(this._baseRoute);
 	fetchProductById = (id: number) => this.getById<ProductModel>(this._baseRoute, id);
 
 	insertOrUpdateProduct = (obj: ProductModel, id?: number) =>

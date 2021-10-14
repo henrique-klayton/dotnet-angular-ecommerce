@@ -28,7 +28,7 @@ export class AddressService extends BaseService {
 		}
 	}
 
-	fetchData = () => this.get<AddressFormModel>(this._baseRoute);
+	fetchData = () => this.getAll<AddressFormModel>(this._baseRoute);
 
 	fetchAddressById = (cep: string) => this.getById<AddressFormModel>(this._baseRoute, cep)
 
