@@ -8,6 +8,7 @@ namespace Ecommerce.Models {
 		public double SalePrice { get; set; }
 		public int StockAmount { get; set; }
 		public bool Status { get; set; }
+		public string Image { get; set; }
 
 		public int CategoryId { get; set; }
 		public Category Category { get; set; }
@@ -18,6 +19,7 @@ namespace Ecommerce.Models {
 			double salePrice,
 			int stockAmount,
 			bool status,
+			string image,
 			int categoryId,
 			int? id = null,
 			string? description = null
@@ -28,6 +30,7 @@ namespace Ecommerce.Models {
 			SalePrice = salePrice;
 			StockAmount = stockAmount;
 			Status = status;
+			Image = image;
 			Category = null!;
 			CategoryId = categoryId;
 		}
@@ -38,6 +41,7 @@ namespace Ecommerce.Models {
 			double salePrice,
 			int stockAmount,
 			bool status,
+			string image,
 			int categoryId,
 			Category category,
 			int? id = null,
@@ -49,6 +53,7 @@ namespace Ecommerce.Models {
 			SalePrice = salePrice;
 			StockAmount = stockAmount;
 			Status = status;
+			Image = image;
 			CategoryId = categoryId;
 			Category = category;
 		}
@@ -60,6 +65,7 @@ namespace Ecommerce.Models {
 			SalePrice = product.SalePrice;
 			StockAmount = product.StockAmount;
 			Status = product.Status;
+			Image = product.Image;
 			CategoryId = product.CategoryId;
 			Category = category;
 		}
@@ -71,6 +77,7 @@ namespace Ecommerce.Models {
 				product.SalePrice,
 				product.StockAmount,
 				product.Status,
+				product.Image,
 				product.CategoryId,
 				category,
 				id,
@@ -91,6 +98,8 @@ namespace Ecommerce.Models {
 		public int StockAmount { get; set; }
 		[JsonRequired]
 		public bool Status { get; set; }
+		[JsonRequired]
+		public string Image { get; set; }
 
 		[JsonRequired]
 		public int CategoryId { get; set; }
@@ -101,6 +110,7 @@ namespace Ecommerce.Models {
 			double salePrice,
 			int stockAmount,
 			bool status,
+			string image,
 			int categoryId,
 			string? description = null
 		) {
@@ -110,6 +120,7 @@ namespace Ecommerce.Models {
 			SalePrice = salePrice;
 			StockAmount = stockAmount;
 			Status = status;
+			Image = image;
 			CategoryId = categoryId;
 		}
 
@@ -119,6 +130,7 @@ namespace Ecommerce.Models {
 			product.SalePrice,
 			product.StockAmount,
 			product.Status,
+			product.Image,
 			product.CategoryId,
 			product.Description
 		);
@@ -132,10 +144,11 @@ namespace Ecommerce.Models {
 			double salePrice,
 			int stockAmount,
 			bool status,
+			string image,
 			int categoryId,
 			string category,
 			string? description = null
-		) : base(name, costPrice, salePrice, stockAmount, status, categoryId, description) {
+		) : base(name, costPrice, salePrice, stockAmount, status, image, categoryId, description) {
 			Id = id;
 			Category = category;
 		}
@@ -151,6 +164,7 @@ namespace Ecommerce.Models {
 			product.SalePrice,
 			product.StockAmount,
 			product.Status,
+			product.Image,
 			product.CategoryId,
 			product.Category.Name,
 			product.Description
