@@ -40,6 +40,7 @@ namespace Ecommerce.Models {
 	}
 
 	public class RoleUsersDTO : RoleDTO {
+		[JsonRequired]
 		public IEnumerable<UserDTO> Users { get; set; }
 
 		public RoleUsersDTO(string name, IEnumerable<UserDTO> users, int? id = null) : base(name, id) {

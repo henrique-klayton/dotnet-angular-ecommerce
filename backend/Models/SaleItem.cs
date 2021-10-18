@@ -45,7 +45,9 @@ namespace Ecommerce.Models {
 		[JsonProperty(Required = Required.DisallowNull)]
 		public int? Id { get; set; }
 
+		[JsonRequired]
 		public int SaleId { get; set; }
+		[JsonRequired]
 		public SaleProductDTO Product { get; set; }
 
 		public SaleItemDTO(int saleId, SaleProductDTO product) {
@@ -60,9 +62,13 @@ namespace Ecommerce.Models {
 	}
 
 	public class SaleProductDTO {
+		[JsonProperty(Required = Required.DisallowNull)]
 		public int Id { get; set; }
+		[JsonRequired]
 		public string Name { get; set; }
+		[JsonRequired]
 		public double UnitPrice { get; set; }
+		[JsonRequired]
 		public int Quantity { get; set; }
 
 		public SaleProductDTO(int id, string name, double unitPrice, int quantity) {

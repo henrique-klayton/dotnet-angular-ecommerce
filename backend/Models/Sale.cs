@@ -38,7 +38,9 @@ namespace Ecommerce.Models {
 	public class SaleDTO {
 		[JsonProperty(Required = Required.DisallowNull)]
 		public int? Id { get; set; }
+		[JsonProperty(Required = Required.DisallowNull)]
 		public DateTime? Created { get; set; }
+		[JsonRequired]
 		public double TotalPrice { get; set; }
 
 		public IEnumerable<SaleItemDTO> Items { get; set; }

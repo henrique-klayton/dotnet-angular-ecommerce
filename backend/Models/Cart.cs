@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Ecommerce.Models {
 	public class Cart : TimestampedEntity {
@@ -32,8 +33,11 @@ namespace Ecommerce.Models {
 	}
 
 	public class CartDTO {
+		[JsonProperty(Required = Required.DisallowNull)]
 		public int? Id { get; set; }
+		[JsonProperty(Required = Required.DisallowNull)]
 		public DateTime? Created { get; private set; }
+		[JsonRequired]
 		public int UserId { get; set; }
 
 		public IEnumerable<ProductDTO> Products { get; set; }

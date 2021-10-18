@@ -80,12 +80,16 @@ namespace Ecommerce.Models {
 	public class UserDTO {
 		[JsonProperty(Required = Required.DisallowNull)]
 		public int? Id { get; private set; }
+		[JsonRequired]
 		public string Name { get; set; }
+		[JsonRequired]
 		public string Email { get; set; }
 		public string? Phone { get; set; }
 		public DateTime? BirthDate { get; set; }
 		public DateTime? Created { get; set; }
+		[JsonRequired]
 		public int RoleId { get; set; }
+		[JsonRequired]
 		public string Role { get; set; }
 
 		public UserDTO(

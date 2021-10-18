@@ -155,6 +155,7 @@ namespace Ecommerce.Models {
 
 		[JsonProperty(Required = Required.DisallowNull)]
 		public int? Id { get; private set; }
+		[JsonProperty(Required = Required.DisallowNull)]
 		public string Category { get; set; }
 
 		public new static ProductDTO FromProduct(Product product) => new(
