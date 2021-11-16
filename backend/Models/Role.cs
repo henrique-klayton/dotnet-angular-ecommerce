@@ -8,20 +8,20 @@ namespace Ecommerce.Models {
 
 		public virtual ICollection<User> Users { get; set; }
 
-		public Role(string name, int? id = null) : base(id) {
+		public Role(int? id, string name) : base(id) {
 			Name = name;
 			Users = null!;
 		}
 
-		public Role(string name, ICollection<User> users, int? id = null) : base(id) {
+		public Role(int? id, string name, ICollection<User> users) : base(id) {
 			Name = name;
 			Users = users;
 		}
 
 		public static Role FromDto(RoleDTO role, ICollection<User> users) => new(
+			role.Id,
 			role.Name,
-			users,
-			role.Id
+			users
 		);
 	}
 
@@ -31,33 +31,32 @@ namespace Ecommerce.Models {
 		[JsonRequired]
 		public string Name { get; set; }
 
-		public RoleDTO(string name, int? id = null) {
+		public RoleDTO(int? id, string name) {
 			Id = id;
 			Name = name;
 		}
 
-		public static RoleDTO FromRole(Role role) => new(role.Name, role.Id);
+		public static RoleDTO FromRole(Role role) => new(role.Id, role.Name);
 	}
 
 	public class RoleUsersDTO : RoleDTO {
 		[JsonRequired]
 		public IEnumerable<UserDTO> Users { get; set; }
 
-		public RoleUsersDTO(string name, IEnumerable<UserDTO> users, int? id = null) : base(name, id) {
+		public RoleUsersDTO(int? id, string name, IEnumerable<UserDTO> users) : base(id, name) {
 			Users = users;
 		}
 
 		public static new RoleUsersDTO FromRole(Role role) => new(
+			role.Id,
 			role.Name,
 			// TODO May not work
-			role.Users.Cast<UserDTO>(),
-			role.Id
+			role.Users.Cast<UserDTO>()
 		);
 	}
 
 	public class RolePatchDTO {
 		public string Name { get; set; }
-
 		public IEnumerable<int?> Users { get; set; }
 
 		public RolePatchDTO(string name, IEnumerable<int?> users) {
