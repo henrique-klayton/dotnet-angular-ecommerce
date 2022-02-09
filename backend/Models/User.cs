@@ -8,7 +8,6 @@ namespace Ecommerce.Models {
 		[EmailAddress]
 		public string Email { get; set; }
 		public string PasswordHash { get; set; }
-		public string PasswordSalt { get; set; }
 		public string? Phone { get; set; }
 		public DateTime? BirthDate { get; set; }
 
@@ -19,7 +18,6 @@ namespace Ecommerce.Models {
 			string name,
 			string email,
 			string passwordHash,
-			string passwordSalt,
 			int roleId,
 			int? id = null,
 			DateTime? created = null,
@@ -30,7 +28,6 @@ namespace Ecommerce.Models {
 			Name = name;
 			Email = email;
 			PasswordHash = passwordHash;
-			PasswordSalt = passwordSalt;
 			Phone = phone;
 			BirthDate = birthDate;
 			Role = null!;
@@ -40,7 +37,6 @@ namespace Ecommerce.Models {
 			string name,
 			string email,
 			string passwordHash,
-			string passwordSalt,
 			int roleId,
 			Role role,
 			int? id = null,
@@ -52,7 +48,6 @@ namespace Ecommerce.Models {
 			Name = name;
 			Email = email;
 			PasswordHash = passwordHash;
-			PasswordSalt = passwordSalt;
 			Phone = phone;
 			BirthDate = birthDate;
 			Role = role;
@@ -61,13 +56,11 @@ namespace Ecommerce.Models {
 		public static User FromDto(
 			UserDTO user,
 			string passwordHash,
-			string passwordSalt,
 			Role role
 		) => new(
 			user.Name,
 			user.Email,
 			passwordHash,
-			passwordSalt,
 			user.RoleId,
 			role,
 			user.Id,

@@ -28,7 +28,7 @@ namespace Ecommerce.Services {
 			var user = _dbContext.Users.Include(u => u.Role).SingleOrDefault(u => u.Email == model.Email);
 			if (user == null) return null;
 
-			if (!_passwordService.ValidPassword(user.PasswordHash, user.PasswordSalt, model.Password))
+			if (!_passwordService.ValidPassword(user.PasswordHash, model.Password))
 				return null;
 
 			var token = _tokenService.GenerateJwtToken(user);
@@ -39,15 +39,14 @@ namespace Ecommerce.Services {
 		}
 
 		public RegisterResponse Register(RegisterRequest model) {
-			_passwordService.HashedPassword(model.Password, out var passwordHash, out var passwordSalt);
+			_passwordService.HashedPassword(model.Password, out var passwordHash);
 
 			// FIXME Cadastrar roles no banco
 			_dbContext.Users.Add(new User(
 				model.Name,
 				model.Email,
 				passwordHash,
-				passwordSalt,
-				roleId: 0,
+				0,
 				_dbContext.Roles.Single(r => r.Id == 0)
 			));
 			_dbContext.SaveChanges();
