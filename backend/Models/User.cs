@@ -10,6 +10,7 @@ namespace Ecommerce.Models {
 		public string PasswordHash { get; set; }
 		public string? Phone { get; set; }
 		public DateTime? BirthDate { get; set; }
+		public string? RefreshToken { get; set; }
 
 		public int RoleId { get; set; }
 		public Role Role { get; set; }
@@ -22,7 +23,8 @@ namespace Ecommerce.Models {
 			int? id = null,
 			DateTime? created = null,
 			string? phone = null,
-			DateTime? birthDate = null
+			DateTime? birthDate = null,
+			string? refreshToken = null
 		) : base(id, created) {
 			RoleId = roleId;
 			Name = name;
@@ -30,6 +32,7 @@ namespace Ecommerce.Models {
 			PasswordHash = passwordHash;
 			Phone = phone;
 			BirthDate = birthDate;
+			RefreshToken = refreshToken;
 			Role = null!;
 		}
 
@@ -42,7 +45,8 @@ namespace Ecommerce.Models {
 			int? id = null,
 			DateTime? created = null,
 			string? phone = null,
-			DateTime? birthDate = null
+			DateTime? birthDate = null,
+			string? refreshToken = null
 		) : base(id, created) {
 			RoleId = roleId;
 			Name = name;
@@ -50,6 +54,7 @@ namespace Ecommerce.Models {
 			PasswordHash = passwordHash;
 			Phone = phone;
 			BirthDate = birthDate;
+			RefreshToken = refreshToken;
 			Role = role;
 		}
 

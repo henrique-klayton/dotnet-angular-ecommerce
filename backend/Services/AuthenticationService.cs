@@ -1,12 +1,15 @@
 using System.Linq;
+using System.Net;
 using Ecommerce.Models;
 using Ecommerce.Models.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Services {
 	public interface IUserService {
-		AuthenticateResponse? Authenticate(AuthenticateRequest model);
-		RegisterResponse Register(RegisterRequest model);
+		(AuthenticateResponse, Cookie, CookieOptions)? Authenticate(AuthenticateRequest model);
+		UserDTO Register(RegisterRequest model);
 	}
 
 	public class UserService : IUserService {
@@ -24,34 +27,47 @@ namespace Ecommerce.Services {
 			_tokenService = tokenService;
 		}
 
-		public AuthenticateResponse? Authenticate(AuthenticateRequest model) {
+		public (AuthenticateResponse, Cookie, CookieOptions)? Authenticate(AuthenticateRequest model) {
 			var user = _dbContext.Users.Include(u => u.Role).SingleOrDefault(u => u.Email == model.Email);
 			if (user == null) return null;
 
 			if (!_passwordService.ValidPassword(user.PasswordHash, model.Password))
 				return null;
 
-			var token = _tokenService.GenerateJwtToken(user);
-			return new AuthenticateResponse(
-				UserDTO.FromUser(user, user.Role.Name),
-				token
+			var (token, maxAge) = _tokenService.GenerateJwtToken(user);
+			var response = new AuthenticateResponse(
+				UserDTO.FromUser(user, user.Role.Name)
 			);
+
+			var cookie = new Cookie("access_token", token);
+			var cookieOptions = new CookieOptions {
+				SameSite = SameSiteMode.Strict,
+				MaxAge = maxAge,
+				HttpOnly = true
+			};
+
+			return (response, cookie, cookieOptions);
 		}
 
-		public RegisterResponse Register(RegisterRequest model) {
+		public UserDTO Register(RegisterRequest model) {
 			_passwordService.HashedPassword(model.Password, out var passwordHash);
 
-			// FIXME Cadastrar roles no banco
-			_dbContext.Users.Add(new User(
+			var role = _dbContext.Roles.Single(r => r.Id == 3);
+			var user = new User(
 				model.Name,
 				model.Email,
 				passwordHash,
-				0,
-				_dbContext.Roles.Single(r => r.Id == 0)
-			));
+				3,
+				role
+			);
+
+			_dbContext.Users.Add(user);
 			_dbContext.SaveChanges();
 
-			return new RegisterResponse("Usuário cadastrado com sucesso!");
+			return UserDTO.FromUser(user, role.Name);
 		}
+
+		// TODO Método para criar um novo access token de um refresh token 
+		public void AccessToken([FromBody] string refreshToken) { }
 	}
 }

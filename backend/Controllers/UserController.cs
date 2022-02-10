@@ -40,9 +40,13 @@ namespace Ecommerce.Controllers {
 		[HttpPost("[action]")]
 		[AllowAnonymous]
 		public ActionResult<AuthenticateResponse> Authenticate(AuthenticateRequest model) {
-			var response = _userService.Authenticate(model);
+			var authResult = _userService.Authenticate(model);
 
-			if (response == null) return BadRequest(new { Error = "Email e/ou Senha inválida!" });
+			if (authResult == null) return BadRequest(new { Error = "Email e/ou Senha inválida!" });
+
+			var (response, cookie, cookieOptions) = authResult ?? default;
+
+			Response.Cookies.Append(cookie.Name, cookie.Value, cookieOptions);
 			return Ok(response);
 		}
 
@@ -53,7 +57,7 @@ namespace Ecommerce.Controllers {
 				return BadRequest(new { Error = "Email já cadastrado!" });
 
 			var response = _userService.Register(model);
-			return Ok(response);
+			return CreatedAtAction(nameof(Get), new { id = response.Id }, response);
 		}
 
 		[HttpPatch("{id:int}")]
