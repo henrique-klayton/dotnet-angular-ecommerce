@@ -73,6 +73,20 @@ namespace Ecommerce.Controllers {
 			return Ok(model);
 		}
 
+		// TODO Generate and return new access token & refresh token
+		[HttpGet]
+		public IActionResult RefreshToken() {
+			var invalidTokenMessage = new { Error = "Invalid refresh token!" };
+
+			Request.Cookies.TryGetValue("App-Refresh-Token", out var refreshToken);
+			if (refreshToken == null) return BadRequest(invalidTokenMessage);
+
+			var user = _dbContext.Users.FirstOrDefault(u => u.RefreshToken == refreshToken);
+			if (user == null) return BadRequest(invalidTokenMessage);
+
+			return Ok();
+		}
+
 		[HttpDelete("{id}")]
 		public IActionResult Delete(int id) {
 			var user = _dbContext.Users.SingleOrDefault(u => u.Id == id);

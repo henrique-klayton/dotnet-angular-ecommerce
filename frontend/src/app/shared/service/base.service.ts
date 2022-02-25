@@ -5,9 +5,7 @@ import { IGetOptions } from '../interfaces';
 import { AlertService } from './alert.service';
 import { AppInjector } from './injector.service';
 
-const DEFAULT_GET_OPTIONS: IGetOptions = {
-	idField: 'id'
-};
+const DEFAULT_GET_OPTIONS: IGetOptions = {};
 
 export abstract class BaseService {
 	protected _alert: AlertService;
@@ -39,7 +37,7 @@ export abstract class BaseService {
 
 	protected post<T>(
 		url: string,
-		obj: any,
+		obj?: any,
 	): Promise<T> {
 		return this._http.post<T>(`${environment.baseUrl}/${url}`, obj).toPromise();
 	}
@@ -47,7 +45,7 @@ export abstract class BaseService {
 	protected put<T>(
 		url: string,
 		id: string | number,
-		obj: any,
+		obj?: any,
 	): Promise<T> {
 		return this._http.put<T>(`${environment.baseUrl}${url}/${id}`, obj).toPromise();
 	}

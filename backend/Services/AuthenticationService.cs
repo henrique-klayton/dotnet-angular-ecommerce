@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Net;
 using Ecommerce.Models;
@@ -36,17 +37,19 @@ namespace Ecommerce.Services {
 
 			var (token, maxAge) = _tokenService.GenerateJwtToken(user);
 			var response = new AuthenticateResponse(
-				UserDTO.FromUser(user, user.Role.Name)
+				UserDTO.FromUser(user, user.Role.Name),
+				new RefreshToken(DateTime.UtcNow.Add(maxAge))
 			);
 
-			var cookie = new Cookie("access_token", token);
+			var cookieAccessToken = new Cookie("App-Access-Token", token);
+			var cookieRefreshToken = new Cookie("App-Refresh-Token", Guid.NewGuid().ToString());
 			var cookieOptions = new CookieOptions {
 				SameSite = SameSiteMode.Strict,
 				MaxAge = maxAge,
 				HttpOnly = true
 			};
 
-			return (response, cookie, cookieOptions);
+			return (response, cookieAccessToken, cookieOptions);
 		}
 
 		public UserDTO Register(RegisterRequest model) {

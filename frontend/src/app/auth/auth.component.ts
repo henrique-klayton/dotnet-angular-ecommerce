@@ -33,20 +33,7 @@ export class AuthComponent implements OnInit {
 				this._router.navigate(['home']);
 			})
 			.catch((e) => {
-				let errorMessage: string;
-				switch (e.code) {
-					case 'auth/invalid-email':
-						errorMessage = 'Email inválido!';
-						break;
-					case 'auth/wrong-password':
-					case 'auth/user-not-found':
-						errorMessage = 'Usuário ou Senha incorreta!';
-						break;
-					default:
-						errorMessage = 'Erro ao fazer o login!';
-						break;
-				}
-				this._alert.baseAlert(errorMessage);
+				this._alert.baseAlert(e.error.error);
 			});
 	}
 }

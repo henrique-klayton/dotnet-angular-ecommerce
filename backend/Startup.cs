@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Ecommerce.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -40,6 +41,14 @@ namespace Ecommerce {
 				options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 			}).AddJwtBearer(options => {
 				var key = Encoding.ASCII.GetBytes(Configuration["JWTSecret"]);
+
+				options.Events.OnMessageReceived = context => {
+					if (context.Request.Cookies.ContainsKey("App-Access-Token")) {
+						context.Token = context.Request.Cookies["App-Access-Token"];
+					}
+
+					return Task.CompletedTask;
+				};
 
 				options.SaveToken = true;
 
