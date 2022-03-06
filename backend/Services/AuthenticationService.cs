@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Services {
 	public interface IUserService {
-		(AuthenticateResponse, Cookie, CookieOptions)? Authenticate(AuthenticateRequest model);
+		(AuthenticationResponse, Cookie, CookieOptions)? Authenticate(AuthenticationRequest model);
 		UserDTO Register(RegisterRequest model);
 	}
 
@@ -28,15 +28,15 @@ namespace Ecommerce.Services {
 			_tokenService = tokenService;
 		}
 
-		public (AuthenticateResponse, Cookie, CookieOptions)? Authenticate(AuthenticateRequest model) {
+		public (AuthenticationResponse, Cookie, CookieOptions)? Authenticate(AuthenticationRequest model) {
 			var user = _dbContext.Users.Include(u => u.Role).SingleOrDefault(u => u.Email == model.Email);
 			if (user == null) return null;
 
-			if (!_passwordService.ValidPassword(user.PasswordHash, model.Password))
+			if (!_passwordService.ValidatePassword(user.PasswordHash, model.Password))
 				return null;
 
 			var (token, maxAge) = _tokenService.GenerateJwtToken(user);
-			var response = new AuthenticateResponse(
+			var response = new AuthenticationResponse(
 				UserDTO.FromUser(user, user.Role.Name),
 				new RefreshToken(DateTime.UtcNow.Add(maxAge))
 			);
@@ -53,7 +53,7 @@ namespace Ecommerce.Services {
 		}
 
 		public UserDTO Register(RegisterRequest model) {
-			_passwordService.HashedPassword(model.Password, out var passwordHash);
+			_passwordService.HashPassword(model.Password, out var passwordHash);
 
 			var role = _dbContext.Roles.Single(r => r.Id == 3);
 			var user = new User(
