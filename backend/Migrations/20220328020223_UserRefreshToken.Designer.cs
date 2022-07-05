@@ -3,6 +3,7 @@ using System;
 using Ecommerce;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    partial class EcommerceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220328020223_UserRefreshToken")]
+    partial class UserRefreshToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,18 +54,13 @@ namespace Ecommerce.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.Authentication.RefreshToken", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Token")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("ExpirationDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
+                    b.HasKey("Token");
 
                     b.ToTable("RefreshTokens");
                 });
@@ -209,8 +206,8 @@ namespace Ecommerce.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("RefreshTokenId")
-                        .HasColumnType("int");
+                    b.Property<string>("RefreshTokenId")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");

@@ -1,5 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Ecommerce.Models.Authentication;
 using Newtonsoft.Json;
 
 namespace Ecommerce.Models {
@@ -10,7 +12,8 @@ namespace Ecommerce.Models {
 		public string PasswordHash { get; set; }
 		public string? Phone { get; set; }
 		public DateTime? BirthDate { get; set; }
-		public string? RefreshToken { get; set; }
+
+		public RefreshToken? RefreshToken { get; set; }
 
 		public int RoleId { get; set; }
 		public Role Role { get; set; }
@@ -23,8 +26,28 @@ namespace Ecommerce.Models {
 			int? id = null,
 			DateTime? created = null,
 			string? phone = null,
-			DateTime? birthDate = null,
-			string? refreshToken = null
+			DateTime? birthDate = null
+		) : base(id, created) {
+			RoleId = roleId;
+			Name = name;
+			Email = email;
+			PasswordHash = passwordHash;
+			Phone = phone;
+			BirthDate = birthDate;
+			RefreshToken = null!;
+			Role = null!;
+		}
+
+		public User(
+			string name,
+			string email,
+			string passwordHash,
+			int roleId,
+			RefreshToken refreshToken,
+			int? id = null,
+			DateTime? created = null,
+			string? phone = null,
+			DateTime? birthDate = null
 		) : base(id, created) {
 			RoleId = roleId;
 			Name = name;
@@ -45,8 +68,29 @@ namespace Ecommerce.Models {
 			int? id = null,
 			DateTime? created = null,
 			string? phone = null,
-			DateTime? birthDate = null,
-			string? refreshToken = null
+			DateTime? birthDate = null
+		) : base(id, created) {
+			RoleId = roleId;
+			Name = name;
+			Email = email;
+			PasswordHash = passwordHash;
+			Phone = phone;
+			BirthDate = birthDate;
+			RefreshToken = null!;
+			Role = role;
+		}
+
+		public User(
+			string name,
+			string email,
+			string passwordHash,
+			int roleId,
+			Role role,
+			RefreshToken refreshToken,
+			int? id = null,
+			DateTime? created = null,
+			string? phone = null,
+			DateTime? birthDate = null
 		) : base(id, created) {
 			RoleId = roleId;
 			Name = name;
@@ -62,6 +106,7 @@ namespace Ecommerce.Models {
 			UserDTO user,
 			string passwordHash,
 			Role role
+			// RefreshToken refreshToken
 		) => new(
 			user.Name,
 			user.Email,
@@ -78,15 +123,20 @@ namespace Ecommerce.Models {
 	public class UserDTO {
 		[JsonProperty(Required = Required.DisallowNull)]
 		public int? Id { get; private set; }
+
 		[JsonRequired]
 		public string Name { get; set; }
+
 		[JsonRequired]
 		public string Email { get; set; }
+
 		public string? Phone { get; set; }
 		public DateTime? BirthDate { get; set; }
 		public DateTime? Created { get; set; }
+
 		[JsonRequired]
 		public int RoleId { get; set; }
+
 		[JsonRequired]
 		public string Role { get; set; }
 

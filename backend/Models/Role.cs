@@ -50,8 +50,7 @@ namespace Ecommerce.Models {
 		public static new RoleUsersDTO FromRole(Role role) => new(
 			role.Id,
 			role.Name,
-			// TODO May not work
-			role.Users.Cast<UserDTO>()
+			role.Users.Select(u => UserDTO.FromUser(u, role.Name))
 		);
 	}
 

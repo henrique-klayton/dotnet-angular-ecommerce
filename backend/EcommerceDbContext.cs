@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Models;
+using Ecommerce.Models.Authentication;
 using Microsoft.EntityFrameworkCore;
 
 #nullable disable
@@ -21,6 +22,7 @@ namespace Ecommerce {
 		public DbSet<Category> Categories { get; set; }
 		public DbSet<Product> Products { get; set; }
 		public DbSet<User> Users { get; set; }
+		public DbSet<RefreshToken> RefreshTokens { get; set; }
 		public DbSet<Role> Roles { get; set; }
 		public DbSet<Sale> Sales { get; set; }
 	}

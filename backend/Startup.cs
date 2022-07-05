@@ -39,16 +39,9 @@ namespace Ecommerce {
 				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 				options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
 			}).AddJwtBearer(options => {
 				var key = Encoding.ASCII.GetBytes(Configuration["JWTSecret"]);
-
-				options.Events.OnMessageReceived = context => {
-					if (context.Request.Cookies.ContainsKey("App-Access-Token")) {
-						context.Token = context.Request.Cookies["App-Access-Token"];
-					}
-
-					return Task.CompletedTask;
-				};
 
 				options.SaveToken = true;
 
@@ -58,6 +51,15 @@ namespace Ecommerce {
 					ValidateIssuer = false,
 					ValidateAudience = false,
 					ValidateLifetime = true,
+				};
+
+				options.Events = new JwtBearerEvents();
+				options.Events.OnMessageReceived = context => {
+					if (context.Request.Cookies.ContainsKey("App-Access-Token")) {
+						context.Token = context.Request.Cookies["App-Access-Token"];
+					}
+
+					return Task.CompletedTask;
 				};
 			});
 
