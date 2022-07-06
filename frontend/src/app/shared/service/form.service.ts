@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
 	NgForm,
-	FormControl,
+	UntypedFormControl,
 	FormGroupDirective,
 	FormGroup,
 } from '@angular/forms';
@@ -14,7 +14,7 @@ export class FormValidationService implements ErrorStateMatcher {
 	constructor() {}
 
 	isErrorState(
-		control: FormControl | null,
+		control: UntypedFormControl | null,
 		form: FormGroupDirective | NgForm | null
 	): boolean {
 		const isSubmitted = form && form.submitted;

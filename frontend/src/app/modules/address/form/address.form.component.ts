@@ -1,7 +1,7 @@
 import {
 	ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit
 } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -19,12 +19,12 @@ import { AddressFormModel } from './model/address.form.model';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
-	public form: FormGroup;
+	public form: UntypedFormGroup;
 	public states = STATES;
 	private _onDestroy = new Subject<void>();
 
 	constructor(
-		private _fb: FormBuilder,
+		private _fb: UntypedFormBuilder,
 		private _addressService: AddressService,
 		public _alert: AlertService,
 		public _formValidation: FormValidationService,

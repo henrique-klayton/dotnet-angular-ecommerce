@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -19,7 +19,7 @@ import { ProductService } from './service/product.service';
 	styleUrls: ['./product.component.scss'],
 })
 export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
-	public formFilter: FormGroup;
+	public formFilter: UntypedFormGroup;
 	public dataSource: MatTableDataSource<ProductModel>;
 	public displayedColumns: string[] = [
 		'name',
@@ -42,7 +42,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 	constructor(
 		public dialog: MatDialog,
 		private _productService: ProductService,
-		private _fb: FormBuilder,
+		private _fb: UntypedFormBuilder,
 	) {
 		this.dataSource = new MatTableDataSource();
 	}

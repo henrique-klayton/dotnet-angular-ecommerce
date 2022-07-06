@@ -2,7 +2,7 @@ import {
 	ChangeDetectionStrategy, Component, Inject,
 	OnDestroy, OnInit
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -17,14 +17,14 @@ import { UserService } from '../service/user.service';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserFormComponent implements OnInit, OnDestroy {
-	public form: FormGroup;
+	public form: UntypedFormGroup;
 	public hide: boolean = true;
 
 	private _onDestroy = new Subject<void>();
 
 	constructor(
 		private _userService: UserService,
-		private _fb: FormBuilder,
+		private _fb: UntypedFormBuilder,
 		public _formValidation: FormValidationService,
 		public dialogRef: MatDialogRef<UserFormComponent>,
 		@Inject(MAT_DIALOG_DATA) public data?: string

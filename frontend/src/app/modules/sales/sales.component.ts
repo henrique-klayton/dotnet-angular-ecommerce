@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { ProductService } from '../product/service/product.service';
 	styleUrls: ['./sales.component.scss']
 })
 export class SalesComponent implements OnInit, OnDestroy {
-	public forms: FormGroup[];
+	public forms: UntypedFormGroup[];
 	public products: ProductFormModel[];
 	private _onDestroy = new Subject<void>();
 
@@ -31,8 +31,8 @@ export class SalesComponent implements OnInit, OnDestroy {
 		this._productService.fetchData()
 			.pipe(takeUntil(this._onDestroy))
 			.subscribe((res) => {
-				res.forEach(() => this.forms.push(new FormGroup({
-					amount: new FormControl(undefined, Validators.min(1))
+				res.forEach(() => this.forms.push(new UntypedFormGroup({
+					amount: new UntypedFormControl(undefined, Validators.min(1))
 				})));
 				this.products = res;
 			});
@@ -82,5 +82,5 @@ export class SalesComponent implements OnInit, OnDestroy {
 		return true;
 	}
 
-	getForm = (index: number): FormGroup => this.forms[index];
+	getForm = (index: number): UntypedFormGroup => this.forms[index];
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService } from '../shared/service/alert.service';
 import { FormValidationService } from '../shared/service/form.service';
@@ -11,13 +11,13 @@ import { AuthService } from './service/auth.service';
 	styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit {
-	public form: FormGroup;
+	public form: UntypedFormGroup;
 	public hide: boolean = true;
 
 	constructor(
 		public formValidation: FormValidationService,
 		private _authService: AuthService,
-		private _fb: FormBuilder,
+		private _fb: UntypedFormBuilder,
 		private _router: Router,
 		private _alert: AlertService
 	) {}

@@ -3,7 +3,7 @@ import {
 	ChangeDetectionStrategy, Component, Inject,
 	OnDestroy, OnInit
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
@@ -22,14 +22,14 @@ import { ProductFormModel } from './model/product.form.model';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductFormComponent implements OnInit, OnDestroy {
-	public form: FormGroup;
+	public form: UntypedFormGroup;
 	public categories = PRODUCT_CATEGORIES;
 	private _onDestroy = new Subject<void>();
 
 	constructor(
 		public _formValidation: FormValidationService,
 		public dialogRef: MatDialogRef<ProductFormComponent>,
-		private _fb: FormBuilder,
+		private _fb: UntypedFormBuilder,
 		private _productService: ProductService,
 		private _sanitizer: DomSanitizer,
 		private _alert: AlertService,
