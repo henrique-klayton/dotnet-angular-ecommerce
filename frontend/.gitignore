@@ -22,3 +22,6 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+
+# Angular cache
+.angular/cache

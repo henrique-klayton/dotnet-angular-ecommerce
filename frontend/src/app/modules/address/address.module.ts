@@ -8,7 +8,6 @@ import { AddressFormComponent } from './form/address.form.component';
 import { AddressService } from './service/address.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 
 @NgModule({
@@ -23,7 +22,6 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 		ReactiveFormsModule,
 		MaterialModule,
 		HttpClientModule,
-		AngularFirestoreModule,
 	],
 	providers: [
 		AddressService

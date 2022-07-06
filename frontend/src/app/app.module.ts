@@ -9,11 +9,8 @@ import { LayoutComponent } from './layout/layout.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
-import { AngularFireModule } from '@angular/fire';
-import { firebaseConfig } from 'src/keys/firebase.key';
 import { MaterialModule } from './material.module';
 import { registerLocaleData } from '@angular/common';
-import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AuthComponent } from './auth/auth.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppInjector } from './shared/service/injector.service';
@@ -46,8 +43,6 @@ registerLocaleData(pt);
 		HttpClientModule,
 		FormsModule,
 		ReactiveFormsModule,
-		AngularFireModule.initializeApp(firebaseConfig),
-		AngularFireAuthModule,
 		MaterialModule
 	],
 	providers: [

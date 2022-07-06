@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
 import { UserService } from './service/user.service';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserFormComponent } from './form/user.form.component';
 import { MaterialModule } from 'src/app/material.module';
@@ -17,7 +16,6 @@ import { MaterialModule } from 'src/app/material.module';
 	imports: [
 		CommonModule,
 		UserRoutingModule,
-		AngularFirestoreModule,
 		FormsModule,
 		ReactiveFormsModule,
 		MaterialModule
