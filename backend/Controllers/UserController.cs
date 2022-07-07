@@ -49,7 +49,7 @@ namespace Ecommerce.Controllers {
 		public ActionResult<AuthenticationResponse> Authenticate(AuthenticationRequest model) {
 			var badRequestMessage = BadRequest(new { Error = "Email e/ou Senha inválida!" });
 
-			var user = _dbContext.Users.Include(u => u.Role).SingleOrDefault(u => u.Email == model.Email);
+			var user = _dbContext.Users.Include(u => u.Role).Include(u => u.RefreshToken).SingleOrDefault(u => u.Email == model.Email);
 			if (user == null) return badRequestMessage;
 
 			if (!_passwordService.ValidatePassword(user.PasswordHash, model.Password))

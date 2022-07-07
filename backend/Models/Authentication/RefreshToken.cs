@@ -11,14 +11,13 @@ public interface IRefreshToken {
 }
 
 public class RefreshToken : IRefreshToken {
-	[Key]
-	[ForeignKey("User")]
-	public int Id { get; set; }
+	[Key, ForeignKey("User")]
+	public int UserId { get; set; }
 	public string Token { get; set; }
 	public DateTime ExpirationDate { get; set; }
 
-	public RefreshToken(string token, DateTime expirationDate, int id = 0) {
-		Id = id;
+	public RefreshToken(string token, DateTime expirationDate, int userId = 0) {
+		UserId = userId;
 		Token = token;
 		ExpirationDate = expirationDate;
 	}
