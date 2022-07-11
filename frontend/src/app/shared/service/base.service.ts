@@ -19,7 +19,7 @@ export abstract class BaseService {
 	protected get<T>(
 		url: string,
 	): Observable<T> {
-		return this._http.get<T>(`${environment.baseUrl}/${url}`);
+		return this._http.get<T>(`${environment.baseUrl}/${url}`, { withCredentials: true });
 	}
 
 	protected getAll<T>(
@@ -39,7 +39,11 @@ export abstract class BaseService {
 		url: string,
 		obj?: any,
 	): Promise<T> {
-		return this._http.post<T>(`${environment.baseUrl}/${url}`, obj).toPromise();
+		return this._http.post<T>(
+			`${environment.baseUrl}/${url}`,
+			obj,
+			{ withCredentials: true }
+		).toPromise();
 	}
 
 	protected put<T>(
@@ -47,7 +51,11 @@ export abstract class BaseService {
 		id: string | number,
 		obj?: any,
 	): Promise<T> {
-		return this._http.put<T>(`${environment.baseUrl}${url}/${id}`, obj).toPromise();
+		return this._http.put<T>(
+			`${environment.baseUrl}${url}/${id}`,
+			obj,
+			{ withCredentials: true }
+		).toPromise();
 	}
 
 	// TODO Support JSON Patch
@@ -65,6 +73,9 @@ export abstract class BaseService {
 		url: string,
 		id: string | number,
 	): Promise<T> {
-		return this._http.delete<T>(`${environment.baseUrl}${url}/${id}`).toPromise();
+		return this._http.delete<T>(
+			`${environment.baseUrl}${url}/${id}`,
+			{ withCredentials: true }
+		).toPromise();
 	}
 }

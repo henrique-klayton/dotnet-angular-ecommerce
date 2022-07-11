@@ -30,6 +30,14 @@ namespace Ecommerce {
 					options.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
 				}).AddNewtonsoftJson();
 
+			services.AddCors(options => {
+				options.AddDefaultPolicy(policy => policy
+					.WithOrigins("http://localhost:4200", "http://127.0.0.1:4200")
+					.AllowAnyMethod()
+					.AllowAnyHeader()
+					.AllowCredentials());
+			});
+
 			services.AddDbContext<EcommerceDbContext>(options => options.UseMySql(
 				Configuration.GetConnectionString("DefaultConnection"),
 				ServerVersion.Parse("10.6.4-mariadb")
@@ -76,15 +84,17 @@ namespace Ecommerce {
 					Description = "Enter your JWT Token below.",
 				});
 
-				c.AddSecurityRequirement(new OpenApiSecurityRequirement {{
-					new OpenApiSecurityScheme {
-						Reference = new OpenApiReference {
-							Type = ReferenceType.SecurityScheme,
-							Id = "Bearer",
-						}
+				c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+					{
+						new OpenApiSecurityScheme {
+							Reference = new OpenApiReference {
+								Type = ReferenceType.SecurityScheme,
+								Id = "Bearer",
+							},
+						},
+						Array.Empty<string>()
 					},
-					Array.Empty<string>()
-				}});
+				});
 			});
 			services.AddSwaggerGenNewtonsoftSupport();
 
@@ -104,10 +114,7 @@ namespace Ecommerce {
 			// app.UseHttpsRedirection();
 
 			app.UseRouting();
-			app.UseCors(config => config
-					.AllowAnyOrigin()
-					.AllowAnyMethod()
-					.AllowAnyHeader());
+			app.UseCors();
 
 			app.UseAuthentication();
 			app.UseAuthorization();
@@ -119,16 +126,16 @@ namespace Ecommerce {
 
 		private static NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter() {
 			return new ServiceCollection()
-					.AddLogging()
-					.AddMvc()
-					.AddNewtonsoftJson()
-					.Services
-					.BuildServiceProvider()
-					.GetRequiredService<IOptions<MvcOptions>>()
-					.Value
-					.InputFormatters
-					.OfType<NewtonsoftJsonPatchInputFormatter>()
-					.First();
+				.AddLogging()
+				.AddMvc()
+				.AddNewtonsoftJson()
+				.Services
+				.BuildServiceProvider()
+				.GetRequiredService<IOptions<MvcOptions>>()
+				.Value
+				.InputFormatters
+				.OfType<NewtonsoftJsonPatchInputFormatter>()
+				.First();
 		}
 	}
 }
