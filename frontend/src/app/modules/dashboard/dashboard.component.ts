@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	public categoryEvent = new Subject<string>();
 	public productsEvent = new Subject<CategorizedProducts>();
 
-	private _onDestroy = new Subject<void>();
+	private onDestroy = new Subject<void>();
 
 	constructor(private service: DashboardService) { }
 
@@ -26,8 +26,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
-		this._onDestroy.next();
-		this._onDestroy.complete();
+		this.onDestroy.next();
+		this.onDestroy.complete();
 		this.categoryEvent.complete();
 		this.productsEvent.complete();
 	}
@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 		this.service.fetchTotals().subscribe(totals => this.totals = totals);
 		this.service.fetchProducts()
 			.pipe(
-				takeUntil(this._onDestroy),
+				takeUntil(this.onDestroy),
 				switchMap(products => this.categorizeProducts(products))
 			)
 			.subscribe(products => {

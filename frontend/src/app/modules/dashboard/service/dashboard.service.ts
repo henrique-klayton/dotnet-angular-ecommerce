@@ -6,12 +6,12 @@ import { BaseService } from 'src/app/shared/service/base.service';
 import { ProductFormModel } from '../../product/form/model/product.form.model';
 import { ProductService } from '../../product/service/product.service';
 import { SaleService } from '../../sales/service/sale.service';
-import { TotalsModel } from '../model/totals-model';
 import { CategoryModel } from '../model/category.model';
+import { TotalsModel } from '../model/totals-model';
 
 @Injectable()
 export class DashboardService extends BaseService {
-	private _baseRoute = 'Dashboard';
+	private baseRoute = 'Dashboard';
 
 	constructor(
 		private product: ProductService,
@@ -20,7 +20,7 @@ export class DashboardService extends BaseService {
 		super();
 	}
 
-	fetchTotals = () => this.get<TotalsModel>(`${this._baseRoute}/Totals`);
+	fetchTotals = () => this.get<TotalsModel>(`${this.baseRoute}/Totals`);
 	fetchProducts = (): Observable<ProductFormModel[]> => this.product.fetchData();
 	fetchCategories = () => this.getAll<CategoryModel>('Category');
 
