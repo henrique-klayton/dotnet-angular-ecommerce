@@ -3,27 +3,28 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BaseService } from 'src/app/shared/service/base.service';
-import { AddressService } from '../../address/service/address.service';
 import { ProductFormModel } from '../../product/form/model/product.form.model';
 import { ProductService } from '../../product/service/product.service';
 import { SaleService } from '../../sales/service/sale.service';
 import { TotalsModel } from '../model/totals-model';
+import { CategoryModel } from '../model/category.model';
 
 @Injectable()
 export class DashboardService extends BaseService {
 	private _baseRoute = 'Dashboard';
 
 	constructor(
-		private _address: AddressService,
-		private _product: ProductService,
-		private _sale: SaleService
+		private product: ProductService,
+		private sale: SaleService,
 	) {
 		super();
 	}
 
 	fetchTotals = () => this.get<TotalsModel>(`${this._baseRoute}/Totals`);
+	fetchProducts = (): Observable<ProductFormModel[]> => this.product.fetchData();
+	fetchCategories = () => this.getAll<CategoryModel>('Category');
 
-	fetchSales = (): Observable<number[]> => this._sale.fetchData().pipe(
+	fetchMonthlySalesValue = (): Observable<number[]> => this.sale.fetchData().pipe(
 		map(sales => {
 			let data: number[] = new Array(12).fill(0);
 			sales.forEach(sale => {
@@ -33,5 +34,4 @@ export class DashboardService extends BaseService {
 			return data;
 		})
 	);
-	fetchProducts = (): Observable<ProductFormModel[]> => this._product.fetchData();
 }

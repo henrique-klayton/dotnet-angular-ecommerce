@@ -15,19 +15,25 @@ export class ChartSalesComponent implements OnInit, OnDestroy {
 	public isLoading: boolean = false;
 	public css: string;
 	public chartOptions = SALE_CHART_OPTIONS;
+
 	private _onDestroy = new Subject<void>();
 	@Input() maxHeight: string = '250px';
+
 	constructor(private _service: DashboardService) { }
+
 	ngOnInit(): void {
 		this.css = `max-height: ${this.maxHeight};`;
 	}
+
 	ngOnDestroy(): void {
 		this._onDestroy.next();
 		this._onDestroy.complete();
 	}
-	getData = (chart: ECharts) => this._service.fetchSales()
+
+	getData = (chart: ECharts) => this._service.fetchMonthlySalesValue()
 		.pipe(takeUntil(this._onDestroy))
 		.subscribe(sales => this._updateChartData(chart, sales));
+
 	private _updateChartData = (chart: ECharts, data: number[]) => chart.setOption({
 		series: [{ data }],
 	});

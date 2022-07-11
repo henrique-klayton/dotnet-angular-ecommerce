@@ -21,8 +21,8 @@ namespace Ecommerce.Controllers {
 		[HttpGet("Totals")]
 		public async Task<ActionResult<DashboardTotals>> Get() {
 			var numBranches = await _dbContext.Addresses.CountAsync();
-			var numProducts = await _dbContext.Addresses.CountAsync();
-			var numSales = await _dbContext.Addresses.CountAsync();
+			var numProducts = await _dbContext.Products.SumAsync(product => product.StockAmount);
+			var numSales = await _dbContext.Sales.CountAsync();
 
 			return new DashboardTotals(numBranches, numProducts, numSales);
 		}
