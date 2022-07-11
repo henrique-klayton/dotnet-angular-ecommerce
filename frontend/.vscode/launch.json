@@ -5,11 +5,26 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Attach to Chrome",
+      "port": 9223,
+      "request": "attach",
+      "type": "chrome",
+      "urlFilter": "http://localhost:4200*",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
       "name": "Attach to Edge",
       "port": 9222,
       "request": "attach",
       "type": "pwa-msedge",
-      "urlFilter": "http://localhost:*/*",
+      "urlFilter": "http://localhost:4200*",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "Debug on Chrome",
+      "request": "launch",
+      "type": "chrome",
+      "url": "http://localhost:4200",
       "webRoot": "${workspaceFolder}"
     },
     {
