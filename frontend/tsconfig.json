@@ -7,9 +7,13 @@
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    // TODO Enable strict
+    // "strict": true,
+    // "strictNullChecks": false,
     "target": "es2020",
     "module": "es2020",
     "lib": [
@@ -21,6 +25,7 @@
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
+    // "strictInputAccessModifiers": true,
     "strictTemplates": true
   }
 }

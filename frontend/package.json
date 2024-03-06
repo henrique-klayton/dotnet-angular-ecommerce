@@ -34,6 +34,7 @@
     "ngx-mat-select-search": "^4.2.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
+    "typescript-json-serializer": "^4.2.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
