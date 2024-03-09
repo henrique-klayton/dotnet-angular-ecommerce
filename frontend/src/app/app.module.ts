@@ -1,23 +1,36 @@
-import { Injector, LOCALE_ID, NgModule } from '@angular/core';
 import pt from '@angular/common/locales/pt';
+import { Injector, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { registerLocaleData } from '@angular/common';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LayoutComponent } from './layout/layout.component';
+import { JwtModule } from '@auth0/angular-jwt';
+import { AppRoutingModule } from './app-routing.module';
+import { AlertService } from './shared/service/alert.service';
+import { AppInjector } from './shared/service/injector.service';
+
+// Components
+import { AppComponent } from './app.component';
+import { AuthComponent } from './auth/auth.component';
+import { AuthInterceptor } from './auth/auth.interceptor';
 import { FooterComponent } from './layout/footer/footer.component';
 import { HeaderComponent } from './layout/header/header.component';
+import { LayoutComponent } from './layout/layout.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
-import { MaterialModule } from './material.module';
-import { registerLocaleData } from '@angular/common';
-import { AuthComponent } from './auth/auth.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AppInjector } from './shared/service/injector.service';
-import { AlertService } from './shared/service/alert.service';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { JwtModule } from '@auth0/angular-jwt';
-import { AuthInterceptor } from './auth/auth.interceptor';
+
+// Material
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 registerLocaleData(pt);
 
@@ -43,13 +56,30 @@ registerLocaleData(pt);
 		HttpClientModule,
 		FormsModule,
 		ReactiveFormsModule,
-		MaterialModule
+
+		// Material
+		MatButtonModule,
+		MatCardModule,
+		MatIconModule,
+		MatInputModule,
+		MatFormFieldModule,
+		MatListModule,
+		MatMenuModule,
+		MatSidenavModule,
+		MatSnackBarModule,
+		MatToolbarModule,
 	],
 	providers: [
 		HttpClient,
 		AlertService,
 		{ provide: LOCALE_ID, useValue: 'pt-BR' },
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+
+		// Material
+		{
+			provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+			useValue: { appearance: 'outline' },
+		},
 	],
 	bootstrap: [AppComponent],
 })

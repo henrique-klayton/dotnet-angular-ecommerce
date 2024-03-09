@@ -1,14 +1,10 @@
 import { formatCurrency } from '@angular/common';
-// FIXME error TS7016: Could not find a declaration file for module 'echarts/lib/echarts'.
-// '/home/henrique/Code/WebProjects/Ecommerce/frontend/node_modules/echarts/lib/echarts.js'
-// implicitly has an 'any' type.
-// If the 'echarts' package actually exposes this module, try adding a new declaration (.d.ts)
-// file containing `declare module 'echarts/lib/echarts';`
-import { EChartsOption } from 'echarts/lib/echarts';
+import { EChartsOption } from 'echarts';
 import { MONTHS } from 'src/app/utils/constants';
 
 const labelFormatter = (value: any): string => formatCurrency(value.data as number, 'pt-BR', 'R$');
 
+// TODO Use correct typing
 const tooltipFormatter = ([value]: any): string => {
 	const price = labelFormatter(value);
 	const baseStyle = 'font-size:14px;color:#666;';
@@ -29,7 +25,7 @@ export const SALE_CHART_OPTIONS: EChartsOption = {
 			type: 'line',
 		},
 		formatter: tooltipFormatter,
-	} as any, // FIXME Use correct typing
+	},
 	grid: {
 		top: '15%',
 		left: '0%',

@@ -1,10 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-// FIXME error TS7016: Could not find a declaration file for module 'echarts/lib/echarts'.
-// '/home/henrique/Code/WebProjects/Ecommerce/frontend/node_modules/echarts/lib/echarts.js'
-// implicitly has an 'any' type.
-// If the 'echarts' package actually exposes this module, try adding a new declaration (.d.ts)
-// file containing `declare module 'echarts/lib/echarts';`
-import { ECharts } from 'echarts/lib/echarts';
+import { ECharts } from 'echarts';
 import { combineLatest, Observable } from 'rxjs';
 import { PRODUCT_CHART_OPTIONS } from '../utils/chart-options';
 import { CategorizedProducts } from '../utils/interfaces';
