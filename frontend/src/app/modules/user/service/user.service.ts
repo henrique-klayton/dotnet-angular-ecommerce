@@ -8,27 +8,28 @@ import { UserModel } from '../model/user.model';
 
 @Injectable()
 export class UserService extends BaseService {
-	private _baseRoute = 'User';
-	private _setOptions: ISetOptions = { useAlert: AlertType.STATUS, objName: 'Usuário' }
-	constructor(private _authService: AuthService) {
+	private baseRoute = 'User';
+	private setOptions: ISetOptions = { useAlert: AlertType.STATUS, objName: 'Usuário' };
+	constructor(private authService: AuthService) {
 		super();
 	}
 
-	fetchData = () => this.getAll<UserModel>(this._baseRoute);
+	fetchData = () => this.getAll<UserModel>(this.baseRoute);
 
-	fetchUserById = (id: string) => this.getById<UserModel>(this._baseRoute, id);
+	fetchUserById = (id: string) => this.getById<UserModel>(this.baseRoute, id);
 
 	insertUser(obj: UserModel) {
+		// FIXME Remove non-null assertion for password
 		obj.birthday = formatFirebaseDate(obj.birthday);
-		return this.post(this._baseRoute, obj)
-			.then(() => this._authService.register(obj.email, obj.password));
+		return this.post(this.baseRoute, obj)
+			.then(() => this.authService.register(obj.email, obj.password!));
 	}
 
 	updateUser(id: string, obj: UserModel) {
 		// TODO Update user in firebase auth
 		obj.birthday = formatFirebaseDate(obj.birthday);
-		return this.put(this._baseRoute, id, obj);
+		return this.put(this.baseRoute, id, obj);
 	}
 
-	deleteUser = (id: string) => this.delete(this._baseRoute, id);
+	deleteUser = (id: string) => this.delete(this.baseRoute, id);
 }

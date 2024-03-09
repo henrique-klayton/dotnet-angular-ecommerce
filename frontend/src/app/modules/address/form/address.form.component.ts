@@ -19,53 +19,54 @@ import { AddressFormModel } from './model/address.form.model';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
-	public form: UntypedFormGroup;
+	// TODO Use typed form
+	public form!: UntypedFormGroup;
 	public states = STATES;
-	private _onDestroy = new Subject<void>();
+	private onDestroy = new Subject<void>();
 
 	constructor(
-		private _fb: UntypedFormBuilder,
-		private _addressService: AddressService,
-		public _alert: AlertService,
-		public _formValidation: FormValidationService,
+		private fb: UntypedFormBuilder,
+		private addressService: AddressService,
+		public alert: AlertService,
+		public formValidation: FormValidationService,
 		public dialogRef: MatDialogRef<AddressFormComponent>,
 		@Inject(MAT_DIALOG_DATA) public data?: { id: string, tableData: AddressFormModel[] }
 	) { }
 
+	get cep(): AbstractControl {
+		return this.form.get('cep')!;
+	}
+
 	ngOnInit(): void {
-		this.form = this._fb.group(new AddressFormModel());
-		this._subscribeCep();
+		this.form = this.fb.group(new AddressFormModel());
+		this.subscribeCep();
 	}
 
 	ngOnDestroy(): void {
-		this._onDestroy.next();
-		this._onDestroy.complete();
+		this.onDestroy.next();
+		this.onDestroy.complete();
 	}
 
 	public saveAddress(): void {
 		const cep = this.cep.value;
-		const address = this.data.tableData.find(a => a.cep === cep);
+		const address = this.data?.tableData.find(a => a.cep === cep);
 		if (address) {
-			this._alert.baseAlert(`CEP ${cep} já cadastrado!`);
+			this.alert.baseAlert(`CEP ${cep} já cadastrado!`);
 			return;
 		}
-		this._addressService.insertAddress(this.form.value).then(() => this.dialogRef.close());
+		this.addressService.insertAddress(this.form.value).then(() => this.dialogRef.close());
 	}
 
-	private _subscribeCep(): void {
+	private subscribeCep(): void {
 		this.cep.valueChanges
 			.pipe(
 				debounceTime(1000),
-				takeUntil(this._onDestroy)
-			).subscribe((v) => this._fetchCep(v));
+				takeUntil(this.onDestroy)
+			).subscribe((v) => this.fetchCep(v));
 	}
 
-	private _fetchCep(cep: string) {
+	private fetchCep(cep: string) {
 		if (!isNullOrWhitespace(cep) && cep.length === 8)
-			this._addressService.fetchCep(cep).then((res) => this.form.patchValue(res));
-	}
-
-	get cep(): AbstractControl {
-		return this.form.get('cep');
+			this.addressService.fetchCep(cep).then((res) => this.form.patchValue(res));
 	}
 }

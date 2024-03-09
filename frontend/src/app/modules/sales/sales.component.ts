@@ -16,20 +16,21 @@ import { ProductService } from '../product/service/product.service';
 	styleUrls: ['./sales.component.scss']
 })
 export class SalesComponent implements OnInit, OnDestroy {
-	public forms: UntypedFormGroup[];
-	public products: ProductFormModel[];
-	private _onDestroy = new Subject<void>();
+	// TODO Use typed form
+	public forms!: UntypedFormGroup[];
+	public products: ProductFormModel[] = [];
+	private onDestroy = new Subject<void>();
 
 	constructor(
-		private _alert: AlertService,
-		private _dialog: MatDialog,
-		private _productService: ProductService
+		private alert: AlertService,
+		private dialog: MatDialog,
+		private productService: ProductService
 	) { }
 
 	ngOnInit(): void {
 		this.forms = [];
-		this._productService.fetchData()
-			.pipe(takeUntil(this._onDestroy))
+		this.productService.fetchData()
+			.pipe(takeUntil(this.onDestroy))
 			.subscribe((res) => {
 				res.forEach(() => this.forms.push(new UntypedFormGroup({
 					amount: new UntypedFormControl(undefined, Validators.min(1))
@@ -39,41 +40,42 @@ export class SalesComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
-		this._onDestroy.next();
-		this._onDestroy.complete();
+		this.onDestroy.next();
+		this.onDestroy.complete();
 	}
 
-	openDialog = (): void => void this._dialog.open(CartComponent, { width: '600px' });
+	openDialog = (): void => void this.dialog.open(CartComponent, { width: '600px' });
 
 	addToCart(product: ProductFormModel, formIndex: number): void {
-		const amount = +this.getForm(formIndex).get('amount').value;
-		let cart: CartProductModel[] = JSON.parse(localStorage.getItem('cart_products')) ?? [];
-		let item = cart.find(v => v.id === product.id);
+		// FIXME Remove non-null assertions
+		const amount = +this.getForm(formIndex).get('amount')!.value;
+		let cart: CartProductModel[] = JSON.parse(localStorage.getItem('cart_products')!) ?? [];
+		let item = cart.find(v => v.id === product.id)!;
 
-		if (isNullOrUndefined(item) && this._hasEnoughStock(product.stockAmount, amount)) {
+		if (isNullOrUndefined(item) && this.hasEnoughStock(product.stockAmount, amount)) {
 			cart.push(CartProductModel.fromProduct(product, amount));
 			localStorage.setItem('cart_products', JSON.stringify(cart));
-			this._alert.baseAlert('Produto adicionado ao carrinho!');
+			this.alert.baseAlert('Produto adicionado ao carrinho!');
 			return this.getForm(formIndex).reset();
 		}
 
 		const newAmount = item.amount + amount;
-		if (this._hasEnoughStock(product.stockAmount, newAmount, item.amount)) {
+		if (this.hasEnoughStock(product.stockAmount, newAmount, item.amount)) {
 			item.amount = newAmount;
 			item.price += amount * (product.salePrice as number);
 			localStorage.setItem('cart_products', JSON.stringify(cart));
-			this._alert.baseAlert('Produto adicionado ao carrinho!');
+			this.alert.baseAlert('Produto adicionado ao carrinho!');
 			return this.getForm(formIndex).reset();
 		}
 	}
 
-	private _hasEnoughStock(
+	private hasEnoughStock(
 		stockAmount: number,
 		saleAmount: number,
 		cartAmount: number = 0
 	): boolean {
 		if (saleAmount >= stockAmount) {
-			this._alert.baseAlert(
+			this.alert.baseAlert(
 				`Não há quantidade suficiente em estoque!
 				Restam ${stockAmount - cartAmount} unidades desse produto.`
 			);

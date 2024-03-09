@@ -28,13 +28,13 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
 	];
 	public dataSource: MatTableDataSource<UserModel>;
 
-	private _onDestroy = new Subject<void>();
+	private onDestroy = new Subject<void>();
 
-	@ViewChild(MatPaginator) paginator: MatPaginator;
-	@ViewChild(MatSort) sort: MatSort;
+	@ViewChild(MatPaginator) paginator: MatPaginator | null = null;
+	@ViewChild(MatSort) sort: MatSort | null = null;
 
 	constructor(
-		private _userService: UserService,
+		private userService: UserService,
 		public dialog: MatDialog,
 	) {
 		this.dataSource = new MatTableDataSource();
@@ -50,8 +50,8 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
-		this._onDestroy.next();
-		this._onDestroy.complete();
+		this.onDestroy.next();
+		this.onDestroy.complete();
 	}
 
 	public openDialog(id?: string): void {
@@ -62,13 +62,13 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	public getData() {
-		return this._userService
+		return this.userService
 			.fetchData()
-			.pipe(takeUntil(this._onDestroy))
+			.pipe(takeUntil(this.onDestroy))
 			.subscribe((res) => (this.dataSource.data = res));
 	}
 
-	public deleteUser = (id: string) => this._userService.deleteUser(id);
+	public deleteUser = (id: string) => this.userService.deleteUser(id);
 
 	public applyFilter(event: Event) {
 		const filterValue = (event.target as HTMLInputElement).value;

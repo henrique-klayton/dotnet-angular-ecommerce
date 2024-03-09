@@ -58,7 +58,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 			categories.forEach(category => categorizedProducts[category.name] = []);
 			products.forEach(product => {
-				const category = categories.find(category => product.categoryId === category.id).name;
+				// FIXME Remove non-null assertion
+				const category = categories.find(category => product.categoryId === category.id)!.name;
 				categorizedProducts[category].push({ name: product.name, value: product.stockAmount });
 			});
 

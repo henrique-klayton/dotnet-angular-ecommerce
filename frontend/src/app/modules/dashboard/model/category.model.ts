@@ -1,5 +1,6 @@
 
 export class CategoryModel {
-	id: number = undefined;
-	name: string = undefined;
+	// FIXME Remove non-null assertions
+	id: number = undefined!;
+	name: string = undefined!;
 }

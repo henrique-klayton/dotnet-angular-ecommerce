@@ -24,18 +24,18 @@
 				<div class="col-4">
 					<h2 class="ms-3">Categorias</h2>
 					<div class="list-cards">
-						<mat-card class="my-2 category-card" *ngFor="let item of categoryCards" [ngClass]="{ active: item.active }"
+						<mat-card style="cursor: pointer;" class="my-2 category-card" *ngFor="let item of categoryCards" [ngClass]="{ active: item.active }"
 							(click)="changeCategory(item)">
 							<h4 class="mb-1">{{item.name}}</h4>
 							<mat-card-content>
 								<div class="d-flex justify-content-start align-items-end">
 									<h5 class="m-0">Quantidade de produtos:</h5>
-									<label class="m-0 ms-2 text-primary fw-bold">{{item.numProducts}}</label>
+									<label style="cursor: inherit;" class="m-0 ms-2 text-primary fw-bold">{{item.numProducts}}</label>
 								</div>
 
 								<div class="d-flex justify-content-start">
 									<h5 class="m-0">Total de unidades em estoque:</h5>
-									<label class="m-0 ms-2 text-primary fw-bold">{{item.stockAmount}}</label>
+									<label style="cursor: inherit;" class="m-0 ms-2 text-primary fw-bold">{{item.stockAmount}}</label>
 								</div>
 							</mat-card-content>
 						</mat-card>

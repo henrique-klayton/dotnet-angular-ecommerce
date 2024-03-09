@@ -17,23 +17,24 @@ import { UserService } from '../service/user.service';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserFormComponent implements OnInit, OnDestroy {
-	public form: UntypedFormGroup;
+	// TODO Use typed form
+	public form!: UntypedFormGroup;
 	public hide: boolean = true;
 
 	private _onDestroy = new Subject<void>();
 
 	constructor(
-		private _userService: UserService,
-		private _fb: UntypedFormBuilder,
-		public _formValidation: FormValidationService,
+		private userService: UserService,
+		private fb: UntypedFormBuilder,
+		public formValidation: FormValidationService,
 		public dialogRef: MatDialogRef<UserFormComponent>,
 		@Inject(MAT_DIALOG_DATA) public data?: string
 	) {}
 
 	ngOnInit(): void {
-		this.form = this._fb.group(new UserModel());
+		this.form = this.fb.group(new UserModel());
 		if (this.data) {
-			this._userService
+			this.userService
 				.fetchUserById(this.data)
 				.pipe(takeUntil(this._onDestroy))
 				.subscribe((u) => this.form.patchValue(u));
@@ -48,10 +49,10 @@ export class UserFormComponent implements OnInit, OnDestroy {
 	public saveUser() {
 		const obj: UserModel = this.form.value;
 		if (!this.data) {
-			return this._userService.insertUser(obj)
+			return this.userService.insertUser(obj)
 				.then(() => this.dialogRef.close());
 		}
-		return this._userService.updateUser(this.data, obj)
+		return this.userService.updateUser(this.data, obj)
 			.then(() => this.dialogRef.close());
 	}
 }

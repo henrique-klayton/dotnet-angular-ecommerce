@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { AlertType } from 'src/app/shared/enums';
 import { ISetOptions } from 'src/app/shared/interfaces';
 import { BaseService } from 'src/app/shared/service/base.service';
-import { isNullOrWhitespace } from 'src/app/utils/functions';
+import { isNullOrUndefined, isNullOrWhitespace } from 'src/app/utils/functions';
 import { ProductFormModel } from '../form/model/product.form.model';
 import { ProductModel } from '../model/product.model';
 
 @Injectable()
 export class ProductService extends BaseService {
 	private _baseRoute = 'Product';
-	private _setOptions: ISetOptions = { useAlert: AlertType.STATUS, objName: 'Produto' }
+	private _setOptions: ISetOptions = { useAlert: AlertType.STATUS, objName: 'Produto' };
 	constructor() {
 		super();
 	}
@@ -24,7 +24,7 @@ export class ProductService extends BaseService {
 
 	updateProduct(id: number, obj: ProductModel, useAlert?: AlertType) {
 		let setOptions = this._setOptions;
-		if (!isNullOrWhitespace(useAlert))
+		if (!isNullOrUndefined(useAlert))
 			setOptions.useAlert = useAlert;
 		return this.put(this._baseRoute, id, obj);
 	}

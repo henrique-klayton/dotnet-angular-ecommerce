@@ -4,6 +4,7 @@ import {
 	HttpHandler,
 	HttpInterceptor,
 	HttpRequest,
+	HttpResponse,
 	HttpStatusCode,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -37,6 +38,11 @@ export class AuthInterceptor implements HttpInterceptor {
 
 		return next.handle(req).pipe(
 			tap({
+				next: (event) => {
+					if (event instanceof HttpResponse) {
+						const response: HttpResponse<unknown> = event;
+					}
+				},
 				error: (err: HttpErrorResponse) => {
 					switch (err.status) {
 						case 401:

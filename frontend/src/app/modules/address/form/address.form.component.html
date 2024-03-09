@@ -1,5 +1,5 @@
 <div class="d-flex align-items-center justify-content-between mb-4">
-	<h1 mat-dialog-title class="mb-0">{{ data.id ? 'Editar Endereço' : 'Cadastrar Endereço'}}</h1>
+	<h1 mat-dialog-title class="mb-0">{{ data?.id ? 'Editar Endereço' : 'Cadastrar Endereço'}}</h1>
 	<button mat-icon-button (click)="dialogRef.close()">
 		<mat-icon>close</mat-icon>
 	</button>
@@ -10,7 +10,7 @@
 		<div class="col-md-4">
 			<mat-form-field>
 				<mat-label>CEP</mat-label>
-				<input matInput formControlName="cep" mask="00000-000" [errorStateMatcher]="_formValidation" required>
+				<input matInput formControlName="cep" mask="00000-000" [errorStateMatcher]="formValidation" required>
 				<mat-error *ngIf="form.touched && form.invalid">
 					Informe seu CEP
 				</mat-error>
@@ -19,7 +19,7 @@
 		<div class="col-md-8">
 			<mat-form-field>
 				<mat-label>Logradouro</mat-label>
-				<input matInput formControlName="logradouro" [errorStateMatcher]="_formValidation" required>
+				<input matInput formControlName="logradouro" [errorStateMatcher]="formValidation" required>
 				<mat-error *ngIf="form.touched && form.invalid">
 					Informe seu Logradouro
 				</mat-error>
@@ -30,7 +30,7 @@
 		<div class="col-md-6">
 			<mat-form-field>
 				<mat-label>Bairro</mat-label>
-				<input matInput formControlName="bairro" [errorStateMatcher]="_formValidation" required>
+				<input matInput formControlName="bairro" [errorStateMatcher]="formValidation" required>
 				<mat-error *ngIf="form.touched && form.invalid">
 					Informe seu Bairro
 				</mat-error>
@@ -39,7 +39,7 @@
 		<div class="col-md-6">
 			<mat-form-field>
 				<mat-label>Localidade</mat-label>
-				<input matInput formControlName="localidade" [errorStateMatcher]="_formValidation" required>
+				<input matInput formControlName="localidade" [errorStateMatcher]="formValidation" required>
 				<mat-error *ngIf="form.touched && form.invalid">
 					Informe seu Localidade
 				</mat-error>
@@ -49,7 +49,7 @@
 	<div class="row">
 		<mat-form-field>
 			<mat-label>UF</mat-label>
-			<mat-select formControlName="uf" [errorStateMatcher]="_formValidation" required>
+			<mat-select formControlName="uf" [errorStateMatcher]="formValidation" required>
 				<mat-option *ngFor="let state of states" [value]="state.id">
 					{{state.name}}
 				</mat-option>

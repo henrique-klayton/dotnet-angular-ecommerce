@@ -30,8 +30,8 @@ export class CartComponent implements OnInit {
 
 	constructor(
 		public dialogRef: MatDialogRef<CartComponent>,
-		private _cartService: CartService,
-		private _alert: AlertService,
+		private cartService: CartService,
+		private alert: AlertService,
 		@Inject(MAT_DIALOG_DATA) public data: EventEmitter<CartProductModel>
 	) { }
 
@@ -39,10 +39,11 @@ export class CartComponent implements OnInit {
 		this.getData();
 	}
 
-	getData = (): void => this.dataSource.data = JSON.parse(localStorage.getItem('cart_products'));
+	// FIXME Remove non-null assertion
+	getData = (): void => this.dataSource.data = JSON.parse(localStorage.getItem('cart_products')!);
 
 	removeItem(product: CartProductModel) {
-		let cart = this._getCart();
+		let cart = this.getCart();
 		cart.splice(cart.indexOf(product), 1);
 		this.dataSource.data = cart;
 		localStorage.setItem('cart_products', JSON.stringify(cart));
@@ -56,19 +57,20 @@ export class CartComponent implements OnInit {
 	}
 
 	makeSale() {
-		if (!isNullOrUndefined(this.dataSource.data) || this.dataSource.data.length !== 0) {
-			this._cartService.executeSale(this.dataSource.data)
+		if (!isNullOrUndefined(this.dataSource.data) && this.dataSource.data.length !== 0) {
+			this.cartService.executeSale(this.dataSource.data)
 				.then(() => {
-					this.dialogRef.close(true);	
+					this.dialogRef.close(true);
 					localStorage.removeItem('cart_products');
 					this.getData();
 				})
 				.catch((err) => {
-					this._alert.baseAlert('Erro ao efetuar a venda!', 'Fechar');
+					this.alert.baseAlert('Erro ao efetuar a venda!', 'Fechar');
 					console.error(err);
 				});
 		}
 	}
 
-	private _getCart = (): CartProductModel[] => JSON.parse(localStorage.getItem('cart_products'));
+	// FIXME Remove non-null assertion
+	private getCart = (): CartProductModel[] => JSON.parse(localStorage.getItem('cart_products')!);
 }

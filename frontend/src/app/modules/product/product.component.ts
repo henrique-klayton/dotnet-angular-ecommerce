@@ -19,7 +19,7 @@ import { ProductService } from './service/product.service';
 	styleUrls: ['./product.component.scss'],
 })
 export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
-	public formFilter: UntypedFormGroup;
+	public formFilter!: UntypedFormGroup;
 	public dataSource: MatTableDataSource<ProductModel>;
 	public displayedColumns: string[] = [
 		'name',
@@ -36,26 +36,26 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	private _onDestroy = new Subject<void>();
 
-	@ViewChild(MatPaginator) paginator: MatPaginator;
-	@ViewChild(MatSort) sort: MatSort;
+	@ViewChild(MatPaginator) paginator: MatPaginator | null = null;
+	@ViewChild(MatSort) sort: MatSort | null = null;
 
 	constructor(
 		public dialog: MatDialog,
-		private _productService: ProductService,
-		private _fb: UntypedFormBuilder,
+		private productService: ProductService,
+		private fb: UntypedFormBuilder,
 	) {
 		this.dataSource = new MatTableDataSource();
 	}
 
 	ngOnInit(): void {
-		this.formFilter = this._fb.group(new ProductFilterModel());
+		this.formFilter = this.fb.group(new ProductFilterModel());
 		this.getData();
 	}
 
 	ngAfterViewInit() {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
-		this.dataSource.filterPredicate = (d, f) => this._filter(d, f as ProductFilterModel);
+		this.dataSource.filterPredicate = (d, f) => this.filter(d, f as ProductFilterModel);
 		this.applyFilter();
 	}
 
@@ -65,18 +65,18 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	public getData() {
-		this._productService
+		this.productService
 			.fetchData()
 			.pipe(takeUntil(this._onDestroy))
 			.subscribe((res) => (this.dataSource.data = res));
 	}
 
 	public deleteProduct(id: number) {
-		this._productService.deleteProduct(id);
+		this.productService.deleteProduct(id);
 	}
 
-	public findProductCategory(id: number): string {
-		return PRODUCT_CATEGORIES.find((v) => v.id === id).name;
+	public findProductCategory(id: number): string | undefined {
+		return PRODUCT_CATEGORIES.find((v) => v.id === id)?.name;
 	}
 
 	public openDialog(id?: string) {
@@ -93,16 +93,16 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 			this.dataSource.paginator.firstPage();
 	}
 
-	private _filter(data: ProductModel, filter: ProductFilterModel): boolean {
+	private filter(data: ProductModel, filter: ProductFilterModel): boolean {
 		const prodName = data.name.toLowerCase().trim();
 		const prodDesc = data.description?.toLowerCase().trim() ?? '';
 		const filterText = filter.text?.toLowerCase().trim();
 		if (!isNullOrWhitespace(filterText) && !prodName.includes(filterText)
-				&& !prodDesc.includes(filterText))
+			&& !prodDesc.includes(filterText))
 			return false;
-		if (!isNullOrWhitespace(filter.category) && data.category !== filter.category)
+		if (!isNullOrWhitespace(filter.category?.toString()) && data.category !== filter.category)
 			return false;
-		if (!isNullOrWhitespace(filter.status) && data.status !== filter.status)
+		if (!isNullOrWhitespace(filter.status?.toString()) && data.status !== filter.status)
 			return false;
 		return true;
 	}

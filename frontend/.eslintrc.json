@@ -40,7 +40,16 @@
             "style": "kebab-case"
           }
         ],
-        "indent": ["error", "tab", { "SwitchCase": 1 }],
+        "indent": [
+          "error",
+          "tab",
+          {
+            "SwitchCase": 1,
+            "ignoredNodes": [
+              "PropertyDefinition[decorators]"
+            ]
+          }
+        ],
         "max-len": ["error", {"code": 100, "tabWidth": 2}],
         "quotes": ["warn", "single"],
         "semi": ["error", "always"],

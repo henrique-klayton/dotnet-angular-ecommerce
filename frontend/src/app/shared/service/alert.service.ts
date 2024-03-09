@@ -11,28 +11,29 @@ import { AppInjector } from './injector.service';
 
 @Injectable()
 export class AlertService {
-	public _snackBar: MatSnackBar;
+	public snackBar: MatSnackBar;
 
 	constructor() {
-		this._snackBar = AppInjector.injector.get(MatSnackBar);
+		this.snackBar = AppInjector.injector.get(MatSnackBar);
 	}
 
 	baseAlert = (
 		message: string,
 		action: string = 'Fechar',
 		config?: MatSnackBarConfig,
-	): MatSnackBarRef<TextOnlySnackBar> => this._snackBar.open(message, action, config);
+	): MatSnackBarRef<TextOnlySnackBar> => this.snackBar.open(message, action, config);
 
 	statusAlert(success: boolean, objName: string, options: IAlertOptions) {
 		options.action ??= 'Fechar';
-		const [successMsg, errorMsg] = this._defaultMsg(options.type);
+		// FIXME Remove non-null assertion
+		const [successMsg, errorMsg] = this.defaultMsg(options.type!);
 		const message = success
 			? `${objName} ${successMsg} com sucesso`
 			: `Erro ao ${errorMsg} ${objName.toLowerCase()}`;
 		return this.baseAlert(message, options.action, options.config);
 	}
 
-	private _defaultMsg(type: ActionType) {
+	private defaultMsg(type: ActionType) {
 		switch (type) {
 			case ActionType.CREATE:
 				return ['cadastrado', 'cadastrar'];

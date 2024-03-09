@@ -9,8 +9,8 @@ import { AuthService } from 'src/app/auth/service/auth.service';
 })
 export class HeaderComponent {
 
-	@Input() sidebar: MatSidenav;
-	constructor(private _authService: AuthService) { }
+	@Input() sidebar: MatSidenav | undefined;
+	constructor(private authService: AuthService) { }
 
-	public logout = () => this._authService.logout();
+	public logout = () => this.authService.logout();
 }

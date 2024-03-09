@@ -22,24 +22,29 @@ import { ProductFormModel } from './model/product.form.model';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductFormComponent implements OnInit, OnDestroy {
-	public form: UntypedFormGroup;
+	// TODO Use typed form
+	public form!: UntypedFormGroup;
 	public categories = PRODUCT_CATEGORIES;
 	private _onDestroy = new Subject<void>();
 
 	constructor(
-		public _formValidation: FormValidationService,
+		public formValidation: FormValidationService,
 		public dialogRef: MatDialogRef<ProductFormComponent>,
-		private _fb: UntypedFormBuilder,
-		private _productService: ProductService,
-		private _sanitizer: DomSanitizer,
-		private _alert: AlertService,
+		private fb: UntypedFormBuilder,
+		private productService: ProductService,
+		private sanitizer: DomSanitizer,
+		private alert: AlertService,
 		@Inject(MAT_DIALOG_DATA) public data?: number
 	) {}
 
+	get image() {
+		return this.form.get('image')!;
+	}
+
 	ngOnInit(): void {
-		this.form = this._fb.group(new ProductFormModel());
+		this.form = this.fb.group(new ProductFormModel());
 		if (this.data) {
-			this._productService
+			this.productService
 				.fetchProductById(this.data)
 				.pipe(takeUntil(this._onDestroy), map(p => {
 					p.costPrice = formatNumber(p.costPrice as number, 'pt-BR', '1.2-2');
@@ -49,11 +54,11 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 				.subscribe((p) => this.form.patchValue(p));
 		}
 
-		this.form.get('imageInput').valueChanges
+		this.form.get('imageInput')!.valueChanges
 			.pipe(takeUntil(this._onDestroy), filter(v => v != null))
 			.subscribe(file => {
-				if (!file.type.startsWith('image/')) this._alert.baseAlert('Imagem inválida!');
-				this._readImage(file);
+				if (!file.type.startsWith('image/')) this.alert.baseAlert('Imagem inválida!');
+				this.readImage(file);
 			});
 	}
 
@@ -65,27 +70,23 @@ export class ProductFormComponent implements OnInit, OnDestroy {
 	public async saveProduct() {
 		try {
 			const obj = new ProductModel({ ...this.form.value });
-			await this._productService.insertOrUpdateProduct(obj, this.data);
+			await this.productService.insertOrUpdateProduct(obj, this.data);
 			this.dialogRef.close();
-		} catch (err) {
+		} catch (err: any) {
 			throw new Error(err);
 		}
 	}
 
-	private _readImage(file: Blob) {
+	private readImage(file: Blob) {
 		let fr = new FileReader();
 		fr.readAsDataURL(file);
 		fr.onload = () => {
 			// FIXME Verificar tipo de dado antes de aplicar imagem (data:image)
-			this.image.patchValue(this._sanitizer.bypassSecurityTrustUrl(fr.result as string));
-			this._alert.baseAlert('Imagem carregada com sucesso!');
+			this.image.patchValue(this.sanitizer.bypassSecurityTrustUrl(fr.result as string));
+			this.alert.baseAlert('Imagem carregada com sucesso!');
 		};
 		fr.onerror = () => {
-			this._alert.baseAlert('Erro ao carregar a imagem!');
+			this.alert.baseAlert('Erro ao carregar a imagem!');
 		};
-	}
-
-	get image() {
-		return this.form.get('image');
 	}
 }

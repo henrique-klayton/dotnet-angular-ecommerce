@@ -11,29 +11,30 @@ import { AuthService } from './service/auth.service';
 	styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit {
-	public form: UntypedFormGroup;
+	// TODO Use typed form
+	public form!: UntypedFormGroup;
 	public hide: boolean = true;
 
 	constructor(
 		public formValidation: FormValidationService,
-		private _authService: AuthService,
-		private _fb: UntypedFormBuilder,
-		private _router: Router,
-		private _alert: AlertService
+		private authService: AuthService,
+		private fb: UntypedFormBuilder,
+		private router: Router,
+		private alert: AlertService
 	) {}
 
 	ngOnInit(): void {
-		this.form = this._fb.group({ email: undefined, password: undefined });
+		this.form = this.fb.group({ email: undefined, password: undefined });
 	}
 
 	public login() {
-		this._authService
-			.login(this.form.get('email').value, this.form.get('password').value)
+		this.authService
+			.login(this.form.get('email')!.value, this.form.get('password')!.value)
 			.then(() => {
-				this._router.navigate(['home']);
+				this.router.navigate(['home']);
 			})
 			.catch((e) => {
-				this._alert.baseAlert(e.error.error);
+				this.alert.baseAlert(e.error.error);
 			});
 	}
 }

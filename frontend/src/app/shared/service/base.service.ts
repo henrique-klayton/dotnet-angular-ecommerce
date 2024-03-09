@@ -8,18 +8,18 @@ import { AppInjector } from './injector.service';
 const DEFAULT_GET_OPTIONS: IGetOptions = {};
 
 export abstract class BaseService {
-	protected _alert: AlertService;
-	protected _http: HttpClient;
+	protected alert: AlertService;
+	protected http: HttpClient;
 
 	constructor() {
-		this._alert = AppInjector.injector.get(AlertService);
-		this._http = AppInjector.injector.get(HttpClient);
+		this.alert = AppInjector.injector.get(AlertService);
+		this.http = AppInjector.injector.get(HttpClient);
 	}
 
 	protected get<T>(
 		url: string,
 	): Observable<T> {
-		return this._http.get<T>(`${environment.baseUrl}/${url}`, { withCredentials: true });
+		return this.http.get<T>(`${environment.baseUrl}/${url}`, { withCredentials: true });
 	}
 
 	protected getAll<T>(
@@ -39,7 +39,7 @@ export abstract class BaseService {
 		url: string,
 		obj?: any,
 	): Promise<T> {
-		return this._http.post<T>(
+		return this.http.post<T>(
 			`${environment.baseUrl}/${url}`,
 			obj,
 			{ withCredentials: true }
@@ -51,7 +51,7 @@ export abstract class BaseService {
 		id: string | number,
 		obj?: any,
 	): Promise<T> {
-		return this._http.put<T>(
+		return this.http.put<T>(
 			`${environment.baseUrl}${url}/${id}`,
 			obj,
 			{ withCredentials: true }
@@ -73,7 +73,7 @@ export abstract class BaseService {
 		url: string,
 		id: string | number,
 	): Promise<T> {
-		return this._http.delete<T>(
+		return this.http.delete<T>(
 			`${environment.baseUrl}${url}/${id}`,
 			{ withCredentials: true }
 		).toPromise();

@@ -7,9 +7,9 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardComponent {
-
-	@Input() title: string;
-	@Input() icon: string;
-	@Input() value: number;
+	// FIXME Remove non-null assertions
+	@Input() title!: string;
+	@Input() icon!: string;
+	@Input() value!: number;
 	constructor() { }
 }

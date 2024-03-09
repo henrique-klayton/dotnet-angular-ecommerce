@@ -12,15 +12,15 @@ export const APP_USER_STORAGE = 'App-User-Auth';
 	providedIn: 'root',
 })
 export class AuthService extends BaseService {
-	private _auth: BehaviorSubject<AuthModel | null>;
+	private authSubject: BehaviorSubject<AuthModel | null>;
 	private serializer = new JsonSerializer();
 
 	get auth(): AuthModel | null {
-		return this._auth.value;
+		return this.authSubject.value;
 	}
 
 	set auth(value: AuthModel | null) {
-		this._auth.next(value);
+		this.authSubject.next(value);
 	}
 
 	constructor(
@@ -28,15 +28,15 @@ export class AuthService extends BaseService {
 	) {
 		super();
 
-		this._auth = new BehaviorSubject<AuthModel | null>(this.getSession());
-		this._auth.subscribe(value => this.setSession(value));
+		this.authSubject = new BehaviorSubject<AuthModel | null>(this.getSession());
+		this.authSubject.subscribe(value => this.setSession(value));
 	}
 
 	public async login(email: string, password: string): Promise<void> {
 		this.auth = this.serializer.deserializeObject(
 			await this.post<AuthModel>('User/Authenticate', { email, password }),
 			AuthModel
-		);
+		) as AuthModel | null;
 	}
 
 	public register = (email: string, password: string) => this.post(
@@ -64,7 +64,7 @@ export class AuthService extends BaseService {
 	// 	|| this.auth.refreshTokenExpiration == null
 	// 	|| this.auth.refreshTokenExpiration.isBefore(moment());
 
-	public clearSession = (): void => this.auth = null;
+	public clearSession = () => this.auth = null;
 
 	private getSession(): AuthModel | null {
 		const storageItem = localStorage.getItem(APP_USER_STORAGE);
@@ -73,10 +73,10 @@ export class AuthService extends BaseService {
 		return this.serializer.deserializeObject(
 			JSON.parse(storageItem),
 			AuthModel,
-		);
+		) as AuthModel | null;
 	}
 
-	private setSession(model: AuthModel) {
+	private setSession(model: AuthModel | null) {
 		if (model != null) {
 			localStorage.setItem(
 				APP_USER_STORAGE,

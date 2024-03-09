@@ -15,7 +15,7 @@
 	<div class="row">
 		<mat-form-field>
 			<mat-label>Imagem</mat-label>
-			<ngx-mat-file-input formControlName="imageInput" [errorStateMatcher]="_formValidation" accept="image/*"
+			<ngx-mat-file-input formControlName="imageInput" [errorStateMatcher]="formValidation" accept="image/*"
 				[required]="!image.value">
 				<mat-icon ngxMatFileInputIcon>image</mat-icon>
 			</ngx-mat-file-input>
@@ -28,7 +28,7 @@
 		<div class="col-6">
 			<mat-form-field>
 				<mat-label>Nome</mat-label>
-				<input matInput formControlName="name" [errorStateMatcher]="_formValidation" required>
+				<input matInput formControlName="name" [errorStateMatcher]="formValidation" required>
 				<mat-error *ngIf="form.touched && form.invalid">
 					Informe o Nome do Produto
 				</mat-error>
@@ -37,7 +37,7 @@
 		<div class="col-6">
 			<mat-form-field>
 				<mat-label>Categoria</mat-label>
-				<mat-select formControlName="category" [errorStateMatcher]="_formValidation" required>
+				<mat-select formControlName="category" [errorStateMatcher]="formValidation" required>
 					<mat-option *ngFor="let cat of categories" [value]="cat.id">
 						{{cat.name}}
 					</mat-option>
@@ -53,7 +53,7 @@
 			<mat-form-field>
 				<mat-label>Qtd. em Estoque</mat-label>
 				<input matInput formControlName="stockAmount" mask="separator" thousandSeparator="."
-					[errorStateMatcher]="_formValidation" required>
+					[errorStateMatcher]="formValidation" required>
 				<mat-error *ngIf="form.touched && form.invalid">
 					Informe a Qtd. em Estoque
 				</mat-error>
@@ -63,7 +63,7 @@
 			<mat-form-field>
 				<mat-label>Preço de Custo</mat-label>
 				<input matInput formControlName="costPrice" prefix="R$ " mask="separator.2" thousandSeparator="."
-					[errorStateMatcher]="_formValidation" required>
+					[errorStateMatcher]="formValidation" required>
 				<mat-error *ngIf="form.touched && form.invalid">
 					Informe o Preço de Custo
 				</mat-error>
@@ -73,7 +73,7 @@
 			<mat-form-field>
 				<mat-label>Preço de Venda</mat-label>
 				<input matInput formControlName="salePrice" prefix="R$ " mask="separator.2" thousandSeparator="."
-					[errorStateMatcher]="_formValidation" required>
+					[errorStateMatcher]="formValidation" required>
 				<mat-error *ngIf="form.touched && form.invalid">
 					Informe o Preço de Venda
 				</mat-error>

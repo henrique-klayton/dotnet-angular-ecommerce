@@ -6,33 +6,30 @@ import { AddressFormModel } from '../form/model/address.form.model';
 
 @Injectable()
 export class AddressService extends BaseService {
-	private _baseRoute = 'Address';
-	private _setOptions: ISetOptions = { useAlert: AlertType.STATUS, objName: 'Endereço' };
+	private baseRoute = 'Address';
+	private setOptions: ISetOptions = { useAlert: AlertType.STATUS, objName: 'Endereço' };
 	constructor() {
 		super();
 	}
 
 	async fetchCep(cep: string): Promise<AddressFormModel> {
 		try {
-			const res = await this._http
+			const res = await this.http
 				.get<AddressFormModel>(`http://viacep.com.br/ws/${cep}/json`)
 				.toPromise();
 			if (res.erro) {
-				this._alert.baseAlert('CEP inválido!');
+				this.alert.baseAlert('CEP inválido!');
 				throw new Error('CEP inválido!');
 			}
 			return res;
-		} catch (e) {
-			this._alert.baseAlert('Erro ao pesquisar o CEP!');
+		} catch (e: any) {
+			this.alert.baseAlert('Erro ao pesquisar o CEP!');
 			throw new Error(e);
 		}
 	}
 
-	fetchData = () => this.getAll<AddressFormModel>(this._baseRoute);
-
-	fetchAddressById = (cep: string) => this.getById<AddressFormModel>(this._baseRoute, cep)
-
-	insertAddress = (obj: AddressFormModel) => this.post(this._baseRoute, obj);
-
-	deleteAddress = (cep: string) => this.delete(this._baseRoute, cep);
+	fetchData = () => this.getAll<AddressFormModel>(this.baseRoute);
+	fetchAddressById = (cep: string) => this.getById<AddressFormModel>(this.baseRoute, cep);
+	insertAddress = (obj: AddressFormModel) => this.post(this.baseRoute, obj);
+	deleteAddress = (cep: string) => this.delete(this.baseRoute, cep);
 }

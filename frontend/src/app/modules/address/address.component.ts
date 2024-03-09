@@ -25,18 +25,18 @@ export class AddressComponent implements OnInit, AfterViewInit, OnDestroy {
 	];
 	public dataSource = new MatTableDataSource<AddressFormModel>();
 
-	private _onDestroy = new Subject<void>();
+	private onDestroy = new Subject<void>();
 
-	@ViewChild(MatPaginator) paginator: MatPaginator;
-	@ViewChild(MatSort) sort: MatSort;
+	@ViewChild(MatPaginator) paginator: MatPaginator | null = null;
+	@ViewChild(MatSort) sort: MatSort | null = null;
 
 	constructor(
-		private _addressService: AddressService,
+		private addressService: AddressService,
 		public dialog: MatDialog,
 	) {}
 
 	ngOnInit(): void {
-		this._getData();
+		this.getData();
 	}
 
 	ngAfterViewInit(): void {
@@ -45,8 +45,8 @@ export class AddressComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
-		this._onDestroy.next();
-		this._onDestroy.complete();
+		this.onDestroy.next();
+		this.onDestroy.complete();
 	}
 
 	openDialog(id?: string): void {
@@ -56,7 +56,7 @@ export class AddressComponent implements OnInit, AfterViewInit, OnDestroy {
 		});
 	}
 
-	deleteAddress = (cep: string) => this._addressService.deleteAddress(cep);
+	deleteAddress = (cep: string) => this.addressService.deleteAddress(cep);
 
 	applyFilter(event: Event) {
 		const filterValue = (event.target as HTMLInputElement).value;
@@ -66,10 +66,10 @@ export class AddressComponent implements OnInit, AfterViewInit, OnDestroy {
 			this.dataSource.paginator.firstPage();
 	}
 
-	private _getData() {
-		this._addressService
+	private getData() {
+		this.addressService
 			.fetchData()
-			.pipe(takeUntil(this._onDestroy))
+			.pipe(takeUntil(this.onDestroy))
 			.subscribe((res) => (this.dataSource.data = res));
 	}
 }

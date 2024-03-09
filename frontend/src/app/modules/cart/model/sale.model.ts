@@ -4,6 +4,8 @@ export class SaleModel {
 	constructor(init?: Partial<SaleModel>) {
 		Object.assign(this, init);
 	}
-	products: CartProductModel[] = undefined;
+
+	// FIXME Remove non-null assertion
+	products: CartProductModel[] = undefined!;
 	created: any = undefined;
 }
